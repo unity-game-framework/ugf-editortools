@@ -29,6 +29,11 @@ namespace UGF.EditorTools.Editor.IMGUI
             m_dropdown.Selected += OnDropdownSelected;
         }
 
+        public void DrawGUILayout()
+        {
+            DrawGUILayout(GUIContent.none);
+        }
+
         public void DrawGUILayout(GUIContent label)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
@@ -36,6 +41,11 @@ namespace UGF.EditorTools.Editor.IMGUI
             Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none);
 
             DrawGUI(position, label);
+        }
+
+        public void DrawGUI(Rect position)
+        {
+            DrawGUI(position, GUIContent.none);
         }
 
         public void DrawGUI(Rect position, GUIContent label)
