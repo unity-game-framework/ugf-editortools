@@ -1,0 +1,12 @@
+{
+    "name": "com.ugf.editortools",
+    "displayName": "UGF.EditorTools",
+    "version": "0.0.0-preview",
+    "unity": "2019.3",
+    "description": "No description.",
+    "author": {
+        "name": "Unity Game Framework",
+        "url": "https://github.com/unity-game-framework"
+    },
+    "dependencies": {}
+}
