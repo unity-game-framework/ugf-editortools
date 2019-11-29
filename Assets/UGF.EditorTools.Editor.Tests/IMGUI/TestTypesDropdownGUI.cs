@@ -4,7 +4,7 @@ using UGF.EditorTools.Editor.IMGUI;
 using UnityEditor;
 using UnityEngine;
 
-namespace UGF.EditorTools.Editor.Tests
+namespace UGF.EditorTools.Editor.Tests.IMGUI
 {
     [CreateAssetMenu(menuName = "Tests/TestTypesDropdownGUI")]
     public class TestTypesDropdownGUI : ScriptableObject
