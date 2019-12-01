@@ -26,6 +26,18 @@ namespace UGF.EditorTools.Editor.Asset.Relations
             Path = path;
         }
 
+        public void Add(string parent, string child)
+        {
+            if (!Assets.TryGetValue(parent, out HashSet<string> children))
+            {
+                children = new HashSet<string>();
+
+                Assets.Add(parent, children);
+            }
+
+            children.Add(child);
+        }
+
         public void Save()
         {
             var data = new AssetRelationData();
