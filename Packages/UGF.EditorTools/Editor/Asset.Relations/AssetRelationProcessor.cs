@@ -10,7 +10,7 @@ namespace UGF.EditorTools.Editor.Asset.Relations
         public HashSet<string> TargetExtensions { get; }
         public bool ProcessImported { get; set; } = true;
         public bool ProcessDeleted { get; set; } = true;
-        public bool ProcessMoved { get; set; }
+        public bool ProcessMoved { get; set; } = true;
 
         public AssetRelationProcessor(string packageName, string cacheName, HashSet<string> targetExtensions) : this(new AssetRelationCache(packageName, cacheName), targetExtensions)
         {
@@ -26,7 +26,7 @@ namespace UGF.EditorTools.Editor.Asset.Relations
             TargetExtensions = targetExtensions ?? throw new ArgumentNullException(nameof(targetExtensions));
         }
 
-        public void Process(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+        public virtual void Process(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
             if (ProcessImported)
             {
@@ -82,10 +82,7 @@ namespace UGF.EditorTools.Editor.Asset.Relations
             {
                 foreach (string child in targetChildren)
                 {
-                    if (Cache.Assets.TryGetValue(child, out HashSet<string> children))
-                    {
-                        children.Remove(guid);
-                    }
+                    Cache.Remove(child, guid);
                 }
 
                 Cache.Assets.Remove(guid);

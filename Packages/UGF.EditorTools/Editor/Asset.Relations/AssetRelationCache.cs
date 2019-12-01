@@ -38,6 +38,24 @@ namespace UGF.EditorTools.Editor.Asset.Relations
             children.Add(child);
         }
 
+        public void Remove(string parent, string child)
+        {
+            if (Assets.TryGetValue(parent, out HashSet<string> children))
+            {
+                children.Remove(child);
+
+                if (children.Count == 0)
+                {
+                    Assets.Remove(parent);
+                }
+            }
+        }
+
+        public void Remove(string parent)
+        {
+            Assets.Remove(parent);
+        }
+
         public void Save()
         {
             var data = new AssetRelationData();
