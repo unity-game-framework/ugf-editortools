@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 
-namespace UGF.EditorTools.Editor.Assets.Relations
+namespace UGF.EditorTools.Editor.Asset.Relations
 {
-    public class AssetsRelationsCache
+    public class AssetRelationCache
     {
         public string Path { get; }
         public Dictionary<string, HashSet<string>> Assets { get; } = new Dictionary<string, HashSet<string>>();
         public bool Readable { get; set; } = true;
 
-        public AssetsRelationsCache(string path)
+        public AssetRelationCache(string packageName, string cacheName)
+        {
+            if (string.IsNullOrEmpty(packageName)) throw new ArgumentException("Value cannot be null or empty.", nameof(packageName));
+            if (string.IsNullOrEmpty(cacheName)) throw new ArgumentException("Value cannot be null or empty.", nameof(cacheName));
+
+            Path = $"ProjectSettings/Packages/{packageName}/{cacheName}.json";
+        }
+
+        public AssetRelationCache(string path)
         {
             if (string.IsNullOrEmpty(path)) throw new ArgumentException("Value cannot be null or empty.", nameof(path));
 
@@ -20,11 +28,11 @@ namespace UGF.EditorTools.Editor.Assets.Relations
 
         public void Save()
         {
-            var data = new AssetsRelationsData();
+            var data = new AssetRelationData();
 
             foreach (KeyValuePair<string, HashSet<string>> pair in Assets)
             {
-                var relation = new AssetsRelation(pair.Key, pair.Value);
+                var relation = new AssetRelation(pair.Key, pair.Value);
 
                 data.Relations.Add(relation);
             }
@@ -37,11 +45,11 @@ namespace UGF.EditorTools.Editor.Assets.Relations
         public void Load()
         {
             string text = File.ReadAllText(Path);
-            AssetsRelationsData data = FromJson(text);
+            AssetRelationData data = FromJson(text);
 
             for (int i = 0; i < data.Relations.Count; i++)
             {
-                AssetsRelation relation = data.Relations[i];
+                AssetRelation relation = data.Relations[i];
 
                 if (!Assets.TryGetValue(relation.Parent, out HashSet<string> children))
                 {
@@ -57,7 +65,7 @@ namespace UGF.EditorTools.Editor.Assets.Relations
             }
         }
 
-        private static string ToJson(AssetsRelationsData data, bool readable = true)
+        private static string ToJson(AssetRelationData data, bool readable = true)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
 
@@ -66,11 +74,11 @@ namespace UGF.EditorTools.Editor.Assets.Relations
             return text;
         }
 
-        private static AssetsRelationsData FromJson(string text)
+        private static AssetRelationData FromJson(string text)
         {
             if (string.IsNullOrEmpty(text)) throw new ArgumentException("Value cannot be null or empty.", nameof(text));
 
-            var data = new AssetsRelationsData();
+            var data = new AssetRelationData();
 
             EditorJsonUtility.FromJsonOverwrite(text, data);
 
