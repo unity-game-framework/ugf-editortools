@@ -26,7 +26,14 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
             base.ItemSelected(item);
 
-            Selected?.Invoke(m_types[item.id]);
+            if (item.id >= 0 && item.id < m_types.Count)
+            {
+                Selected?.Invoke(m_types[item.id]);
+            }
+            else
+            {
+                Selected?.Invoke(null);
+            }
         }
 
         protected override AdvancedDropdownItem BuildRoot()
@@ -38,6 +45,11 @@ namespace UGF.EditorTools.Editor.IMGUI
             m_types.Sort(TypesDropdownComparer.Default);
 
             var root = new AdvancedDropdownItem(RootName);
+
+            root.AddChild(new AdvancedDropdownItem("None")
+            {
+                id = -1
+            });
 
             for (int i = 0; i < m_types.Count; i++)
             {
