@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace UGF.EditorTools.Editor.IMGUI
+namespace UGF.EditorTools.Editor.IMGUI.Types
 {
     public class TypesDropdown : AdvancedDropdown
     {

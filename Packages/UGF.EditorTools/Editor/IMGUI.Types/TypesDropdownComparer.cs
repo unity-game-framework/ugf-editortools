@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UGF.EditorTools.Editor.IMGUI
+namespace UGF.EditorTools.Editor.IMGUI.Types
 {
     public class TypesDropdownComparer : IComparer<Type>
     {
