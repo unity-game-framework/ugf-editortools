@@ -6,6 +6,8 @@ namespace UGF.EditorTools.Editor.IMGUI
 {
     public class TypesDropdownComparer : IComparer<Type>
     {
+        public static TypesDropdownComparer Default { get; } = new TypesDropdownComparer();
+
         public int Compare(Type x, Type y)
         {
             if (ReferenceEquals(x, y)) return 0;
