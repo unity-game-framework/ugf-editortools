@@ -10,21 +10,31 @@ namespace UGF.EditorTools.Editor.Asset.Info
 
         public override void OnImportAsset(AssetImportContext context)
         {
-            var info = AssetInfoEditorUtility.LoadInfo<TInfo>(context.assetPath);
+            TInfo info = LoadInfo();
             Object asset = OnCreateAsset(info);
 
             context.AddObjectToAsset("main", asset);
             context.SetMainObject(asset);
         }
 
-        public override IAssetInfo Load()
+        public sealed override IAssetInfo Load()
+        {
+            return LoadInfo();
+        }
+
+        public sealed override void Save(IAssetInfo info)
+        {
+            SaveInfo((TInfo)info);
+        }
+
+        protected virtual TInfo LoadInfo()
         {
             var info = AssetInfoEditorUtility.LoadInfo<TInfo>(assetPath);
 
             return info;
         }
 
-        public override void Save(IAssetInfo info)
+        protected virtual void SaveInfo(TInfo info)
         {
             AssetInfoEditorUtility.SaveInfo(assetPath, info);
         }
