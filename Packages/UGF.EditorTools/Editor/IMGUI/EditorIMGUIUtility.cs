@@ -17,7 +17,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             for (bool enterChildren = true; iterator.NextVisible(enterChildren); enterChildren = false)
             {
-                using (new EditorGUI.DisabledScope("m_Script" == iterator.propertyPath))
+                using (new EditorGUI.DisabledScope(iterator.propertyPath == "m_Script"))
                 {
                     EditorGUILayout.PropertyField(iterator, true, null);
                 }
