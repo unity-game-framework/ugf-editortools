@@ -44,6 +44,8 @@ namespace UGF.EditorTools.Editor.Asset.Processor.Settings
                 {
                     asset.Processors.Add(pair.Value);
                 }
+
+                Data.Assets.Add(asset);
             }
         }
     }
