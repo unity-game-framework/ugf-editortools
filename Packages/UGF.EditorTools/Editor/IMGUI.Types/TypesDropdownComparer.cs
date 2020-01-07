@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UGF.EditorTools.Editor.IMGUI
+namespace UGF.EditorTools.Editor.IMGUI.Types
 {
     public class TypesDropdownComparer : IComparer<Type>
     {
+        public static TypesDropdownComparer Default { get; } = new TypesDropdownComparer();
+
         public int Compare(Type x, Type y)
         {
             if (ReferenceEquals(x, y)) return 0;

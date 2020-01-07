@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e46c14cd645744f9948cb785525ba1, type: 3}
   m_Name: New Test Types Dropdown GUI
   m_EditorClassIdentifier: 
-  m_typeName: UGF.EditorTools.Editor.Tests.TestTypesDropdownGUI, UGF.EditorTools.Editor.Tests,
+  m_typeName: UGF.EditorTools.Editor.Tests.IMGUI.TestTypesDropdownGUI, UGF.EditorTools.Editor.Tests,
     Version=0.0.0.0, Culture=neutral, PublicKeyToken=null

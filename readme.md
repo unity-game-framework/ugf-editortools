@@ -6,7 +6,7 @@ UGF.EditorTools
 
 - **Version**: `0.2.0-preview`
 - **Unity Version**: `2019.3.0`
-- **Api Compatibility Level**: `.NET Standard 2.0`
+- **API Compatibility Level**: `.NET Standard 2.0`
 
 ### Dependencies
 

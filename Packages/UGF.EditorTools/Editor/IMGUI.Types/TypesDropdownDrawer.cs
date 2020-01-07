@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace UGF.EditorTools.Editor.IMGUI
+namespace UGF.EditorTools.Editor.IMGUI.Types
 {
     public class TypesDropdownDrawer
     {
@@ -62,7 +62,7 @@ namespace UGF.EditorTools.Editor.IMGUI
                 position = EditorGUI.PrefixLabel(position, label);
             }
 
-            Type type = Type.GetType(SerializedProperty.stringValue);
+            var type = Type.GetType(SerializedProperty.stringValue);
             GUIContent typeButtonContent = type != null ? new GUIContent(type.Name) : m_styles.ContentNone;
 
             if (EditorGUI.DropdownButton(position, typeButtonContent, FocusType.Keyboard))
@@ -73,7 +73,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         private void OnDropdownSelected(Type type)
         {
-            SerializedProperty.stringValue = type.AssemblyQualifiedName;
+            SerializedProperty.stringValue = type?.AssemblyQualifiedName ?? string.Empty;
             SerializedProperty.serializedObject.ApplyModifiedProperties();
         }
     }
