@@ -26,6 +26,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - Nothing.
 
+## 0.3.1-preview - 2020-01-09
+- [Commits](https://github.com/unity-game-framework/ugf-editortools/compare/0.3.0-preview...0.3.1-preview)
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/4?closed=1)
+
+### Fixed
+- `TypesDropdown`: popup window size.
+
 ## 0.3.0-preview - 2020-01-07
 - [Commits](https://github.com/unity-game-framework/ugf-editortools/compare/0.2.0-preview...0.3.0-preview)
 - [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/3?closed=1)

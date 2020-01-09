@@ -26,7 +26,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
 
         public override void OnInspectorGUI()
         {
-            m_drawer.DrawGUILayout();
+            m_drawer.DrawGUILayout(new GUIContent("Test"));
         }
 
         private IEnumerable<Type> TypeCollector()
