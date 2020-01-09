@@ -19,7 +19,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
         {
             m_typesCollector = typesCollector ?? throw new ArgumentNullException(nameof(typesCollector));
 
-            minimumSize = new Vector2(minimumSize.x, 500F);
+            minimumSize = new Vector2(minimumSize.x, 250F);
         }
 
         protected override void ItemSelected(AdvancedDropdownItem item)
