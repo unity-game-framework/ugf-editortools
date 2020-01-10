@@ -1,0 +1,63 @@
+# Version 1.0
+
+name: Package Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
+      REGISTRY_STABLE: 'https://api.bintray.com/content/unity-game-framework/stable'
+      REGISTRY_DEV: 'https://api.bintray.com/content/unity-game-framework/dev'
+      PACKAGE_PATH: ''
+      PACKAGE_NAME: ''
+      PACKAGE_VERSION: ''
+      PACKAGE_VERSION_REF: ''
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.ref }}
+    - name: Setup Node
+      uses: actions/setup-node@master
+      with:
+        node-version: 10.x
+    - name: Setup
+      run: |
+        DIR=$(find "$GITHUB_WORKSPACE/Packages" -name "UGF.*" -type d)
+        NAME=$(node -p "require('$DIR/package.json').name")
+        VERSION=$(node -p "require('$DIR/package.json').version")
+
+        echo ::set-env name=PACKAGE_PATH::$DIR
+        echo ::set-env name=PACKAGE_NAME::$NAME
+        echo ::set-env name=PACKAGE_VERSION::$VERSION
+        echo ::set-env name=PACKAGE_VERSION_REF::refs/tags/$VERSION
+    - name: Check
+      if: env.PACKAGE_VERSION_REF != github.ref
+      run: |
+        echo Package version must be equal to tag name: ${{ env.PACKAGE_VERSION_REF }} != ${{ github.ref }}
+        exit 1
+    - name: Pack
+      run: npm pack $PACKAGE_PATH
+    - name: Upload Stable
+      if: (!endsWith(env.PACKAGE_VERSION, '-preview'))
+      uses: wei/curl@master
+      with:
+        args: -T $PACKAGE_NAME-$PACKAGE_VERSION.tgz -$REGISTRY_USER $REGISTRY_STABLE/$PACKAGE_NAME/$PACKAGE_VERSION/$PACKAGE_NAME/-/
+    - name: Upload Dev
+      uses: wei/curl@master
+      with:
+        args: -T $PACKAGE_NAME-$PACKAGE_VERSION.tgz -$REGISTRY_USER $REGISTRY_DEV/$PACKAGE_NAME/$PACKAGE_VERSION/$PACKAGE_NAME/-/
+    - name: Publish Stable
+      if: (!endsWith(env.PACKAGE_VERSION, '-preview'))
+      uses: wei/curl@master
+      with:
+        args: -X POST -$REGISTRY_USER $REGISTRY_STABLE/$PACKAGE_NAME/$PACKAGE_VERSION/publish
+    - name: Publish Dev
+      uses: wei/curl@master
+      with:
+        args: -X POST -$REGISTRY_USER $REGISTRY_DEV/$PACKAGE_NAME/$PACKAGE_VERSION/publish
