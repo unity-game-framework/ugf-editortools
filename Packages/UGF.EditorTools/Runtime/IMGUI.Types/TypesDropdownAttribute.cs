@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace UGF.EditorTools.Editor.IMGUI.Types
+namespace UGF.EditorTools.Runtime.IMGUI.Types
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class TypesDropdownAttribute : PropertyAttribute
