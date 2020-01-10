@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_typeName: UGF.EditorTools.Editor.Tests.IMGUI.TestTypesDropdownGUI, UGF.EditorTools.Editor.Tests,
     Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_typeNameValue: AssemblyValidationRule, UnityEditor, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  m_typeNameValue2: TroubleshooterWindow, UnityEditor, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
