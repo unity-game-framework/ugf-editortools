@@ -26,6 +26,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - Nothing.
 
+## 0.5.1-preview - 2020-02-02
+- [Commits](https://github.com/unity-game-framework/ugf-editortools/compare/0.5.0-preview...0.5.1-preview)
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/7?closed=1)
+
+### Added
+- `EditorIMGUIUtility.DrawAssetGuidField` to draw asset field using guid.
+
+### Fixed
+- `AssetGuidAttribute` asset field indentation.
+
 ## 0.5.0-preview - 2020-02-02
 - [Commits](https://github.com/unity-game-framework/ugf-editortools/compare/0.4.0-preview...0.5.0-preview)
 - [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/6?closed=1)
