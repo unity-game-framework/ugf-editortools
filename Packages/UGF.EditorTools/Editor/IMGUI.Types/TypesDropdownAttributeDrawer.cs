@@ -24,26 +24,35 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 
             EditorGUI.BeginProperty(position, label, property);
 
-            Rect rect = EditorGUI.PrefixLabel(position, label);
-            GUIContent content = m_contentNone;
-
-            if (!string.IsNullOrEmpty(property.stringValue))
+            if (property.propertyType == SerializedPropertyType.String)
             {
-                var type = Type.GetType(property.stringValue);
+                Rect rect = EditorGUI.PrefixLabel(position, label);
+                GUIContent content = m_contentNone;
 
-                content = type != null ? new GUIContent(type.Name) : m_contentMissing;
+                if (!string.IsNullOrEmpty(property.stringValue))
+                {
+                    var type = Type.GetType(property.stringValue);
+
+                    content = type != null ? new GUIContent(type.Name) : m_contentMissing;
+                }
+
+                if (EditorGUI.DropdownButton(rect, content, FocusType.Keyboard) && !m_assign)
+                {
+                    m_dropdown.Show(rect);
+                }
+
+                if (m_assign)
+                {
+                    property.stringValue = m_type?.AssemblyQualifiedName ?? string.Empty;
+
+                    m_assign = false;
+                }
             }
-
-            if (EditorGUI.DropdownButton(rect, content, FocusType.Keyboard) && !m_assign)
+            else
             {
-                m_dropdown.Show(rect);
-            }
+                EditorGUI.PropertyField(position, property, label);
 
-            if (m_assign)
-            {
-                property.stringValue = m_type?.AssemblyQualifiedName ?? string.Empty;
-
-                m_assign = false;
+                Debug.LogWarning($"Serialized property type must be 'String' in order to use 'TypesDropdownAttribute'. Property path: '{property.propertyPath}'.");
             }
 
             EditorGUI.EndProperty();
