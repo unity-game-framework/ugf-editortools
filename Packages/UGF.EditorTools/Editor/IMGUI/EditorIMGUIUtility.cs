@@ -1,5 +1,7 @@
 ﻿using System;
 using UnityEditor;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
@@ -53,6 +55,32 @@ namespace UGF.EditorTools.Editor.IMGUI
                     EditorGUILayout.PropertyField(serializedProperty, true);
                 }
             }
+        }
+
+        public static void DrawAssetGuidField(Rect position, SerializedProperty serializedProperty, GUIContent label, Type assetType)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+            if (label == null) throw new ArgumentNullException(nameof(label));
+            if (assetType == null) throw new ArgumentNullException(nameof(assetType));
+            if (serializedProperty.propertyType != SerializedPropertyType.String) throw new ArgumentException("Serialized property type must be 'String'.");
+
+            serializedProperty.stringValue = DrawAssetGuidField(position, serializedProperty.stringValue, label, assetType);
+        }
+
+        public static string DrawAssetGuidField(Rect position, string guid, GUIContent label, Type assetType)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+            if (assetType == null) throw new ArgumentNullException(nameof(assetType));
+
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            Object asset = AssetDatabase.LoadAssetAtPath(path, assetType);
+
+            asset = EditorGUI.ObjectField(position, label, asset, assetType, false);
+
+            path = AssetDatabase.GetAssetPath(asset);
+            guid = AssetDatabase.AssetPathToGUID(path);
+
+            return guid;
         }
     }
 }
