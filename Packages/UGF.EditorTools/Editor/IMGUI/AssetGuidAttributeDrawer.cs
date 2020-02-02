@@ -15,18 +15,7 @@ namespace UGF.EditorTools.Editor.IMGUI
             {
                 var assetGuidAttribute = (AssetGuidAttribute)attribute;
 
-                Rect rect = EditorGUI.PrefixLabel(position, label);
-
-                string guid = property.stringValue;
-                string path = AssetDatabase.GUIDToAssetPath(guid);
-                Object asset = AssetDatabase.LoadAssetAtPath(path, assetGuidAttribute.AssetType);
-
-                asset = EditorGUI.ObjectField(rect, asset, assetGuidAttribute.AssetType, false);
-
-                path = AssetDatabase.GetAssetPath(asset);
-                guid = AssetDatabase.AssetPathToGUID(path);
-
-                property.stringValue = guid;
+                EditorIMGUIUtility.DrawAssetGuidField(position, property, label, assetGuidAttribute.AssetType);
             }
             else
             {

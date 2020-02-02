@@ -16,9 +16,23 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         [SerializeField, TypesDropdown(typeof(ScriptableObject))] private string m_typeNameValue2;
         [SerializeField, AssetGuid] private string m_assetGuid;
         [SerializeField, AssetGuid(typeof(Material))] private string m_assetGuid2;
+        [SerializeField] private Indent1 m_indent1;
 
         // [SerializeField, AssetGuid] private int m_invalidAssetGuidField;
         // [SerializeField, TypesDropdown] private int m_invalidTypeField;
+
+        [Serializable]
+        public class Indent1
+        {
+            [SerializeField] private Indent2 m_indent2;
+        }
+
+        [Serializable]
+        public class Indent2
+        {
+            [SerializeField, AssetGuid] private string m_assetGuid;
+            [SerializeField, TypesDropdown] private string m_type;
+        }
     }
 
     [CustomEditor(typeof(TestTypesDropdownGUI), true)]
