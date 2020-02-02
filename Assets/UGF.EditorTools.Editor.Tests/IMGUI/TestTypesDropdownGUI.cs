@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.Types;
+using UGF.EditorTools.Runtime.IMGUI;
 using UGF.EditorTools.Runtime.IMGUI.Types;
 using UnityEditor;
 using UnityEngine;
@@ -11,12 +12,13 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     public class TestTypesDropdownGUI : ScriptableObject
     {
         [SerializeField] private string m_typeName;
+        [SerializeField, TypesDropdown(typeof(Attribute))] private string m_typeNameValue;
+        [SerializeField, TypesDropdown(typeof(ScriptableObject))] private string m_typeNameValue2;
+        [SerializeField, AssetGuid] private string m_assetGuid;
+        [SerializeField, AssetGuid(typeof(Material))] private string m_assetGuid2;
 
-        [SerializeField, TypesDropdown(typeof(Attribute))]
-        private string m_typeNameValue;
-
-        [SerializeField, TypesDropdown(typeof(ScriptableObject))]
-        private string m_typeNameValue2;
+        // [SerializeField, AssetGuid] private int m_invalidAssetGuidField;
+        // [SerializeField, TypesDropdown] private int m_invalidTypeField;
     }
 
     [CustomEditor(typeof(TestTypesDropdownGUI), true)]
