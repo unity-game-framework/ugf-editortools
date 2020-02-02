@@ -19,7 +19,7 @@ namespace UGF.EditorTools.Editor.IMGUI
             {
                 using (new EditorGUI.DisabledScope(iterator.propertyPath == "m_Script"))
                 {
-                    EditorGUILayout.PropertyField(iterator, true, null);
+                    EditorGUILayout.PropertyField(iterator, true);
                 }
             }
 
@@ -50,7 +50,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
                 while (serializedProperty.NextVisible(false) && !SerializedProperty.EqualContents(serializedProperty, propertyEnd))
                 {
-                    EditorGUILayout.PropertyField(serializedProperty, true, null);
+                    EditorGUILayout.PropertyField(serializedProperty, true);
                 }
             }
         }
