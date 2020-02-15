@@ -5,11 +5,11 @@ using Object = UnityEngine.Object;
 namespace UGF.EditorTools.Runtime.IMGUI
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class AssetGuidAttribute : PropertyAttribute
+    public class AssetTypeAttribute : PropertyAttribute
     {
         public Type AssetType { get; }
 
-        public AssetGuidAttribute(Type assetType = null)
+        public AssetTypeAttribute(Type assetType = null)
         {
             AssetType = assetType ?? typeof(Object);
         }
