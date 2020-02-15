@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI
@@ -71,6 +72,7 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
             if (assetType == null) throw new ArgumentNullException(nameof(assetType));
+            if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
 
             string path = AssetDatabase.GUIDToAssetPath(guid);
             Object asset = AssetDatabase.LoadAssetAtPath(path, assetType);
