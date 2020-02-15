@@ -26,6 +26,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - Nothing.
 
+## 0.6.0-preview - 2020-02-15
+- [Commits](https://github.com/unity-game-framework/ugf-editortools/compare/0.6.0-preview...0.5.1-preview)
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/8?closed=1)
+
+### Added
+- Add support for `SceneAsset` using `AssetGuidAttribute` via specifying `Scene` as asset type.
+- Add `AssetTypeAttribute` to control type of the asset object field.
+
 ## 0.5.1-preview - 2020-02-02
 - [Commits](https://github.com/unity-game-framework/ugf-editortools/compare/0.5.0-preview...0.5.1-preview)
 - [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/7?closed=1)
