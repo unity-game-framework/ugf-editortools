@@ -5,6 +5,7 @@ using UGF.EditorTools.Runtime.IMGUI;
 using UGF.EditorTools.Runtime.IMGUI.Types;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UGF.EditorTools.Editor.Tests.IMGUI
 {
@@ -16,6 +17,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         [SerializeField, TypesDropdown(typeof(ScriptableObject))] private string m_typeNameValue2;
         [SerializeField, AssetGuid] private string m_assetGuid;
         [SerializeField, AssetGuid(typeof(Material))] private string m_assetGuid2;
+        [SerializeField, AssetGuid(typeof(Scene))] private string m_assetScene;
         [SerializeField] private Indent1 m_indent1;
 
         // [SerializeField, AssetGuid] private int m_invalidAssetGuidField;
