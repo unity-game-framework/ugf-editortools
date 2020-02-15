@@ -6,11 +6,12 @@ using UGF.EditorTools.Runtime.IMGUI.Types;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.Tests.IMGUI
 {
     [CreateAssetMenu(menuName = "Tests/TestTypesDropdownGUI")]
-    public class TestTypesDropdownGUI : ScriptableObject
+    public class TestTypesDropdownGUI : ScriptableObject, ITest
     {
         [SerializeField] private string m_typeName;
         [SerializeField, TypesDropdown(typeof(Attribute))] private string m_typeNameValue;
@@ -18,6 +19,8 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         [SerializeField, AssetGuid] private string m_assetGuid;
         [SerializeField, AssetGuid(typeof(Material))] private string m_assetGuid2;
         [SerializeField, AssetGuid(typeof(Scene))] private string m_assetScene;
+        [SerializeField, AssetType] private Object m_assetType1;
+        [SerializeField, AssetType(typeof(ITest))] private Object m_assetType2;
         [SerializeField] private Indent1 m_indent1;
 
         // [SerializeField, AssetGuid] private int m_invalidAssetGuidField;
@@ -35,6 +38,10 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             [SerializeField, AssetGuid] private string m_assetGuid;
             [SerializeField, TypesDropdown] private string m_type;
         }
+    }
+
+    public interface ITest
+    {
     }
 
     [CustomEditor(typeof(TestTypesDropdownGUI), true)]

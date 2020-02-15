@@ -21,6 +21,8 @@ MonoBehaviour:
   m_assetGuid: 60e46c14cd645744f9948cb785525ba1
   m_assetGuid2: 15e9cf0b86764e54b88028f7a271007c
   m_assetScene: 9fc0d4010bbf28b4594072e72b8655ab
+  m_assetType1: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
+  m_assetType2: {fileID: 11400000}
   m_indent1:
     m_indent2:
       m_assetGuid: 
