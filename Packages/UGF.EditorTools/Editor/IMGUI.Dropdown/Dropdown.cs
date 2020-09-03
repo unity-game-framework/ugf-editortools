@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEditor.IMGUI.Controls;
+using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 {
@@ -8,6 +9,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
     {
         public string RootName { get; set; } = "Root";
         public List<TItem> Items { get; set; } = new List<TItem>();
+        public float MinimumWidth { get { return minimumSize.x; } set { minimumSize = new Vector2(value, minimumSize.y); } }
+        public float MinimumHeight { get { return minimumSize.y; } set { minimumSize = new Vector2(minimumSize.x, value); } }
 
         public event Action<TItem> Selected;
 
