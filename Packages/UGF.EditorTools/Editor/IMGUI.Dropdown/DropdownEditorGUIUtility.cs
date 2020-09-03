@@ -1,11 +1,44 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 {
-    public static class DropdownGUIUtility
+    public static class DropdownEditorGUIUtility
     {
+        public static bool Dropdown<T>(string label, string content, IEnumerable<T> items, out T item, FocusType focusType = FocusType.Keyboard, params GUILayoutOption[] options) where T : DropdownItem
+        {
+            Dropdown(label, content, items, out int controlId, focusType, options);
+
+            if (DropdownEditorUtility.TryGetDropdownSelection(controlId, out item))
+            {
+                DropdownEditorUtility.ClearDropdownSelection<T>();
+
+                return true;
+            }
+
+            item = default;
+            return false;
+        }
+
+        public static bool Dropdown<T>(string label, string content, IEnumerable<T> items, out int controlId, FocusType focusType = FocusType.Keyboard, params GUILayoutOption[] options) where T : DropdownItem
+        {
+            if (DropdownButton(label, content, out Rect dropdownPosition, focusType, options))
+            {
+                DropdownHandler<T> handler = DropdownEditorUtility.GetDropdownHandler<T>();
+
+                controlId = EditorIMGUIUtility.GetLastControlId();
+
+                handler.Show(dropdownPosition, controlId, items);
+
+                return true;
+            }
+
+            controlId = EditorIMGUIUtility.GetLastControlId();
+            return false;
+        }
+
         public static bool DropdownButton(string content, out Rect dropdownPosition, FocusType focusType = FocusType.Keyboard, params GUILayoutOption[] options)
         {
             if (content == null) throw new ArgumentNullException(nameof(content));

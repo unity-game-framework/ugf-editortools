@@ -7,8 +7,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 {
     public class Dropdown<TItem> : AdvancedDropdown where TItem : DropdownItem
     {
+        public List<TItem> Items { get; }
         public string RootName { get; set; } = "Root";
-        public List<TItem> Items { get; set; } = new List<TItem>();
         public float MinimumWidth { get { return minimumSize.x; } set { minimumSize = new Vector2(value, minimumSize.y); } }
         public float MinimumHeight { get { return minimumSize.y; } set { minimumSize = new Vector2(minimumSize.x, value); } }
 
@@ -16,6 +16,12 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 
         public Dropdown(AdvancedDropdownState state = null) : base(state ?? new AdvancedDropdownState())
         {
+            Items = new List<TItem>();
+        }
+
+        public Dropdown(IEnumerable<TItem> items, AdvancedDropdownState state = null) : base(state)
+        {
+            Items = new List<TItem>(items);
         }
 
         protected override void ItemSelected(AdvancedDropdownItem item)
@@ -53,7 +59,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 
                 if (item.HasPath)
                 {
-                    DropdownUtility.AddMenuItem(root, dropdownItem, item.Path);
+                    DropdownEditorUtility.AddMenuItem(root, dropdownItem, item.Path);
                 }
                 else
                 {
