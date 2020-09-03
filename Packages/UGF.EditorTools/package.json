@@ -1,26 +1,26 @@
 {
-    "name": "com.ugf.editortools",
-    "displayName": "UGF.EditorTools",
-    "version": "0.6.0-preview",
-    "unity": "2020.1",
-    "apiCompatibility": ".NET Standard 2.0",
-    "description": "No description.",
-    "author": {
-        "name": "Unity Game Framework",
-        "url": "https://github.com/unity-game-framework"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/unity-game-framework/ugf-draft.git",
-        "directory": "Packages/Package"
-    },
-    "changelogUrl": "https://github.com/unity-game-framework/ugf-draft/blob/master/license",
-    "licenseUrl": "https://github.com/unity-game-framework/ugf-draft/blob/master/changelog.md",
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com/@unity-game-framework"
-    },
-    "bintray": {
-        "registry": "https://api.bintray.com/content/unity-game-framework/public"
-    },
-    "dependencies": {}
+  "name": "com.ugf.editortools",
+  "displayName": "UGF.EditorTools",
+  "version": "0.6.0-preview",
+  "unity": "2020.1",
+  "apiCompatibility": ".NET Standard 2.0",
+  "description": "Provides tools for working with editor code.",
+  "author": {
+    "name": "Unity Game Framework",
+    "url": "https://github.com/unity-game-framework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/unity-game-framework/ugf-editortools.git",
+    "directory": "Packages/Package"
+  },
+  "changelogUrl": "https://github.com/unity-game-framework/ugf-editortools/blob/master/license",
+  "licenseUrl": "https://github.com/unity-game-framework/ugf-editortools/blob/master/changelog.md",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@unity-game-framework"
+  },
+  "bintray": {
+    "registry": "https://api.bintray.com/content/unity-game-framework/public"
+  },
+  "dependencies": {}
 }
