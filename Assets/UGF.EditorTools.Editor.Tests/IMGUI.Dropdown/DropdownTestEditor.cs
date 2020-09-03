@@ -14,6 +14,8 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
         };
 
         private readonly List<DropdownDrawerTest> m_drawers = new List<DropdownDrawerTest>();
+        private readonly List<string> m_values = new List<string>();
+        private readonly List<DropdownItem<string>> m_valueItems = new List<DropdownItem<string>>();
 
         private class DropdownDrawerTest
         {
@@ -34,10 +36,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
 
             public void Draw()
             {
-                if (DropdownEditorGUIUtility.Dropdown(Name, m_item?.Name ?? "None", Items, out DropdownItem item))
-                {
-                    m_item = item;
-                }
+                m_item = DropdownEditorGUIUtility.Dropdown(new GUIContent(Name), new GUIContent(m_item?.Name ?? "None"), Items, m_item);
             }
         }
 
@@ -52,6 +51,16 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
             {
                 m_drawers.Add(new DropdownDrawerTest($"Drawer {i}"));
             }
+
+            for (int i = 0; i < 10; i++)
+            {
+                m_values.Add("None");
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                m_valueItems.Add(new DropdownItem<string>($"Item {i}", $"Value {i}"));
+            }
         }
 
         public override void OnInspectorGUI()
@@ -60,14 +69,14 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
 
             EditorGUILayout.LayerField("Test", 0);
 
-            if (DropdownEditorGUIUtility.DropdownButton("Dropdown With Position", "None", out Rect dropdownPosition))
+            if (DropdownEditorGUIUtility.DropdownButton(new GUIContent("Dropdown With Position"), new GUIContent("None"), out Rect dropdownPosition))
             {
                 m_dropdown.Show(dropdownPosition);
             }
 
             EditorGUILayout.LayerField("Test", 0);
 
-            if (DropdownEditorGUIUtility.DropdownButton("None", out Rect dropdownPosition2))
+            if (DropdownEditorGUIUtility.DropdownButton(GUIContent.none, new GUIContent("None"), out Rect dropdownPosition2))
             {
                 m_dropdown.Show(dropdownPosition2);
             }
@@ -79,6 +88,11 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
             for (int i = 0; i < m_drawers.Count; i++)
             {
                 m_drawers[i].Draw();
+            }
+
+            for (int i = 0; i < m_values.Count; i++)
+            {
+                m_values[i] = DropdownEditorGUIUtility.Dropdown(new GUIContent($"Test {i}"), new GUIContent($"{m_values[i]}"), m_valueItems, m_valueItems[i]).Value;
             }
         }
     }
