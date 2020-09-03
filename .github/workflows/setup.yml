@@ -1,0 +1,79 @@
+
+name: Setup
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch'
+        default: master
+        required: true
+      name:
+        description: 'Name'
+        required: true
+      displayName:
+        description: 'Display Name'
+        required: true
+      description:
+        description: 'Description'
+        default: 'No description.'
+        required: false
+
+env:
+  name: ${{ github.event.inputs.name }}
+  displayName: ${{ github.event.inputs.displayName }}
+  description: ${{ github.event.inputs.description }}
+  repositoryName: ${{ github.repository }}
+  packagePath: ''
+
+jobs:
+  main:
+    name: Main
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.userToken }}
+        ref: ${{ env.branch }}
+    - name: Setup
+      run: |
+        path=$(find "Packages" -name "UGF.*" -type d)
+
+        echo "::set-env name=packagePath::$path/package.json"
+    - name: Update
+      uses: unity-game-framework-actions/file-access@master
+      with:
+        input: |
+          set:
+            name:
+              input: ${{ env.packagePath }}
+              path: name
+              value: ${{ env.name }}
+            displayName:
+              input: ${{ env.packagePath }}
+              path: displayName
+              value: ${{ env.displayName }}
+            description:
+              input: ${{ env.packagePath }}
+              path: description
+              value: ${{ env.description }}
+            changelogUrl:
+              input: ${{ env.packagePath }}
+              path: changelogUrl
+              value: https://github.com/${{ env.repositoryName }}/blob/master/license
+            licenseUrl:
+              input: ${{ env.packagePath }}
+              path: licenseUrl
+              value: https://github.com/${{ env.repositoryName }}/blob/master/changelog.md
+            repositoryUrl:
+              input: ${{ env.packagePath }}
+              path: repository.url
+              value: git://github.com/${{ env.repositoryName }}.git
+    - name: Push
+      run: |
+        git config user.name ${{ secrets.userName }}
+        git config user.email ${{ secrets.userEmail }}
+        git add ${{ env.packagePath }}
+        git commit -m "Setup project"
+        git push
