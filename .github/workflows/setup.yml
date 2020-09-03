@@ -20,6 +20,7 @@ on:
         required: false
 
 env:
+  branch: ${{ github.event.inputs.branch }}
   name: ${{ github.event.inputs.name }}
   displayName: ${{ github.event.inputs.displayName }}
   description: ${{ github.event.inputs.description }}
