@@ -43,7 +43,15 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
 
             for (int i = 0; i < 10; i++)
             {
-                m_valueItems2.Add(new DropdownItem<object>($"Item {i}", $"Value {i}"));
+                m_valueItems2.Add(new DropdownItem<object>($"Item {i}", $"Value {i}")
+                {
+                    Path = new []
+                    {
+                        "Path 0",
+                        "Path 1",
+                        "Path 2"
+                    }
+                });
             }
         }
 
