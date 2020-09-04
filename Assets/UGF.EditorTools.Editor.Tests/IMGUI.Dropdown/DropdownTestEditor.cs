@@ -13,32 +13,11 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
             MinimumHeight = 250F
         };
 
-        private readonly List<DropdownDrawerTest> m_drawers = new List<DropdownDrawerTest>();
-        private readonly List<string> m_values = new List<string>();
+        private readonly List<DropdownItem<string>> m_values = new List<DropdownItem<string>>();
         private readonly List<DropdownItem<string>> m_valueItems = new List<DropdownItem<string>>();
-
-        private class DropdownDrawerTest
-        {
-            public string Name { get; }
-            public List<DropdownItem> Items { get; } = new List<DropdownItem>();
-
-            private DropdownItem m_item;
-
-            public DropdownDrawerTest(string name)
-            {
-                Name = name;
-
-                for (int i = 0; i < 10; i++)
-                {
-                    Items.Add(new DropdownItem($"{Name} Item {i}"));
-                }
-            }
-
-            public void Draw()
-            {
-                m_item = DropdownEditorGUIUtility.Dropdown(new GUIContent(Name), new GUIContent(m_item?.Name ?? "None"), Items, m_item);
-            }
-        }
+        private readonly DropdownSelection<DropdownItem<string>> m_valuesSelection = new DropdownSelection<DropdownItem<string>>();
+        private readonly List<DropdownItem<object>> m_values2 = new List<DropdownItem<object>>();
+        private readonly List<DropdownItem<object>> m_valueItems2 = new List<DropdownItem<object>>();
 
         private void OnEnable()
         {
@@ -49,17 +28,22 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
 
             for (int i = 0; i < 10; i++)
             {
-                m_drawers.Add(new DropdownDrawerTest($"Drawer {i}"));
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-                m_values.Add("None");
+                m_values.Add(new DropdownItem<string>("None"));
             }
 
             for (int i = 0; i < 10; i++)
             {
                 m_valueItems.Add(new DropdownItem<string>($"Item {i}", $"Value {i}"));
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                m_values2.Add(new DropdownItem<object>("None"));
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                m_valueItems2.Add(new DropdownItem<object>($"Item {i}", $"Value {i}"));
             }
         }
 
@@ -85,14 +69,14 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
 
             EditorGUILayout.LabelField("Test", EditorStyles.boldLabel);
 
-            for (int i = 0; i < m_drawers.Count; i++)
-            {
-                m_drawers[i].Draw();
-            }
-
             for (int i = 0; i < m_values.Count; i++)
             {
-                m_values[i] = DropdownEditorGUIUtility.Dropdown(new GUIContent($"Test {i}"), new GUIContent($"{m_values[i]}"), m_valueItems, m_valueItems[i]).Value;
+                m_values[i] = DropdownEditorGUIUtility.Dropdown(new GUIContent($"Test {i}"), new GUIContent($"{m_values[i].Value}"), m_valuesSelection, m_valueItems, m_values[i]);
+            }
+
+            for (int i = 0; i < m_values2.Count; i++)
+            {
+                m_values2[i] = DropdownEditorGUIUtility.Dropdown(new GUIContent($"Test2 {i}"), new GUIContent($"{m_values2[i].Value}"), m_valueItems2, m_values2[i]);
             }
         }
     }

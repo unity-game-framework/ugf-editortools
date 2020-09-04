@@ -12,16 +12,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
         public float MinimumWidth { get { return minimumSize.x; } set { minimumSize = new Vector2(value, minimumSize.y); } }
         public float MinimumHeight { get { return minimumSize.y; } set { minimumSize = new Vector2(minimumSize.x, value); } }
 
-        public event Action<TItem> Selected;
+        public event DropdownItemHandler<TItem> Selected;
 
-        public Dropdown(AdvancedDropdownState state = null) : base(state ?? new AdvancedDropdownState())
+        public Dropdown(IEnumerable<TItem> items = null, AdvancedDropdownState state = null) : base(state)
         {
-            Items = new List<TItem>();
-        }
-
-        public Dropdown(IEnumerable<TItem> items, AdvancedDropdownState state = null) : base(state)
-        {
-            Items = new List<TItem>(items);
+            Items = items != null ? new List<TItem>(items) : new List<TItem>();
         }
 
         protected override void ItemSelected(AdvancedDropdownItem item)

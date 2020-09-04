@@ -6,55 +6,6 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 {
     public static class DropdownEditorUtility
     {
-        private static readonly Dictionary<Type, object> m_handlers = new Dictionary<Type, object>();
-
-        public static DropdownHandler<T> GetDropdownHandler<T>() where T : DropdownItem
-        {
-            if (!TryGetDropdownHandler(out DropdownHandler<T> handler))
-            {
-                handler = new DropdownHandler<T>();
-
-                m_handlers.Add(typeof(T), handler);
-            }
-
-            return handler;
-        }
-
-        public static bool TryGetDropdownHandler<T>(out DropdownHandler<T> handler) where T : DropdownItem
-        {
-            if (m_handlers.TryGetValue(typeof(T), out object value) && value is DropdownHandler<T> result)
-            {
-                handler = result;
-                return true;
-            }
-
-            handler = default;
-            return false;
-        }
-
-        public static bool TryGetDropdownSelection<T>(int controlId, out T item) where T : DropdownItem
-        {
-            if (TryGetDropdownHandler(out DropdownHandler<T> handler))
-            {
-                if (handler.HasControlId && handler.LastControlId == controlId && handler.HasSelectedItem)
-                {
-                    item = handler.LastSelectedItem;
-                    return true;
-                }
-            }
-
-            item = default;
-            return false;
-        }
-
-        public static void ClearDropdownSelection<T>() where T : DropdownItem
-        {
-            if (TryGetDropdownHandler(out DropdownHandler<T> handler))
-            {
-                handler.Clear();
-            }
-        }
-
         public static void AddMenuItem(AdvancedDropdownItem parent, AdvancedDropdownItem child, IReadOnlyList<string> path)
         {
             if (parent == null) throw new ArgumentNullException(nameof(parent));
