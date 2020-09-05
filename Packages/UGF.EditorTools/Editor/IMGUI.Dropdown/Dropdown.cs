@@ -40,17 +40,9 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
             for (int i = 0; i < Items.Count; i++)
             {
                 TItem item = Items[i];
+                AdvancedDropdownItem dropdownItem = OnItemCreate(item);
 
-                var dropdownItem = new AdvancedDropdownItem(item.Name)
-                {
-                    id = i,
-                    enabled = item.Enabled
-                };
-
-                if (item.HasIcon)
-                {
-                    dropdownItem.icon = item.Icon;
-                }
+                dropdownItem.id = i;
 
                 if (item.HasPath)
                 {
@@ -63,6 +55,21 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
             }
 
             return root;
+        }
+
+        protected virtual AdvancedDropdownItem OnItemCreate(TItem item)
+        {
+            var dropdownItem = new AdvancedDropdownItem(item.Name)
+            {
+                enabled = item.Enabled
+            };
+
+            if (item.HasIcon)
+            {
+                dropdownItem.icon = item.Icon;
+            }
+
+            return dropdownItem;
         }
     }
 }
