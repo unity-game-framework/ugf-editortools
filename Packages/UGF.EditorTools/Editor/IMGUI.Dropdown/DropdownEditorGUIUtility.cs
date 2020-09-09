@@ -39,19 +39,24 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 
         public static bool Dropdown<T>(Rect position, GUIContent label, GUIContent content, DropdownSelection<T> selection, IEnumerable<T> items, out T item, FocusType focusType = FocusType.Keyboard) where T : DropdownItem
         {
-            int controlId;
+            bool result = DropdownButton(position, label, content, out Rect dropdownPosition, focusType);
+            int controlId = EditorIMGUIUtility.GetLastControlId();
 
-            if (DropdownButton(position, label, content, out Rect dropdownPosition, focusType))
+            if (result)
             {
-                controlId = EditorIMGUIUtility.GetLastControlId();
-
-                selection.Show(dropdownPosition, controlId, items);
-            }
-            else
-            {
-                controlId = EditorIMGUIUtility.GetLastControlId();
+                ShowDropdown(controlId, dropdownPosition, selection, items);
             }
 
+            return CheckDropdown(controlId, selection, out item);
+        }
+
+        public static void ShowDropdown<T>(int controlId, Rect position, DropdownSelection<T> selection, IEnumerable<T> items) where T : DropdownItem
+        {
+            selection.Show(position, controlId, items);
+        }
+
+        public static bool CheckDropdown<T>(int controlId, DropdownSelection<T> selection, out T item) where T : DropdownItem
+        {
             if (selection.TryGet(controlId, out item))
             {
                 selection.Clear();
