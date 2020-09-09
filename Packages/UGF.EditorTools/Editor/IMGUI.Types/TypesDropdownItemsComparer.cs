@@ -1,21 +1,22 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UGF.EditorTools.Editor.IMGUI.Dropdown;
 
 namespace UGF.EditorTools.Editor.IMGUI.Types
 {
-    public class TypesDropdownComparer : IComparer<Type>
+    public class TypesDropdownItemsComparer : IComparer<DropdownItem<Type>>
     {
-        public static TypesDropdownComparer Default { get; } = new TypesDropdownComparer();
+        public static TypesDropdownItemsComparer Default { get; } = new TypesDropdownItemsComparer();
 
-        public int Compare(Type x, Type y)
+        public int Compare(DropdownItem<Type> x, DropdownItem<Type> y)
         {
             if (ReferenceEquals(x, y)) return 0;
             if (ReferenceEquals(null, y)) return 1;
             if (ReferenceEquals(null, x)) return -1;
 
-            string xName = !string.IsNullOrEmpty(x.FullName) ? x.FullName : x.Name;
-            string yName = !string.IsNullOrEmpty(y.FullName) ? y.FullName : y.Name;
+            string xName = !string.IsNullOrEmpty(x.Value.FullName) ? x.Value.FullName : x.Value.Name;
+            string yName = !string.IsNullOrEmpty(y.Value.FullName) ? y.Value.FullName : y.Value.Name;
             int order = yName.Count(c => c == '.') - xName.Count(c => c == '.');
 
             if (order == 0)

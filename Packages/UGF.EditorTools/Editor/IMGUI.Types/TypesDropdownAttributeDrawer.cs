@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using UGF.EditorTools.Editor.IMGUI.Dropdown;
+using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UGF.EditorTools.Runtime.IMGUI.Types;
 using UnityEditor;
 using UnityEngine;
@@ -7,74 +9,24 @@ using UnityEngine;
 namespace UGF.EditorTools.Editor.IMGUI.Types
 {
     [CustomPropertyDrawer(typeof(TypesDropdownAttribute), true)]
-    internal class TypesDropdownAttributeDrawer : PropertyDrawer
+    internal class TypesDropdownAttributeDrawer : PropertyDrawerTyped<TypesDropdownAttribute>
     {
-        private readonly GUIContent m_contentNone = new GUIContent("None");
-        private readonly GUIContent m_contentMissing = new GUIContent("Missing");
-        private TypesDropdown m_dropdown;
-        private Type m_type;
-        private bool m_assign;
+        private TypesDropdownDrawer m_drawer;
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        public TypesDropdownAttributeDrawer() : base(SerializedPropertyType.String)
         {
-            if (m_dropdown == null)
-            {
-                Initialize();
-            }
-
-            EditorGUI.BeginProperty(position, label, property);
-
-            if (property.propertyType == SerializedPropertyType.String)
-            {
-                Rect rect = EditorGUI.PrefixLabel(position, label);
-                GUIContent content = m_contentNone;
-
-                if (!string.IsNullOrEmpty(property.stringValue))
-                {
-                    var type = Type.GetType(property.stringValue);
-
-                    content = type != null ? new GUIContent(type.Name) : m_contentMissing;
-                }
-
-                if (EditorGUI.DropdownButton(rect, content, FocusType.Keyboard) && !m_assign)
-                {
-                    m_dropdown.Show(rect);
-                }
-
-                if (m_assign)
-                {
-                    property.stringValue = m_type?.AssemblyQualifiedName ?? string.Empty;
-
-                    m_assign = false;
-                }
-            }
-            else
-            {
-                EditorGUI.PropertyField(position, property, label);
-
-                Debug.LogWarning($"Serialized property type must be 'String' in order to use 'TypesDropdownAttribute'. Property path: '{property.propertyPath}'.");
-            }
-
-            EditorGUI.EndProperty();
         }
 
-        private void Initialize()
+        protected override void OnDrawProperty(Rect position, SerializedProperty property, GUIContent label)
         {
-            m_dropdown = new TypesDropdown(TypesCollector);
-            m_dropdown.Selected += OnDropdownSelected;
-        }
+            if (m_drawer == null)
+            {
+                List<DropdownItem<Type>> items = TypesDropdownEditorUtility.GetTypeItems(Attribute.TargetType);
 
-        private IEnumerable<Type> TypesCollector()
-        {
-            var typesDropdownAttribute = (TypesDropdownAttribute)attribute;
+                m_drawer = new TypesDropdownDrawer(items);
+            }
 
-            return TypeCache.GetTypesDerivedFrom(typesDropdownAttribute.TargetType);
-        }
-
-        private void OnDropdownSelected(Type type)
-        {
-            m_type = type;
-            m_assign = true;
+            m_drawer.DrawGUI(position, label, property);
         }
     }
 }

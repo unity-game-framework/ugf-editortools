@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e46c14cd645744f9948cb785525ba1, type: 3}
   m_Name: New Test Types Dropdown GUI
   m_EditorClassIdentifier: 
-  m_typeName: UGF.EditorTools.Editor.Tests.IMGUI.TestTypesDropdownGUI, UGF.EditorTools.Editor.Tests,
+  m_typeName: UGF.EditorTools.Editor.Tests.IMGUI.Dropdown.DropdownTestEditor, UGF.EditorTools.Editor.Tests,
     Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_typeNameValue: AssemblyValidationRule, UnityEditor, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  m_typeNameValue2: TroubleshooterWindow, UnityEditor, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
+  m_typeNameValue: aaa
+  m_typeNameValue2: TestRunner.Callbacks.WindowResultUpdaterDataHolder, UnityEditor.TestRunner,
+    Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_assetGuid: 60e46c14cd645744f9948cb785525ba1
   m_assetGuid2: 15e9cf0b86764e54b88028f7a271007c
   m_assetScene: 9fc0d4010bbf28b4594072e72b8655ab
@@ -27,3 +26,5 @@ MonoBehaviour:
     m_indent2:
       m_assetGuid: 
       m_type: 
+  m_invalidAssetGuidField: 0
+  m_invalidTypeField: 0
