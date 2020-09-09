@@ -11,22 +11,25 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
     [CustomPropertyDrawer(typeof(TypesDropdownAttribute), true)]
     internal class TypesDropdownAttributeDrawer : PropertyDrawerTyped<TypesDropdownAttribute>
     {
-        private TypesDropdownDrawer m_drawer;
+        private readonly TypesDropdownDrawer m_drawer;
 
         public TypesDropdownAttributeDrawer() : base(SerializedPropertyType.String)
         {
+            m_drawer = new TypesDropdownDrawer(OnGetItems);
         }
 
         protected override void OnDrawProperty(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (m_drawer == null)
-            {
-                List<DropdownItem<Type>> items = TypesDropdownEditorUtility.GetTypeItems(Attribute.TargetType);
-
-                m_drawer = new TypesDropdownDrawer(items);
-            }
-
             m_drawer.DrawGUI(position, label, property);
+        }
+
+        private IEnumerable<DropdownItem<Type>> OnGetItems()
+        {
+            List<DropdownItem<Type>> items = TypesDropdownEditorUtility.GetTypeItems(Attribute.TargetType);
+
+            items.Insert(0, new DropdownItem<Type>("None"));
+
+            return items;
         }
     }
 }

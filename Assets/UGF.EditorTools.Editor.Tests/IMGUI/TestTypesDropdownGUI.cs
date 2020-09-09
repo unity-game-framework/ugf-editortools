@@ -66,9 +66,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
 
         private void OnEnable()
         {
-            List<DropdownItem<Type>> items = TypesDropdownEditorUtility.GetTypeItems(typeof(ScriptableObject));
-
-            m_drawer = new TypesDropdownDrawer(items);
+            m_drawer = new TypesDropdownDrawer(() => TypesDropdownEditorUtility.GetTypeItems(typeof(ScriptableObject)));
             m_propertyTypeName = serializedObject.FindProperty("m_typeName");
         }
 
