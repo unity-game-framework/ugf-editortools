@@ -25,7 +25,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
         {
             DropdownItem<string> item = m_items.Find(x => x.Value == property.stringValue) ?? new DropdownItem<string>("None", "");
 
-            DropdownItem<string> selected = DropdownEditorGUIUtility.Dropdown(position, label, new GUIContent(item.Name), m_selection, m_items, item);
+            DropdownItem<string> selected = DropdownEditorGUIUtility.Dropdown(position, label, new GUIContent(item.Name), m_selection, () => m_items, out DropdownItem<string> item2) ? item2 : item;
 
             if (item.Value != selected.Value)
             {

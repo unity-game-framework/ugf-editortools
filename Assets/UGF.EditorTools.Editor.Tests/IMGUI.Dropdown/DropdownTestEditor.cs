@@ -18,6 +18,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
         private readonly DropdownSelection<DropdownItem<string>> m_valuesSelection = new DropdownSelection<DropdownItem<string>>();
         private readonly List<DropdownItem<object>> m_values2 = new List<DropdownItem<object>>();
         private readonly List<DropdownItem<object>> m_valueItems2 = new List<DropdownItem<object>>();
+        private readonly DropdownSelection<DropdownItem<object>> m_valuesSelection2 = new DropdownSelection<DropdownItem<object>>();
 
         private void OnEnable()
         {
@@ -79,12 +80,12 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
 
             for (int i = 0; i < m_values.Count; i++)
             {
-                m_values[i] = DropdownEditorGUIUtility.Dropdown(new GUIContent($"Test {i}"), new GUIContent($"{m_values[i].Value}"), m_valuesSelection, m_valueItems, m_values[i]);
+                m_values[i] = DropdownEditorGUIUtility.Dropdown(new GUIContent($"Test {i}"), new GUIContent($"{m_values[i].Value}"), m_valuesSelection, () => m_valueItems, out DropdownItem<string> it) ? it : m_values[i];
             }
 
             for (int i = 0; i < m_values2.Count; i++)
             {
-                m_values2[i] = DropdownEditorGUIUtility.Dropdown(new GUIContent($"Test2 {i}"), new GUIContent($"{m_values2[i].Value}"), m_valueItems2, m_values2[i]);
+                m_values2[i] = DropdownEditorGUIUtility.Dropdown(new GUIContent($"Test2 {i}"), new GUIContent($"{m_values2[i].Value}"), m_valuesSelection2, () => m_valueItems2, out DropdownItem<object> it2) ? it2 : m_values2[i];
             }
         }
     }
