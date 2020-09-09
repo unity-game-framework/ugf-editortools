@@ -23,7 +23,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         [SerializeField, AssetType(typeof(ITest))] private Object m_assetType2;
         [SerializeField] private Indent1 m_indent1;
 
-        // [SerializeField, AssetGuid] private int m_invalidAssetGuidField;
+        [SerializeField, AssetGuid] private int m_invalidAssetGuidField;
         // [SerializeField, TypesDropdown] private int m_invalidTypeField;
 
         [Serializable]
