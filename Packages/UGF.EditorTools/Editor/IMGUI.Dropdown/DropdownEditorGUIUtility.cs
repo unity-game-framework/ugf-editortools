@@ -7,51 +7,37 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 {
     public static class DropdownEditorGUIUtility
     {
-        private static readonly DropdownSelection<DropdownItem<object>> m_selection = new DropdownSelection<DropdownItem<object>>();
-
-        public static DropdownItem<object> Dropdown(GUIContent label, GUIContent content, IEnumerable<DropdownItem<object>> items, DropdownItem<object> item, FocusType focusType = FocusType.Keyboard, params GUILayoutOption[] options)
+        public static bool Dropdown<T>(GUIContent label, GUIContent content, DropdownSelection<T> selection, Func<IEnumerable<T>> itemsHandler, out T item, FocusType focusType = FocusType.Keyboard, params GUILayoutOption[] options) where T : DropdownItem
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
 
             Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
 
-            return Dropdown(position, label, content, items, item, focusType);
+            return Dropdown(position, label, content, selection, itemsHandler, out item, focusType);
         }
 
-        public static DropdownItem<object> Dropdown(Rect position, GUIContent label, GUIContent content, IEnumerable<DropdownItem<object>> items, DropdownItem<object> item, FocusType focusType = FocusType.Keyboard)
+        public static bool Dropdown<T>(Rect position, GUIContent label, GUIContent content, DropdownSelection<T> selection, Func<IEnumerable<T>> itemsHandler, out T item, FocusType focusType = FocusType.Keyboard) where T : DropdownItem
         {
-            return Dropdown(position, label, content, m_selection, items, out DropdownItem<object> selected, focusType) ? selected : item;
-        }
+            bool result = DropdownButton(position, label, content, out Rect dropdownPosition, focusType);
+            int controlId = EditorIMGUIUtility.GetLastControlId();
 
-        public static T Dropdown<T>(GUIContent label, GUIContent content, DropdownSelection<T> selection, IEnumerable<T> items, T item, FocusType focusType = FocusType.Keyboard, params GUILayoutOption[] options) where T : DropdownItem
-        {
-            if (label == null) throw new ArgumentNullException(nameof(label));
-
-            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
-
-            return Dropdown(position, label, content, selection, items, item, focusType);
-        }
-
-        public static T Dropdown<T>(Rect position, GUIContent label, GUIContent content, DropdownSelection<T> selection, IEnumerable<T> items, T item, FocusType focusType = FocusType.Keyboard) where T : DropdownItem
-        {
-            return Dropdown(position, label, content, selection, items, out T selected, focusType) ? selected : item;
-        }
-
-        public static bool Dropdown<T>(Rect position, GUIContent label, GUIContent content, DropdownSelection<T> selection, IEnumerable<T> items, out T item, FocusType focusType = FocusType.Keyboard) where T : DropdownItem
-        {
-            int controlId;
-
-            if (DropdownButton(position, label, content, out Rect dropdownPosition, focusType))
+            if (result)
             {
-                controlId = EditorIMGUIUtility.GetLastControlId();
+                IEnumerable<T> items = itemsHandler();
 
-                selection.Show(dropdownPosition, controlId, items);
-            }
-            else
-            {
-                controlId = EditorIMGUIUtility.GetLastControlId();
+                ShowDropdown(controlId, dropdownPosition, selection, items);
             }
 
+            return CheckDropdown(controlId, selection, out item);
+        }
+
+        public static void ShowDropdown<T>(int controlId, Rect position, DropdownSelection<T> selection, IEnumerable<T> items) where T : DropdownItem
+        {
+            selection.Show(position, controlId, items);
+        }
+
+        public static bool CheckDropdown<T>(int controlId, DropdownSelection<T> selection, out T item) where T : DropdownItem
+        {
             if (selection.TryGet(controlId, out item))
             {
                 selection.Clear();
