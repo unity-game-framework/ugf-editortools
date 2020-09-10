@@ -6,44 +6,23 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.Types
 {
-    public class TypesDropdownDrawer
+    public class TypesDropdownDrawer : DropdownDrawer<DropdownItem<Type>>
     {
-        public Func<IEnumerable<DropdownItem<Type>>> ItemsHandler { get; }
-        public DropdownSelection<DropdownItem<Type>> Selection { get; }
-        public GUIContent ContentNone { get; set; } = new GUIContent("None");
         public GUIContent ContentMissing { get; set; } = new GUIContent("Missing");
 
-        public TypesDropdownDrawer(Func<IEnumerable<DropdownItem<Type>>> itemsHandler, DropdownSelection<DropdownItem<Type>> selection = null)
+        public TypesDropdownDrawer(Func<IEnumerable<DropdownItem<Type>>> itemsHandler, DropdownSelection<DropdownItem<Type>> selection = null) : base(itemsHandler, selection)
         {
-            ItemsHandler = itemsHandler ?? throw new ArgumentNullException(nameof(itemsHandler));
-            Selection = selection ?? new DropdownSelection<DropdownItem<Type>>(new Dropdown<DropdownItem<Type>>
-            {
-                RootName = "Types",
-                MinimumHeight = 250F
-            });
         }
 
-        public void DrawGUILayout(GUIContent label, SerializedProperty serializedProperty, FocusType focusType = FocusType.Keyboard, params GUILayoutOption[] options)
+        protected override void OnApplySelected(SerializedProperty serializedProperty, DropdownItem<Type> selected)
         {
-            if (label == null) throw new ArgumentNullException(nameof(label));
+            base.OnApplySelected(serializedProperty, selected);
 
-            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
-
-            DrawGUI(position, label, serializedProperty, focusType);
+            serializedProperty.stringValue = selected.Value != null ? selected.Value.AssemblyQualifiedName : string.Empty;
+            serializedProperty.serializedObject.ApplyModifiedProperties();
         }
 
-        public void DrawGUI(Rect position, GUIContent label, SerializedProperty serializedProperty, FocusType focusType = FocusType.Keyboard)
-        {
-            GUIContent content = GetContentLabel(serializedProperty);
-
-            if (DropdownEditorGUIUtility.Dropdown(position, label, content, Selection, ItemsHandler, out DropdownItem<Type> selected))
-            {
-                serializedProperty.stringValue = selected.Value != null ? selected.Value.AssemblyQualifiedName : string.Empty;
-                serializedProperty.serializedObject.ApplyModifiedProperties();
-            }
-        }
-
-        private GUIContent GetContentLabel(SerializedProperty serializedProperty)
+        protected override GUIContent OnGetContentLabel(SerializedProperty serializedProperty)
         {
             GUIContent content;
             string value = serializedProperty.stringValue;

@@ -6,13 +6,17 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 {
     public static class DropdownEditorUtility
     {
-        public static void AddMenuItem(AdvancedDropdownItem parent, AdvancedDropdownItem child, IReadOnlyList<string> path)
+        private static readonly char[] m_separator = { '/' };
+
+        public static void AddMenuItem(AdvancedDropdownItem parent, AdvancedDropdownItem child, string path)
         {
             if (parent == null) throw new ArgumentNullException(nameof(parent));
             if (child == null) throw new ArgumentNullException(nameof(child));
             if (path == null) throw new ArgumentNullException(nameof(path));
 
-            AddMenuItem(parent, child, path, 0);
+            string[] split = path.Split(m_separator, StringSplitOptions.RemoveEmptyEntries);
+
+            AddMenuItem(parent, child, split, 0);
         }
 
         private static void AddMenuItem(AdvancedDropdownItem parent, AdvancedDropdownItem child, IReadOnlyList<string> path, int index)

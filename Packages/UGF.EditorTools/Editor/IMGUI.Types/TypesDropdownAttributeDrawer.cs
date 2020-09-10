@@ -25,8 +25,9 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 
         private IEnumerable<DropdownItem<Type>> OnGetItems()
         {
-            List<DropdownItem<Type>> items = TypesDropdownEditorUtility.GetTypeItems(Attribute.TargetType);
+            List<DropdownItem<Type>> items = TypesDropdownEditorUtility.GetTypeItems(Attribute.TargetType, Attribute.DisplayFullPath);
 
+            items.Sort(DropdownItemsComparer<DropdownItem<Type>>.Default);
             items.Insert(0, new DropdownItem<Type>("None"));
 
             return items;

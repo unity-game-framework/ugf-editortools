@@ -16,7 +16,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     {
         [SerializeField] private string m_typeName;
 
-        [SerializeField, TypesDropdown(typeof(Attribute))]
+        [SerializeField, TypesDropdown(typeof(Attribute), DisplayFullPath = false)]
         private string m_typeNameValue;
 
         [SerializeField, TypesDropdown(typeof(ScriptableObject))]

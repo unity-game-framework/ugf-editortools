@@ -7,47 +7,35 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 {
     public static class TypesDropdownEditorUtility
     {
-        private static readonly char[] m_separator = { '.' };
-
-        public static List<DropdownItem<Type>> GetTypeItems(Type targetType)
+        public static List<DropdownItem<Type>> GetTypeItems(Type targetType, bool useFullPath = false)
         {
             if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
             var items = new List<DropdownItem<Type>>();
             TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(targetType);
 
-            GetTypeItems(types, items);
+            foreach (Type type in types)
+            {
+                DropdownItem<Type> item = CreateItem(type, useFullPath);
 
-            items.Sort(TypesDropdownItemsComparer.Default);
+                items.Add(item);
+            }
 
             return items;
         }
 
-        public static void GetTypeItems(IEnumerable<Type> types, ICollection<DropdownItem<Type>> items)
+        public static DropdownItem<Type> CreateItem(Type type, bool useFullPath = false)
         {
-            foreach (Type type in types)
+            if (type == null) throw new ArgumentNullException(nameof(type));
+
+            var item = new DropdownItem<Type>(type.Name, type);
+
+            if (useFullPath && !string.IsNullOrEmpty(type.Namespace))
             {
-                var item = new DropdownItem<Type>(type.Name, type);
-
-                if (TryGetTypePath(type, out string[] path))
-                {
-                    item.Path = path;
-                }
-
-                items.Add(item);
-            }
-        }
-
-        public static bool TryGetTypePath(Type type, out string[] path)
-        {
-            if (!string.IsNullOrEmpty(type.Namespace))
-            {
-                path = type.Namespace.Split(m_separator);
-                return true;
+                item.Path = type.Namespace.Replace('.', '/');
             }
 
-            path = null;
-            return false;
+            return item;
         }
     }
 }

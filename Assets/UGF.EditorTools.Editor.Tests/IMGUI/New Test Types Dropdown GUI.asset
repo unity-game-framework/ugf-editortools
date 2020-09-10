@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_typeName: UGF.EditorTools.Editor.Tests.IMGUI.Dropdown.DropdownTestEditor, UGF.EditorTools.Editor.Tests,
     Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_typeNameValue: aaa
+  m_typeNameValue: UGF.EditorTools.Editor.Tests.IMGUI.Dropdown.DropdownTestAttribute,
+    UGF.EditorTools.Editor.Tests, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   m_typeNameValue2: TreeEditor.TreeEditor, UnityEditor, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
   m_assetGuid: 60e46c14cd645744f9948cb785525ba1
