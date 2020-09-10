@@ -7,8 +7,6 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 {
     public static class TypesDropdownEditorUtility
     {
-        private static readonly char[] m_separator = { '.' };
-
         public static List<DropdownItem<Type>> GetTypeItems(Type targetType, bool useFullPath = false)
         {
             if (targetType == null) throw new ArgumentNullException(nameof(targetType));
@@ -17,8 +15,6 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(targetType);
 
             GetTypeItems(types, items, useFullPath);
-
-            items.Sort(TypesDropdownItemsComparer.Default);
 
             return items;
         }
@@ -32,27 +28,13 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             {
                 var item = new DropdownItem<Type>(type.Name, type);
 
-                if (useFullPath && TryGetTypePath(type, out string[] path))
+                if (useFullPath && !string.IsNullOrEmpty(type.Namespace))
                 {
-                    item.Path = path;
+                    item.Path = type.Namespace.Replace('.', '/');
                 }
 
                 items.Add(item);
             }
-        }
-
-        public static bool TryGetTypePath(Type type, out string[] path)
-        {
-            if (type == null) throw new ArgumentNullException(nameof(type));
-
-            if (!string.IsNullOrEmpty(type.Namespace))
-            {
-                path = type.Namespace.Split(m_separator);
-                return true;
-            }
-
-            path = null;
-            return false;
         }
     }
 }
