@@ -9,21 +9,21 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
     {
         private static readonly char[] m_separator = { '.' };
 
-        public static List<DropdownItem<Type>> GetTypeItems(Type targetType)
+        public static List<DropdownItem<Type>> GetTypeItems(Type targetType, bool useFullPath = false)
         {
             if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
             var items = new List<DropdownItem<Type>>();
             TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(targetType);
 
-            GetTypeItems(types, items);
+            GetTypeItems(types, items, useFullPath);
 
             items.Sort(TypesDropdownItemsComparer.Default);
 
             return items;
         }
 
-        public static void GetTypeItems(IEnumerable<Type> types, ICollection<DropdownItem<Type>> items)
+        public static void GetTypeItems(IEnumerable<Type> types, ICollection<DropdownItem<Type>> items, bool useFullPath = false)
         {
             if (types == null) throw new ArgumentNullException(nameof(types));
             if (items == null) throw new ArgumentNullException(nameof(items));
@@ -32,7 +32,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             {
                 var item = new DropdownItem<Type>(type.Name, type);
 
-                if (TryGetTypePath(type, out string[] path))
+                if (useFullPath && TryGetTypePath(type, out string[] path))
                 {
                     item.Path = path;
                 }
