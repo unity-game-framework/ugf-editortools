@@ -14,27 +14,28 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             var items = new List<DropdownItem<Type>>();
             TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(targetType);
 
-            GetTypeItems(types, items, useFullPath);
+            foreach (Type type in types)
+            {
+                DropdownItem<Type> item = CreateItem(type, useFullPath);
+
+                items.Add(item);
+            }
 
             return items;
         }
 
-        public static void GetTypeItems(IEnumerable<Type> types, ICollection<DropdownItem<Type>> items, bool useFullPath = false)
+        public static DropdownItem<Type> CreateItem(Type type, bool useFullPath = false)
         {
-            if (types == null) throw new ArgumentNullException(nameof(types));
-            if (items == null) throw new ArgumentNullException(nameof(items));
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
-            foreach (Type type in types)
+            var item = new DropdownItem<Type>(type.Name, type);
+
+            if (useFullPath && !string.IsNullOrEmpty(type.Namespace))
             {
-                var item = new DropdownItem<Type>(type.Name, type);
-
-                if (useFullPath && !string.IsNullOrEmpty(type.Namespace))
-                {
-                    item.Path = type.Namespace.Replace('.', '/');
-                }
-
-                items.Add(item);
+                item.Path = type.Namespace.Replace('.', '/');
             }
+
+            return item;
         }
     }
 }
