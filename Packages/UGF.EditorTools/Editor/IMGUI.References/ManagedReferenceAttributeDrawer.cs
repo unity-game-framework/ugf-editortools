@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
 using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
-using UGF.EditorTools.Editor.IMGUI.Types;
 using UGF.EditorTools.Runtime.IMGUI.References;
 using UnityEditor;
 using UnityEngine;
@@ -26,7 +25,8 @@ namespace UGF.EditorTools.Editor.IMGUI.References
 
         private IEnumerable<DropdownItem<Type>> OnGetItems()
         {
-            List<DropdownItem<Type>> items = TypesDropdownEditorUtility.GetTypeItems(Attribute.TargetType);
+            Type targetType = Attribute.HasTargetType ? Attribute.TargetType : fieldInfo.FieldType;
+            List<DropdownItem<Type>> items = ManagedReferenceEditorUtility.GetTypeItems(targetType);
 
             items.Insert(0, new DropdownItem<Type>("None"));
 

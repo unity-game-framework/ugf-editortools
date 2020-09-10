@@ -36,9 +36,13 @@ namespace UGF.EditorTools.Editor.IMGUI.References
         {
             Rect dropdownPosition = position;
 
-            dropdownPosition.x = position.x + EditorGUIUtility.labelWidth;
-            dropdownPosition.width = position.width - EditorGUIUtility.labelWidth;
-            dropdownPosition.height = EditorGUIUtility.singleLineHeight;
+            float labelWidth = EditorGUIUtility.labelWidth;
+            float space = EditorGUIUtility.standardVerticalSpacing;
+            float height = EditorGUIUtility.singleLineHeight;
+
+            dropdownPosition.x = position.x + labelWidth + space;
+            dropdownPosition.width = position.width - labelWidth - space;
+            dropdownPosition.height = height;
 
             GUIContent content = GetContentLabel(serializedProperty);
 

@@ -7,8 +7,8 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.References
     [CreateAssetMenu(menuName = "Tests/ManagedReferenceSelectTestAsset")]
     public class ManagedReferenceSelectTestAsset : ScriptableObject
     {
-        [SerializeReference, ManagedReference(typeof(IManagedReferenceTest))]
-        private IManagedReferenceTest m_test;
+        [SerializeReference, ManagedReference] private IManagedReferenceTest m_test;
+        [SerializeReference, ManagedReference(typeof(object))] private object m_test2;
     }
 
     public interface IManagedReferenceTest
