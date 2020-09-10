@@ -18,6 +18,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 
         public static bool Dropdown<T>(Rect position, GUIContent label, GUIContent content, DropdownSelection<T> selection, Func<IEnumerable<T>> itemsHandler, out T item, FocusType focusType = FocusType.Keyboard) where T : DropdownItem
         {
+            if (itemsHandler == null) throw new ArgumentNullException(nameof(itemsHandler));
+
             bool result = DropdownButton(position, label, content, out Rect dropdownPosition, focusType);
             int controlId = EditorIMGUIUtility.GetLastControlId();
 
@@ -33,11 +35,15 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 
         public static void ShowDropdown<T>(int controlId, Rect position, DropdownSelection<T> selection, IEnumerable<T> items) where T : DropdownItem
         {
+            if (selection == null) throw new ArgumentNullException(nameof(selection));
+
             selection.Show(position, controlId, items);
         }
 
         public static bool CheckDropdown<T>(int controlId, DropdownSelection<T> selection, out T item) where T : DropdownItem
         {
+            if (selection == null) throw new ArgumentNullException(nameof(selection));
+
             if (selection.TryGet(controlId, out item))
             {
                 selection.Clear();

@@ -34,6 +34,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 
         public void DrawGUI(Rect position, GUIContent label, SerializedProperty serializedProperty, FocusType focusType = FocusType.Keyboard)
         {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
             GUIContent content = GetContentLabel(serializedProperty);
 
             if (DropdownEditorGUIUtility.Dropdown(position, label, content, Selection, ItemsHandler, out DropdownItem<Type> selected, focusType))

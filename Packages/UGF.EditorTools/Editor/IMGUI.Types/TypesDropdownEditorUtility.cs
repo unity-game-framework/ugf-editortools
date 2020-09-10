@@ -25,6 +25,9 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 
         public static void GetTypeItems(IEnumerable<Type> types, ICollection<DropdownItem<Type>> items)
         {
+            if (types == null) throw new ArgumentNullException(nameof(types));
+            if (items == null) throw new ArgumentNullException(nameof(items));
+
             foreach (Type type in types)
             {
                 var item = new DropdownItem<Type>(type.Name, type);
@@ -40,6 +43,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 
         public static bool TryGetTypePath(Type type, out string[] path)
         {
+            if (type == null) throw new ArgumentNullException(nameof(type));
+
             if (!string.IsNullOrEmpty(type.Namespace))
             {
                 path = type.Namespace.Split(m_separator);
