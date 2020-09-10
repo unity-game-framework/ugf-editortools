@@ -36,7 +36,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
         {
             GUIContent content = GetContentLabel(serializedProperty);
 
-            if (DropdownEditorGUIUtility.Dropdown(position, label, content, Selection, ItemsHandler, out DropdownItem<Type> selected))
+            if (DropdownEditorGUIUtility.Dropdown(position, label, content, Selection, ItemsHandler, out DropdownItem<Type> selected, focusType))
             {
                 serializedProperty.stringValue = selected.Value != null ? selected.Value.AssemblyQualifiedName : string.Empty;
                 serializedProperty.serializedObject.ApplyModifiedProperties();
