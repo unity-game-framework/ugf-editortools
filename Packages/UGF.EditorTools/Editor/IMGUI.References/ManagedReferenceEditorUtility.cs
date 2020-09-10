@@ -12,7 +12,7 @@ namespace UGF.EditorTools.Editor.IMGUI.References
     {
         private static readonly char[] m_separator = { ' ' };
 
-        public static List<DropdownItem<Type>> GetTypeItems(Type targetType)
+        public static List<DropdownItem<Type>> GetTypeItems(Type targetType, bool useFullPath = false)
         {
             if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
@@ -23,18 +23,11 @@ namespace UGF.EditorTools.Editor.IMGUI.References
             {
                 if (IsValidType(type))
                 {
-                    var item = new DropdownItem<Type>(type.Name, type);
-
-                    if (TypesDropdownEditorUtility.TryGetTypePath(type, out string[] path))
-                    {
-                        item.Path = path;
-                    }
+                    DropdownItem<Type> item = TypesDropdownEditorUtility.CreateItem(type, useFullPath);
 
                     items.Add(item);
                 }
             }
-
-            items.Sort(TypesDropdownItemsComparer.Default);
 
             return items;
         }

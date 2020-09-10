@@ -19,8 +19,8 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: ManagedReferenceTest2, ns: UGF.EditorTools.Editor.Tests.IMGUI.References, asm: UGF.EditorTools.Editor.Tests}
+      type: {class: ManagedReferenceTest, ns: UGF.EditorTools.Editor.Tests.IMGUI.References, asm: UGF.EditorTools.Editor.Tests}
       data:
-        m_int: 201
+        m_bool: 0
     00000001:
       type: {class: , ns: , asm: }

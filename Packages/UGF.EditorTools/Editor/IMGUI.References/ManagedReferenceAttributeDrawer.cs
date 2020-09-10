@@ -26,8 +26,9 @@ namespace UGF.EditorTools.Editor.IMGUI.References
         private IEnumerable<DropdownItem<Type>> OnGetItems()
         {
             Type targetType = Attribute.HasTargetType ? Attribute.TargetType : fieldInfo.FieldType;
-            List<DropdownItem<Type>> items = ManagedReferenceEditorUtility.GetTypeItems(targetType);
+            List<DropdownItem<Type>> items = ManagedReferenceEditorUtility.GetTypeItems(targetType, Attribute.DisplayFullPath);
 
+            items.Sort(DropdownItemsComparer<DropdownItem<Type>>.Default);
             items.Insert(0, new DropdownItem<Type>("None"));
 
             return items;
