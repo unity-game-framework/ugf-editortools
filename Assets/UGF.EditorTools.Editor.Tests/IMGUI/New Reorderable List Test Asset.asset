@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 419ef5ca730b46c5b88c7a37dc3a14fe, type: 3}
+  m_Name: New Reorderable List Test Asset
+  m_EditorClassIdentifier: 
+  m_list1:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 49cb3ca7d412bbd4390309f4facd4a53, type: 2}
+  - {fileID: 0}
+  m_list2:
+  - m_bool: 0
+    m_int: 0
+    m_float: 0
+  - m_bool: 1
+    m_int: 129
+    m_float: -4.05
+  m_list3:
+  - m_bool2: 1
+    m_object: {fileID: 0}
+  m_list4:
+  - id: 0
+  - id: 1
+  - id: 2
+  references:
+    version: 1
+    00000000:
+      type: {class: ReorderableListTestAsset/Data2, ns: UGF.EditorTools.Editor.Tests.IMGUI, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_bool2: 0
+        m_object: {fileID: 0}
+    00000001:
+      type: {class: , ns: , asm: }
+    00000002:
+      type: {class: ReorderableListTestAsset/Data1, ns: UGF.EditorTools.Editor.Tests.IMGUI, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_bool: 0
+        m_int: 0
+        m_float: 0
