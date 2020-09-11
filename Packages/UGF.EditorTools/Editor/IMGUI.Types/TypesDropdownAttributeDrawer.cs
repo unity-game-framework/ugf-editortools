@@ -13,6 +13,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
     {
         private readonly TypesDropdownDrawer m_drawer;
 
+        private readonly DropdownItem<Type> m_noneItem = new DropdownItem<Type>("None")
+        {
+            Priority = int.MaxValue
+        };
+
         public TypesDropdownAttributeDrawer() : base(SerializedPropertyType.String)
         {
             m_drawer = new TypesDropdownDrawer(OnGetItems);
@@ -27,8 +32,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
         {
             List<DropdownItem<Type>> items = TypesDropdownEditorUtility.GetTypeItems(Attribute.TargetType, Attribute.DisplayFullPath);
 
-            items.Sort(DropdownItemsComparer<DropdownItem<Type>>.Default);
-            items.Insert(0, new DropdownItem<Type>("None"));
+            items.Add(m_noneItem);
 
             return items;
         }

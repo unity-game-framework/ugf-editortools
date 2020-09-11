@@ -11,8 +11,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
         {
             if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
-            var items = new List<DropdownItem<Type>>();
             TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(targetType);
+            var items = new List<DropdownItem<Type>>(types.Count);
 
             foreach (Type type in types)
             {
