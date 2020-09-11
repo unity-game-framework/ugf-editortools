@@ -16,6 +16,13 @@ MonoBehaviour:
     id: 0
   m_test2:
     id: 1
+  m_test3:
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 1
+  - id: 1
+  m_test4: []
   references:
     version: 1
     00000000:
@@ -24,3 +31,11 @@ MonoBehaviour:
         m_bool: 0
     00000001:
       type: {class: , ns: , asm: }
+    00000002:
+      type: {class: ManagedReferenceTest, ns: UGF.EditorTools.Editor.Tests.IMGUI.References, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_bool: 1
+    00000003:
+      type: {class: ManagedReferenceTest2, ns: UGF.EditorTools.Editor.Tests.IMGUI.References, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_int: 53

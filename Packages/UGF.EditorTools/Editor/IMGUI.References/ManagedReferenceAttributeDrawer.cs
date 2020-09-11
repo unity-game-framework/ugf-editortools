@@ -13,6 +13,11 @@ namespace UGF.EditorTools.Editor.IMGUI.References
     {
         private readonly ManagedReferenceDropdownDrawer m_drawer;
 
+        private readonly DropdownItem<Type> m_noneItem = new DropdownItem<Type>("None")
+        {
+            Priority = int.MaxValue
+        };
+
         public ManagedReferenceAttributeDrawer() : base(SerializedPropertyType.ManagedReference)
         {
             m_drawer = new ManagedReferenceDropdownDrawer(OnGetItems);
@@ -21,6 +26,11 @@ namespace UGF.EditorTools.Editor.IMGUI.References
         protected override void OnDrawProperty(Rect position, SerializedProperty property, GUIContent label)
         {
             m_drawer.DrawGUI(position, label, property);
+
+            using (new EditorGUI.PropertyScope(position, label, property))
+            {
+                EditorGUI.PropertyField(position, property, label, true);
+            }
         }
 
         private IEnumerable<DropdownItem<Type>> OnGetItems()
@@ -28,8 +38,7 @@ namespace UGF.EditorTools.Editor.IMGUI.References
             Type targetType = Attribute.HasTargetType ? Attribute.TargetType : fieldInfo.FieldType;
             List<DropdownItem<Type>> items = ManagedReferenceEditorUtility.GetTypeItems(targetType, Attribute.DisplayFullPath);
 
-            items.Sort(DropdownItemsComparer<DropdownItem<Type>>.Default);
-            items.Insert(0, new DropdownItem<Type>("None"));
+            items.Add(m_noneItem);
 
             return items;
         }

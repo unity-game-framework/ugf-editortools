@@ -8,30 +8,44 @@ namespace UGF.EditorTools.Editor.IMGUI.References
 {
     public class ManagedReferenceDropdownDrawer : DropdownDrawer<DropdownItem<Type>>
     {
-        public GUIContent ContentMissing { get; set; } = new GUIContent("Missing");
+        private Styles m_styles;
+
+        private class Styles
+        {
+            public GUIContent ButtonContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("_Menu"));
+            public GUIStyle ButtonStyle { get; } = new GUIStyle("IconButton");
+        }
 
         public ManagedReferenceDropdownDrawer(Func<IEnumerable<DropdownItem<Type>>> itemsHandler, DropdownSelection<DropdownItem<Type>> selection = null) : base(itemsHandler, selection)
         {
-            Selection.Dropdown.RootName = "Types";
+            Selection.Dropdown.RootName = "Current: None";
+            Selection.Dropdown.MinimumWidth = 250F;
         }
 
         public override void DrawGUI(Rect position, GUIContent label, SerializedProperty serializedProperty, FocusType focusType = FocusType.Keyboard)
         {
-            Rect dropdownPosition = position;
+            if (m_styles == null)
+            {
+                m_styles = new Styles();
+            }
 
-            float labelWidth = EditorGUIUtility.labelWidth;
-            float space = EditorGUIUtility.standardVerticalSpacing;
+            Rect dropdownPosition = position;
             float height = EditorGUIUtility.singleLineHeight;
 
-            dropdownPosition.x = position.x + labelWidth + space;
-            dropdownPosition.width = position.width - labelWidth - space;
+            dropdownPosition.x = position.xMax - height;
+            dropdownPosition.width = height;
             dropdownPosition.height = height;
 
-            base.DrawGUI(dropdownPosition, GUIContent.none, serializedProperty, focusType);
+            bool result = GUI.Button(dropdownPosition, m_styles.ButtonContent, m_styles.ButtonStyle);
 
-            using (new EditorGUI.PropertyScope(position, label, serializedProperty))
+            if (result)
             {
-                EditorGUI.PropertyField(position, serializedProperty, label, true);
+                Selection.Dropdown.RootName = GetCurrentTypeTitle(serializedProperty);
+            }
+
+            if (DropdownEditorGUIUtility.ProcessDropdown(dropdownPosition, result, Selection, ItemsHandler, out DropdownItem<Type> selected))
+            {
+                OnApplySelected(serializedProperty, selected);
             }
         }
 
@@ -41,20 +55,20 @@ namespace UGF.EditorTools.Editor.IMGUI.References
             serializedProperty.serializedObject.ApplyModifiedProperties();
         }
 
-        protected override GUIContent OnGetContentLabel(SerializedProperty serializedProperty)
+        private string GetCurrentTypeTitle(SerializedProperty serializedProperty)
         {
-            GUIContent content;
+            string title;
 
             if (!string.IsNullOrEmpty(serializedProperty.managedReferenceFullTypename))
             {
-                content = ManagedReferenceEditorUtility.TryGetType(serializedProperty.managedReferenceFullTypename, out Type type) ? new GUIContent(type.Name) : ContentMissing;
+                title = ManagedReferenceEditorUtility.TryGetType(serializedProperty.managedReferenceFullTypename, out Type type) ? $"Current: {type.Name}" : "Current: Missing";
             }
             else
             {
-                content = ContentNone;
+                title = "Current: None";
             }
 
-            return content;
+            return title;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UGF.EditorTools.Runtime.IMGUI.References;
 using UnityEngine;
 
@@ -7,11 +8,16 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.References
     [CreateAssetMenu(menuName = "Tests/ManagedReferenceSelectTestAsset")]
     public class ManagedReferenceSelectTestAsset : ScriptableObject
     {
-        [SerializeReference, ManagedReference(DisplayFullPath = false)]
-        private IManagedReferenceTest m_test;
+        [SerializeReference, ManagedReference] private IManagedReferenceTest m_test;
 
-        [SerializeReference, ManagedReference(typeof(object))]
+        [SerializeReference, ManagedReference(typeof(object), true)]
         private object m_test2;
+
+        [SerializeReference, ManagedReference(typeof(IManagedReferenceTest))]
+        private List<IManagedReferenceTest> m_test3;
+
+        [SerializeReference, ManagedReference(typeof(IManagedReferenceTest))]
+        private IManagedReferenceTest[] m_test4;
     }
 
     public interface IManagedReferenceTest
