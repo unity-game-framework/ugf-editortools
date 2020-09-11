@@ -35,12 +35,37 @@ namespace UGF.EditorTools.Editor.IMGUI.References
 
         private IEnumerable<DropdownItem<Type>> OnGetItems()
         {
-            Type targetType = Attribute.HasTargetType ? Attribute.TargetType : fieldInfo.FieldType;
+            Type targetType = GetTargetType();
             List<DropdownItem<Type>> items = ManagedReferenceEditorUtility.GetTypeItems(targetType, Attribute.DisplayFullPath);
 
             items.Add(m_noneItem);
 
             return items;
+        }
+
+        private Type GetTargetType()
+        {
+            Type type;
+
+            if (Attribute.HasTargetType)
+            {
+                type = Attribute.TargetType;
+            }
+            else
+            {
+                type = fieldInfo.FieldType;
+
+                if (type.IsArray)
+                {
+                    type = type.GetElementType();
+                }
+                else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+                {
+                    type = type.GetGenericArguments()[0];
+                }
+            }
+
+            return type;
         }
     }
 }
