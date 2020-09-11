@@ -12,16 +12,7 @@ namespace UGF.EditorTools.Editor.IMGUI.PropertyDrawers
         {
             using (new EditorGUI.PropertyScope(position, label, property))
             {
-                try
-                {
-                    OnGUIProperty(position, property, label);
-                }
-                catch (Exception exception)
-                {
-                    OnDrawPropertyDefault(position, property, label);
-
-                    Debug.LogError($"Exception while drawing property: '{property.propertyPath}'.\nException: {exception}");
-                }
+                OnGUIProperty(position, property, label);
             }
         }
 
