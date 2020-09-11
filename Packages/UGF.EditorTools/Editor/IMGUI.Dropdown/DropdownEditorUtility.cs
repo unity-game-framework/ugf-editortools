@@ -8,7 +8,27 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
     {
         private static readonly char[] m_separator = { '/' };
 
-        public static void AddMenuItem(AdvancedDropdownItem parent, AdvancedDropdownItem child, string path)
+        public static void SortChildren(AdvancedDropdownItem item, IComparer<AdvancedDropdownItem> comparer, bool recursive = true)
+        {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+            if (comparer == null) throw new ArgumentNullException(nameof(comparer));
+
+            var children = (List<AdvancedDropdownItem>)item.children;
+
+            children.Sort(comparer);
+
+            if (recursive)
+            {
+                for (int i = 0; i < children.Count; i++)
+                {
+                    AdvancedDropdownItem child = children[i];
+
+                    SortChildren(child, comparer);
+                }
+            }
+        }
+
+        public static void AddChild(AdvancedDropdownItem parent, AdvancedDropdownItem child, string path)
         {
             if (parent == null) throw new ArgumentNullException(nameof(parent));
             if (child == null) throw new ArgumentNullException(nameof(child));
@@ -16,23 +36,23 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 
             string[] split = path.Split(m_separator, StringSplitOptions.RemoveEmptyEntries);
 
-            AddMenuItem(parent, child, split, 0);
+            AddChild(parent, child, split, 0);
         }
 
-        private static void AddMenuItem(AdvancedDropdownItem parent, AdvancedDropdownItem child, IReadOnlyList<string> path, int index)
+        private static void AddChild(AdvancedDropdownItem parent, AdvancedDropdownItem child, IReadOnlyList<string> path, int index)
         {
             if (index < path.Count)
             {
                 string directoryName = path[index];
 
-                if (!TryFindItem(parent, directoryName, out AdvancedDropdownItem directory))
+                if (!TryFindChild(parent, directoryName, out AdvancedDropdownItem directory))
                 {
                     directory = new AdvancedDropdownItem(directoryName);
 
                     parent.AddChild(directory);
                 }
 
-                AddMenuItem(directory, child, path, ++index);
+                AddChild(directory, child, path, ++index);
             }
             else
             {
@@ -40,18 +60,21 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
             }
         }
 
-        private static bool TryFindItem(AdvancedDropdownItem parent, string name, out AdvancedDropdownItem item)
+        private static bool TryFindChild(AdvancedDropdownItem parent, string name, out AdvancedDropdownItem child)
         {
-            foreach (AdvancedDropdownItem child in parent.children)
+            var children = (List<AdvancedDropdownItem>)parent.children;
+
+            for (int i = 0; i < children.Count; i++)
             {
+                child = children[i];
+
                 if (child.name == name)
                 {
-                    item = child;
                     return true;
                 }
             }
 
-            item = null;
+            child = null;
             return false;
         }
     }

@@ -11,6 +11,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
         public bool HasPath { get { return m_path != null; } }
         public Texture2D Icon { get { return m_icon != null ? m_icon : throw new ArgumentException("No icon specified."); } set { m_icon = value; } }
         public bool HasIcon { get { return m_icon != null; } }
+        public int Priority { get; set; }
 
         private string m_path;
         private Texture2D m_icon;

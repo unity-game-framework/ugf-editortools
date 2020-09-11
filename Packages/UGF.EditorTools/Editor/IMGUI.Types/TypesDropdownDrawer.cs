@@ -12,6 +12,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 
         public TypesDropdownDrawer(Func<IEnumerable<DropdownItem<Type>>> itemsHandler, DropdownSelection<DropdownItem<Type>> selection = null) : base(itemsHandler, selection)
         {
+            Selection.Dropdown.RootName = "Types";
         }
 
         protected override void OnApplySelected(SerializedProperty serializedProperty, DropdownItem<Type> selected)
