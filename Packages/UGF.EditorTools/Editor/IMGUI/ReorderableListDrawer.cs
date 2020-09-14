@@ -72,7 +72,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
                     float indentWidth = EditorIMGUIUtility.GetIndent();
                     float labelWidth = EditorGUIUtility.labelWidth;
-                    float padding = ReorderableList.Defaults.dragHandleWidth;
+                    float padding = List.draggable ? ReorderableList.Defaults.dragHandleWidth : ReorderableList.Defaults.padding;
 
                     using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
                     using (new LabelWidthScope(labelWidth - indentWidth - padding))

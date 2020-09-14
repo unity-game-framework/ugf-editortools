@@ -50,6 +50,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             m_drawer1 = new ReorderableListDrawer(serializedObject.FindProperty("m_list1"));
             m_drawer2 = new ReorderableListDrawer(serializedObject.FindProperty("m_list2"));
             m_drawer3 = new ReorderableListDrawer(serializedObject.FindProperty("m_list3"));
+            m_drawer3.List.draggable = false;
             m_drawer4 = new ReorderableListDrawer(serializedObject.FindProperty("m_list4"));
         }
 
