@@ -26,6 +26,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             [SerializeField] private bool m_bool;
             [SerializeField] private int m_int;
             [SerializeField] private float m_float;
+            [SerializeField] private Quaternion m_quaternion;
         }
 
         [Serializable]
@@ -54,10 +55,23 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
 
         public override void OnInspectorGUI()
         {
+            serializedObject.UpdateIfRequiredOrScript();
+
             m_drawer1.DrawGUILayout();
-            m_drawer2.DrawGUILayout();
-            m_drawer3.DrawGUILayout();
+
+            using (new EditorGUI.IndentLevelScope(2))
+            {
+                m_drawer2.DrawGUILayout();
+            }
+
+            using (new EditorGUI.IndentLevelScope(5))
+            {
+                m_drawer3.DrawGUILayout();
+            }
+
             m_drawer4.DrawGUILayout();
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

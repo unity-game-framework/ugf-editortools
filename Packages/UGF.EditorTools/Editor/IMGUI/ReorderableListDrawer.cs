@@ -1,4 +1,5 @@
 ﻿using System;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -8,13 +9,16 @@ namespace UGF.EditorTools.Editor.IMGUI
     public class ReorderableListDrawer
     {
         public SerializedProperty SerializedProperty { get; }
+        public SerializedProperty PropertySize { get; }
         public ReorderableList List { get; }
 
         public ReorderableListDrawer(SerializedProperty serializedProperty)
         {
             SerializedProperty = serializedProperty ?? throw new ArgumentNullException(nameof(serializedProperty));
+            PropertySize = SerializedProperty.FindPropertyRelative("Array.size");
             List = new ReorderableList(serializedProperty.serializedObject, serializedProperty)
             {
+                headerHeight = EditorGUIUtility.standardVerticalSpacing,
                 drawHeaderCallback = OnDrawHeader,
                 drawElementCallback = OnDrawElement,
                 elementHeightCallback = OnElementHeight,
@@ -25,17 +29,99 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         public void DrawGUILayout()
         {
-            List.DoLayoutList();
+            OnDrawGUILayout();
         }
 
         public void DrawGUI(Rect position)
         {
-            List.DoList(position);
+            OnDrawGUI(position);
+        }
+
+        public float GetHeight()
+        {
+            return OnGetHeight();
+        }
+
+        protected virtual void OnDrawGUILayout(GUIContent label = null)
+        {
+            if (label == null) label = new GUIContent(SerializedProperty.displayName);
+
+            float height = GetHeight();
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, height);
+
+            OnDrawGUI(position, label);
+        }
+
+        protected virtual void OnDrawGUI(Rect position, GUIContent label = null)
+        {
+            if (label == null) label = new GUIContent(SerializedProperty.displayName);
+
+            var foldoutPosition = new Rect(position.x, position.y, position.width, OnGetFoldoutHeight());
+
+            if (OnDrawFoldout(foldoutPosition, label))
+            {
+                float space = EditorGUIUtility.standardVerticalSpacing;
+                var sizePosition = new Rect(position.x, foldoutPosition.y + foldoutPosition.height + space, position.width, OnGetSizeHeight());
+                var listPosition = new Rect(position.x, sizePosition.y + sizePosition.height + space, position.width, OnGetListHeight());
+
+                listPosition = EditorGUI.IndentedRect(listPosition);
+
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    OnDrawSize(sizePosition);
+
+                    float indentWidth = EditorIMGUIUtility.GetIndent();
+                    float labelWidth = EditorGUIUtility.labelWidth;
+                    float padding = ReorderableList.Defaults.dragHandleWidth;
+
+                    using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
+                    using (new LabelWidthScope(labelWidth - indentWidth - padding))
+                    {
+                        List.DoList(listPosition);
+                    }
+                }
+            }
+        }
+
+        protected virtual float OnGetHeight()
+        {
+            float space = EditorGUIUtility.standardVerticalSpacing;
+            float foldout = OnGetFoldoutHeight();
+            float size = OnGetSizeHeight();
+            float list = OnGetListHeight();
+
+            return foldout + space + size + space + list;
+        }
+
+        protected virtual bool OnDrawFoldout(Rect position, GUIContent label)
+        {
+            SerializedProperty.isExpanded = EditorGUI.Foldout(position, SerializedProperty.isExpanded, label, true);
+
+            return SerializedProperty.isExpanded;
+        }
+
+        protected virtual float OnGetFoldoutHeight()
+        {
+            return EditorGUIUtility.singleLineHeight;
+        }
+
+        protected virtual void OnDrawSize(Rect position)
+        {
+            EditorGUI.PropertyField(position, PropertySize);
+        }
+
+        protected virtual float OnGetSizeHeight()
+        {
+            return EditorGUIUtility.singleLineHeight;
+        }
+
+        protected virtual float OnGetListHeight()
+        {
+            return List.GetHeight();
         }
 
         protected virtual void OnDrawHeader(Rect position)
         {
-            GUI.Label(position, $"{SerializedProperty.displayName} (Size: {SerializedProperty.arraySize})", EditorStyles.boldLabel);
         }
 
         protected virtual void OnDrawElement(Rect position, int index, bool isActive, bool isFocused)
