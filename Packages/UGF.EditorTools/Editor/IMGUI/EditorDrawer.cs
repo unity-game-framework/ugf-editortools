@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEditor;
 using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI
@@ -7,6 +8,7 @@ namespace UGF.EditorTools.Editor.IMGUI
     {
         public UnityEditor.Editor Editor { get { return m_editor != null ? m_editor : throw new ArgumentException("Has no editor."); } }
         public bool HasEditor { get { return m_editor != null; } }
+        public bool DisplayTitlebar { get; set; } = true;
 
         private UnityEditor.Editor m_editor;
 
@@ -14,6 +16,11 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
             if (m_editor != null)
             {
+                if (DisplayTitlebar)
+                {
+                    EditorGUILayout.InspectorTitlebar(true, m_editor, false);
+                }
+
                 m_editor.OnInspectorGUI();
             }
         }
