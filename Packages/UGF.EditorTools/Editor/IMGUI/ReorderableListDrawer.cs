@@ -90,7 +90,7 @@ namespace UGF.EditorTools.Editor.IMGUI
             float size = OnGetSizeHeight();
             float list = OnGetListHeight();
 
-            return foldout + space + size + space + list;
+            return SerializedProperty.isExpanded ? foldout + space + size + space + list : foldout;
         }
 
         protected virtual bool OnDrawFoldout(Rect position, GUIContent label)
