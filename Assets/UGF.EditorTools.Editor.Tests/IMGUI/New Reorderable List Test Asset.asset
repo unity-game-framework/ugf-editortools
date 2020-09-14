@@ -13,18 +13,21 @@ MonoBehaviour:
   m_Name: New Reorderable List Test Asset
   m_EditorClassIdentifier: 
   m_list1:
-  - {fileID: 0}
   - {fileID: 11400000, guid: 49cb3ca7d412bbd4390309f4facd4a53, type: 2}
   - {fileID: 0}
+  - {fileID: 11400000, guid: 6550fbb33df5f7e42a6415afa949b562, type: 2}
+  - {fileID: 11400000, guid: 49cb3ca7d412bbd4390309f4facd4a53, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   m_list2:
   - m_bool: 0
     m_int: 0
     m_float: 0
+    m_quaternion: {x: 0, y: 0, z: 0, w: 0}
   - m_bool: 1
     m_int: 129
     m_float: -4.05
+    m_quaternion: {x: 0, y: 0, z: 0, w: 0}
   m_list3:
   - m_bool2: 1
     m_object: {fileID: 0}
@@ -49,3 +52,4 @@ MonoBehaviour:
         m_bool: 0
         m_int: 0
         m_float: 0
+        m_quaternion: {x: 0, y: 0, z: 0, w: 0}

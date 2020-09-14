@@ -22,8 +22,9 @@ namespace UGF.EditorTools.Editor.IMGUI
                 drawHeaderCallback = OnDrawHeader,
                 drawElementCallback = OnDrawElement,
                 elementHeightCallback = OnElementHeight,
-                onAddCallback = OnAdd,
-                onRemoveCallback = OnRemove
+                onAddCallback = OnListAdd,
+                onRemoveCallback = OnListRemove,
+                onSelectCallback = OnListSelect
             };
         }
 
@@ -172,7 +173,7 @@ namespace UGF.EditorTools.Editor.IMGUI
                 : EditorGUI.GetPropertyHeight(serializedProperty, true);
         }
 
-        protected virtual void OnAdd(ReorderableList list)
+        protected virtual void OnAdd()
         {
             SerializedProperty.InsertArrayElementAtIndex(SerializedProperty.arraySize);
 
@@ -195,10 +196,29 @@ namespace UGF.EditorTools.Editor.IMGUI
             propertyElement.serializedObject.ApplyModifiedProperties();
         }
 
-        protected virtual void OnRemove(ReorderableList list)
+        protected virtual void OnRemove()
         {
-            SerializedProperty.DeleteArrayElementAtIndex(list.index);
+            SerializedProperty.DeleteArrayElementAtIndex(List.index);
             SerializedProperty.serializedObject.ApplyModifiedProperties();
+        }
+
+        protected virtual void OnSelect()
+        {
+        }
+
+        private void OnListAdd(ReorderableList list)
+        {
+            OnAdd();
+        }
+
+        private void OnListRemove(ReorderableList list)
+        {
+            OnRemove();
+        }
+
+        private void OnListSelect(ReorderableList list)
+        {
+            OnSelect();
         }
     }
 }

@@ -40,14 +40,14 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     [CustomEditor(typeof(ReorderableListTestAsset), true)]
     public class ReorderableListTestAssetEditor : UnityEditor.Editor
     {
-        private ReorderableListDrawer m_drawer1;
+        private EditorListDrawer m_drawer1;
         private ReorderableListDrawer m_drawer2;
         private ReorderableListDrawer m_drawer3;
         private ReorderableListDrawer m_drawer4;
 
         private void OnEnable()
         {
-            m_drawer1 = new ReorderableListDrawer(serializedObject.FindProperty("m_list1"));
+            m_drawer1 = new EditorListDrawer(serializedObject.FindProperty("m_list1"));
             m_drawer2 = new ReorderableListDrawer(serializedObject.FindProperty("m_list2"));
             m_drawer3 = new ReorderableListDrawer(serializedObject.FindProperty("m_list3"));
             m_drawer3.List.draggable = false;
@@ -73,6 +73,8 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             m_drawer4.DrawGUILayout();
 
             serializedObject.ApplyModifiedProperties();
+
+            m_drawer1.DrawSelectedLayout();
         }
     }
 }

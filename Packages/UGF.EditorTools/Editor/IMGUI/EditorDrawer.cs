@@ -27,14 +27,13 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         public bool Set(Object target)
         {
+            if (target == null) throw new ArgumentNullException(nameof(target));
+
             if (m_editor == null || m_editor.target != target)
             {
                 Clear();
 
-                if (target != null)
-                {
-                    m_editor = UnityEditor.Editor.CreateEditor(target);
-                }
+                m_editor = UnityEditor.Editor.CreateEditor(target);
 
                 return true;
             }

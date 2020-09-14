@@ -14,19 +14,18 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     public class EditorDrawerTestAssetEditor : UnityEditor.Editor
     {
         private SerializedProperty m_property;
-        private EditorDrawer m_drawer;
+        private EditorObjectReferenceDrawer m_drawer;
 
         private void OnEnable()
         {
             m_property = serializedObject.FindProperty("m_target");
-            m_drawer = new EditorDrawer();
+            m_drawer = new EditorObjectReferenceDrawer(m_property);
         }
 
         public override void OnInspectorGUI()
         {
             EditorGUILayout.PropertyField(m_property);
 
-            m_drawer.Set(m_property.objectReferenceValue);
             m_drawer.DrawGUILayout();
         }
     }
