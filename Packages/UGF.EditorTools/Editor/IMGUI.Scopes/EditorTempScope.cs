@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEditor;
 
-namespace UGF.EditorTools.Editor
+namespace UGF.EditorTools.Editor.IMGUI.Scopes
 {
     public class EditorTempScope : IDisposable
     {

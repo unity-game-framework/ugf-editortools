@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using NUnit.Framework;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 
 namespace UGF.EditorTools.Editor.Tests
 {
