@@ -12,7 +12,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     [CreateAssetMenu(menuName = "Tests/TestTypesDropdownGUI")]
     public class TestTypesDropdownGUI : ScriptableObject, ITest
     {
-        [SerializeField] private string m_typeName;
+        [SerializeField, Disable] private string m_typeName;
 
         [SerializeField, TypesDropdown(typeof(Attribute), DisplayFullPath = false)]
         private string m_typeNameValue;
