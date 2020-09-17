@@ -2,14 +2,14 @@
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace UGF.EditorTools.Runtime.IMGUI
+namespace UGF.EditorTools.Runtime.IMGUI.Attributes
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class AssetTypeAttribute : PropertyAttribute
+    public class AssetGuidAttribute : PropertyAttribute
     {
         public Type AssetType { get; }
 
-        public AssetTypeAttribute(Type assetType = null)
+        public AssetGuidAttribute(Type assetType = null)
         {
             AssetType = assetType ?? typeof(Object);
         }

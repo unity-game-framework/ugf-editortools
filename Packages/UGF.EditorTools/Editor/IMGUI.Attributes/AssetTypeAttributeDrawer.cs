@@ -1,9 +1,9 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
-using UGF.EditorTools.Runtime.IMGUI;
+using UGF.EditorTools.Runtime.IMGUI.Attributes;
 using UnityEditor;
 using UnityEngine;
 
-namespace UGF.EditorTools.Editor.IMGUI
+namespace UGF.EditorTools.Editor.IMGUI.Attributes
 {
     [CustomPropertyDrawer(typeof(AssetTypeAttribute), true)]
     internal class AssetTypeAttributeDrawer : PropertyDrawerTyped<AssetTypeAttribute>

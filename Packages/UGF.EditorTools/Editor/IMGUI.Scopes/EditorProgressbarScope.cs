@@ -1,7 +1,7 @@
 using System;
 using UnityEditor;
 
-namespace UGF.EditorTools.Editor
+namespace UGF.EditorTools.Editor.IMGUI.Scopes
 {
     public struct EditorProgressbarScope : IDisposable
     {
