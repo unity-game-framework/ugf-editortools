@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,25 @@ namespace UGF.EditorTools.Editor.IMGUI
 {
     public static class EditorIMGUIUtility
     {
+        private static readonly FieldInfo m_lastControlID;
+        private static readonly PropertyInfo m_indent;
+
+        static EditorIMGUIUtility()
+        {
+            m_lastControlID = typeof(EditorGUIUtility).GetField("s_LastControlID", BindingFlags.NonPublic | BindingFlags.Static);
+            m_indent = typeof(EditorGUI).GetProperty("indent", BindingFlags.NonPublic | BindingFlags.Static);
+        }
+
+        public static int GetLastControlId()
+        {
+            return (int)m_lastControlID.GetValue(null);
+        }
+
+        public static float GetIndent()
+        {
+            return (float)m_indent.GetMethod.Invoke(null, Array.Empty<object>());
+        }
+
         public static bool DrawDefaultInspector(SerializedObject serializedObject)
         {
             if (serializedObject == null) throw new ArgumentNullException(nameof(serializedObject));

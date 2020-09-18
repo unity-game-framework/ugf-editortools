@@ -7,6 +7,7 @@ namespace UGF.EditorTools.Runtime.IMGUI.Types
     public class TypesDropdownAttribute : PropertyAttribute
     {
         public Type TargetType { get; }
+        public bool DisplayFullPath { get; set; } = true;
 
         public TypesDropdownAttribute(Type targetType = null)
         {

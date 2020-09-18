@@ -1,80 +1,45 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using UGF.EditorTools.Editor.IMGUI.Dropdown;
 using UnityEditor;
 using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.Types
 {
-    public class TypesDropdownDrawer
+    public class TypesDropdownDrawer : DropdownDrawer<DropdownItem<Type>>
     {
-        public SerializedProperty SerializedProperty { get; }
+        public GUIContent ContentMissing { get; set; } = new GUIContent("Missing");
 
-        public event Action<Type> Selected { add { m_dropdown.Selected += value; } remove { m_dropdown.Selected -= value; } }
-
-        private readonly TypesDropdown m_dropdown;
-        private Styles m_styles;
-
-        private class Styles
+        public TypesDropdownDrawer(Func<IEnumerable<DropdownItem<Type>>> itemsHandler, DropdownSelection<DropdownItem<Type>> selection = null) : base(itemsHandler, selection)
         {
-            public GUIContent ContentNone { get; } = new GUIContent("None");
+            Selection.Dropdown.RootName = "Types";
         }
 
-        public TypesDropdownDrawer(SerializedProperty serializedProperty, Func<IEnumerable<Type>> typeCollector)
+        protected override void OnApplySelected(SerializedProperty serializedProperty, DropdownItem<Type> selected)
         {
-            if (typeCollector == null) throw new ArgumentNullException(nameof(typeCollector));
+            base.OnApplySelected(serializedProperty, selected);
 
-            SerializedProperty = serializedProperty ?? throw new ArgumentNullException(nameof(serializedProperty));
-
-            m_dropdown = new TypesDropdown(typeCollector);
-            m_dropdown.Selected += OnDropdownSelected;
+            serializedProperty.stringValue = selected.Value != null ? selected.Value.AssemblyQualifiedName : string.Empty;
+            serializedProperty.serializedObject.ApplyModifiedProperties();
         }
 
-        public void DrawGUILayout()
+        protected override GUIContent OnGetContentLabel(SerializedProperty serializedProperty)
         {
-            DrawGUILayout(GUIContent.none);
-        }
+            GUIContent content;
+            string value = serializedProperty.stringValue;
 
-        public void DrawGUILayout(GUIContent label)
-        {
-            if (label == null) throw new ArgumentNullException(nameof(label));
-
-            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none);
-
-            DrawGUI(position, label);
-        }
-
-        public void DrawGUI(Rect position)
-        {
-            DrawGUI(position, GUIContent.none);
-        }
-
-        public void DrawGUI(Rect position, GUIContent label)
-        {
-            if (label == null) throw new ArgumentNullException(nameof(label));
-
-            if (m_styles == null)
+            if (!string.IsNullOrEmpty(value))
             {
-                m_styles = new Styles();
+                var type = Type.GetType(value);
+
+                content = type != null ? new GUIContent(type.Name) : ContentMissing;
+            }
+            else
+            {
+                content = ContentNone;
             }
 
-            if (label != GUIContent.none)
-            {
-                position = EditorGUI.PrefixLabel(position, label);
-            }
-
-            var type = Type.GetType(SerializedProperty.stringValue);
-            GUIContent typeButtonContent = type != null ? new GUIContent(type.Name) : m_styles.ContentNone;
-
-            if (EditorGUI.DropdownButton(position, typeButtonContent, FocusType.Keyboard))
-            {
-                m_dropdown.Show(position);
-            }
-        }
-
-        private void OnDropdownSelected(Type type)
-        {
-            SerializedProperty.stringValue = type?.AssemblyQualifiedName ?? string.Empty;
-            SerializedProperty.serializedObject.ApplyModifiedProperties();
+            return content;
         }
     }
 }
