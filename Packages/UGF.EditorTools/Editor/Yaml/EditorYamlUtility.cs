@@ -6,6 +6,13 @@ using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.Yaml
 {
+    /// <summary>
+    /// Provides utilities to serialize and deserialize Unity objects to Yaml.
+    /// <para>
+    /// Note: To properly deserialize objects, target class must be defined at the file with the same name as the class name of the target.
+    /// This is the same as the requirement for MonoBehaviour classes and files naming.
+    /// </para>
+    /// </summary>
     public static class EditorYamlUtility
     {
         public static string ToYaml(Object target)
@@ -79,6 +86,11 @@ namespace UGF.EditorTools.Editor.Yaml
             if (string.IsNullOrEmpty(path)) throw new ArgumentException("Value cannot be null or empty.", nameof(path));
 
             InternalEditorUtility.SaveToSerializedFileAndForget(targets, path, true);
+        }
+
+        public static T FromYamlAtPath<T>(string path) where T : Object
+        {
+            return (T)FromYamlAtPath(path);
         }
 
         public static Object FromYamlAtPath(string path)
