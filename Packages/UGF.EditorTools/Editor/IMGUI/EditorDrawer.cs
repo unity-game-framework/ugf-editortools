@@ -8,7 +8,7 @@ namespace UGF.EditorTools.Editor.IMGUI
     {
         public UnityEditor.Editor Editor { get { return m_editor != null ? m_editor : throw new ArgumentException("Has no editor."); } }
         public bool HasEditor { get { return m_editor != null; } }
-        public bool DisplayTitlebar { get; set; } = true;
+        public bool DisplayTitlebar { get; set; }
 
         private UnityEditor.Editor m_editor;
 
