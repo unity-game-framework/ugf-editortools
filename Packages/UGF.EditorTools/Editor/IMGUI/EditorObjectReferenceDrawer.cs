@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
-    public class EditorObjectReferenceDrawer
+    public class EditorObjectReferenceDrawer : DrawerBase
     {
         public SerializedProperty SerializedProperty { get; }
         public EditorDrawer Drawer { get; } = new EditorDrawer();

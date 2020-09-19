@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
-    public class ReorderableListDrawer
+    public class ReorderableListDrawer : DrawerBase
     {
         public SerializedProperty SerializedProperty { get; }
         public SerializedProperty PropertySize { get; }
