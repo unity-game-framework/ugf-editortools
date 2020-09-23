@@ -8,12 +8,12 @@ namespace UGF.EditorTools.Runtime.IMGUI.Attributes
     public class AssetPathAttribute : PropertyAttribute
     {
         public Type AssetType { get; }
-        public bool FormatResourcesFolder { get; }
+        public bool FormatResourcesPath { get; }
 
-        public AssetPathAttribute(Type assetType = null, bool formatResourcesFolder = true)
+        public AssetPathAttribute(Type assetType = null, bool formatResourcesPath = true)
         {
             AssetType = assetType ?? typeof(Object);
-            FormatResourcesFolder = formatResourcesFolder;
+            FormatResourcesPath = formatResourcesPath;
         }
     }
 }
