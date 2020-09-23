@@ -9,6 +9,8 @@ namespace UGF.EditorTools.Editor.IMGUI
 {
     public static class EditorIMGUIUtility
     {
+        public static float IndentPerLevel { get; }
+
         private static readonly FieldInfo m_lastControlID;
         private static readonly PropertyInfo m_indent;
 
@@ -16,6 +18,14 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
             m_lastControlID = typeof(EditorGUIUtility).GetField("s_LastControlID", BindingFlags.NonPublic | BindingFlags.Static);
             m_indent = typeof(EditorGUI).GetProperty("indent", BindingFlags.NonPublic | BindingFlags.Static);
+
+            FieldInfo kIndentPerLevel = typeof(EditorGUI).GetField("kIndentPerLevel", BindingFlags.NonPublic | BindingFlags.Static);
+
+            if (m_lastControlID == null) throw new ArgumentException("Field not found by the specified name: 's_LastControlID'.");
+            if (m_indent == null) throw new ArgumentException("Property not found by the specified name: 'indent'.");
+            if (kIndentPerLevel == null) throw new ArgumentException("Field not found by the specified name: 'kIndentPerLevel'.");
+
+            IndentPerLevel = (float)kIndentPerLevel.GetValue(null);
         }
 
         public static int GetLastControlId()
@@ -26,6 +36,11 @@ namespace UGF.EditorTools.Editor.IMGUI
         public static float GetIndent()
         {
             return (float)m_indent.GetMethod.Invoke(null, Array.Empty<object>());
+        }
+
+        public static float GetIndentPerLevel(int level)
+        {
+            return IndentPerLevel * level;
         }
 
         public static bool DrawDefaultInspector(SerializedObject serializedObject)
