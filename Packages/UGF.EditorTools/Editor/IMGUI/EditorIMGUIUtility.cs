@@ -38,7 +38,7 @@ namespace UGF.EditorTools.Editor.IMGUI
             return (float)m_indent.GetMethod.Invoke(null, Array.Empty<object>());
         }
 
-        public static float GetIndentPerLevel(int level)
+        public static float GetIndentWithLevel(int level)
         {
             return IndentPerLevel * level;
         }
