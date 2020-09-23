@@ -8,16 +8,6 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 {
     public static class AttributeEditorGUIUtility
     {
-        private static readonly ScriptableObject m_missing;
-
-        static AttributeEditorGUIUtility()
-        {
-            m_missing = ScriptableObject.CreateInstance<ScriptableObject>();
-            m_missing.hideFlags = HideFlags.HideAndDontSave;
-
-            Object.DestroyImmediate(m_missing);
-        }
-
         public static void DrawAssetGuidField(SerializedProperty serializedProperty, GUIContent label, Type assetType, params GUILayoutOption[] options)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
@@ -92,12 +82,12 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
             if (!string.IsNullOrEmpty(path) && asset == null)
             {
-                asset = m_missing;
+                asset = EditorIMGUIUtility.MissingObject;
             }
 
             asset = EditorGUI.ObjectField(position, label, asset, assetType, false);
 
-            if (!ReferenceEquals(asset, m_missing))
+            if (!EditorIMGUIUtility.IsMissingObject(asset))
             {
                 path = AssetDatabase.GetAssetPath(asset);
             }

@@ -9,13 +9,25 @@ namespace UGF.EditorTools.Editor.IMGUI
 {
     public static class EditorIMGUIUtility
     {
+        public static Object MissingObject { get; }
+
         private static readonly FieldInfo m_lastControlID;
         private static readonly PropertyInfo m_indent;
 
         static EditorIMGUIUtility()
         {
+            MissingObject = ScriptableObject.CreateInstance<ScriptableObject>();
+            MissingObject.hideFlags = HideFlags.HideAndDontSave;
+
+            Object.DestroyImmediate(MissingObject);
+
             m_lastControlID = typeof(EditorGUIUtility).GetField("s_LastControlID", BindingFlags.NonPublic | BindingFlags.Static);
             m_indent = typeof(EditorGUI).GetProperty("indent", BindingFlags.NonPublic | BindingFlags.Static);
+        }
+
+        public static bool IsMissingObject(Object target)
+        {
+            return ReferenceEquals(target, MissingObject);
         }
 
         public static int GetLastControlId()
