@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_disabled: Text
   m_assetGuid: 61a63319726a22d4aa137963ae11e4e0
-  m_guidMaterial: 0ea3f61ed289545438dbf5dd851dd780
+  m_guidMaterial: 
   m_guidScene: 9fc0d4010bbf28b4594072e72b8655ab
   m_typeObject: {fileID: 11400000}
   m_typeInterface: {fileID: 11400000, guid: 1787034966e3b4b449a2702b85c8cd8a, type: 2}
   m_pathMaterial: Assets/UGF.EditorTools.Editor.Tests/IMGUI.Attributes/New Scene.unity
   m_pathScene: Assets/UGF.EditorTools.Editor.Tests/IMGUI.Attributes/New Material.mat
+  m_resourcesMaterial: ResourcesMaterial
+  m_resourcesMaterial2: Folder/Folder2/ResourcesMaterial2
+  m_resourcesMaterial3: ResourcesMaterial3
+  m_resourcesScene: ResourcesScene

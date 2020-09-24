@@ -27,6 +27,18 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Attributes
         [SerializeField, AssetPath(typeof(Material))]
         private string m_pathScene;
 
+        [SerializeField, ResourcesPath(typeof(Material))]
+        private string m_resourcesMaterial;
+
+        [SerializeField, ResourcesPath(typeof(Material))]
+        private string m_resourcesMaterial2;
+
+        [SerializeField, ResourcesPath(typeof(Material))]
+        private string m_resourcesMaterial3;
+
+        [SerializeField, ResourcesPath(typeof(Scene))]
+        private string m_resourcesScene;
+
         public string Disabled { get { return m_disabled; } set { m_disabled = value; } }
         public string AssetGuid { get { return m_assetGuid; } set { m_assetGuid = value; } }
         public string GuidMaterial { get { return m_guidMaterial; } set { m_guidMaterial = value; } }
@@ -35,6 +47,10 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Attributes
         public Object TypeInterface { get { return m_typeInterface; } set { m_typeInterface = value; } }
         public string PathMaterial { get { return m_pathMaterial; } set { m_pathMaterial = value; } }
         public string PathScene { get { return m_pathScene; } set { m_pathScene = value; } }
+        public string ResourcesMaterial { get { return m_resourcesMaterial; } set { m_resourcesMaterial = value; } }
+        public string ResourcesMaterial2 { get { return m_resourcesMaterial2; } set { m_resourcesMaterial2 = value; } }
+        public string ResourcesMaterial3 { get { return m_resourcesMaterial3; } set { m_resourcesMaterial3 = value; } }
+        public string ResourcesScene { get { return m_resourcesScene; } set { m_resourcesScene = value; } }
     }
 
     public interface ITestAttributesAsset
