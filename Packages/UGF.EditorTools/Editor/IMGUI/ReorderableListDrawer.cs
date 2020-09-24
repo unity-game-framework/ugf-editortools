@@ -67,16 +67,14 @@ namespace UGF.EditorTools.Editor.IMGUI
 
                 listPosition = EditorGUI.IndentedRect(listPosition);
 
-                using (new EditorGUI.IndentLevelScope())
+                using (new IndentIncrementScope(1))
                 {
                     OnDrawSize(sizePosition);
 
-                    float indentWidth = EditorIMGUIUtility.GetIndent();
-                    float labelWidth = EditorGUIUtility.labelWidth;
                     float padding = List.draggable ? ReorderableList.Defaults.dragHandleWidth : ReorderableList.Defaults.padding;
 
-                    using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
-                    using (new LabelWidthScope(labelWidth - indentWidth - padding))
+                    using (new LabelWidthChangeScope(-padding, true))
+                    using (new IndentLevelScope(0))
                     {
                         List.DoList(listPosition);
                     }
