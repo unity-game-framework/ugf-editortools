@@ -14,7 +14,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
         protected override void OnDrawProperty(Rect position, SerializedProperty property, GUIContent label)
         {
-            EditorIMGUIUtility.DrawAssetGuidField(position, property, label, Attribute.AssetType);
+            AttributeEditorGUIUtility.DrawAssetGuidField(position, property, label, Attribute.AssetType);
         }
     }
 }

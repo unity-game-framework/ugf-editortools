@@ -1,21 +1,33 @@
 ﻿using System;
 using System.Reflection;
+using UGF.EditorTools.Editor.IMGUI.Attributes;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
     public static class EditorIMGUIUtility
     {
+        public static Object MissingObject { get; }
+
         private static readonly FieldInfo m_lastControlID;
         private static readonly PropertyInfo m_indent;
 
         static EditorIMGUIUtility()
         {
+            MissingObject = ScriptableObject.CreateInstance<ScriptableObject>();
+            MissingObject.hideFlags = HideFlags.HideAndDontSave;
+
+            Object.DestroyImmediate(MissingObject);
+
             m_lastControlID = typeof(EditorGUIUtility).GetField("s_LastControlID", BindingFlags.NonPublic | BindingFlags.Static);
             m_indent = typeof(EditorGUI).GetProperty("indent", BindingFlags.NonPublic | BindingFlags.Static);
+        }
+
+        public static bool IsMissingObject(Object target)
+        {
+            return ReferenceEquals(target, MissingObject);
         }
 
         public static int GetLastControlId()
@@ -78,31 +90,16 @@ namespace UGF.EditorTools.Editor.IMGUI
             }
         }
 
+        [Obsolete("DrawAssetGuidField has been deprecated. Use AttributeEditorGUIUtility.DrawAssetGuidField instead.")]
         public static void DrawAssetGuidField(Rect position, SerializedProperty serializedProperty, GUIContent label, Type assetType)
         {
-            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
-            if (label == null) throw new ArgumentNullException(nameof(label));
-            if (assetType == null) throw new ArgumentNullException(nameof(assetType));
-            if (serializedProperty.propertyType != SerializedPropertyType.String) throw new ArgumentException("Serialized property type must be 'String'.");
-
-            serializedProperty.stringValue = DrawAssetGuidField(position, serializedProperty.stringValue, label, assetType);
+            AttributeEditorGUIUtility.DrawAssetGuidField(position, serializedProperty, label, assetType);
         }
 
+        [Obsolete("DrawAssetGuidField has been deprecated. Use AttributeEditorGUIUtility.DrawAssetGuidField instead.")]
         public static string DrawAssetGuidField(Rect position, string guid, GUIContent label, Type assetType)
         {
-            if (label == null) throw new ArgumentNullException(nameof(label));
-            if (assetType == null) throw new ArgumentNullException(nameof(assetType));
-            if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
-
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            Object asset = AssetDatabase.LoadAssetAtPath(path, assetType);
-
-            asset = EditorGUI.ObjectField(position, label, asset, assetType, false);
-
-            path = AssetDatabase.GetAssetPath(asset);
-            guid = AssetDatabase.AssetPathToGUID(path);
-
-            return guid;
+            return AttributeEditorGUIUtility.DrawAssetGuidField(position, guid, label, assetType);
         }
     }
 }
