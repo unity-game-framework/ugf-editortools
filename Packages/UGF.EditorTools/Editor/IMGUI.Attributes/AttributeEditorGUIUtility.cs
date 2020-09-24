@@ -1,4 +1,5 @@
 ﻿using System;
+using UGF.EditorTools.Editor.Assets;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -90,6 +91,56 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (!EditorIMGUIUtility.IsMissingObject(asset))
             {
                 path = AssetDatabase.GetAssetPath(asset);
+            }
+
+            return path;
+        }
+
+        public static void DrawResourcesPathField(SerializedProperty serializedProperty, GUIContent label, Type assetType, params GUILayoutOption[] options)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            DrawResourcesPathField(position, serializedProperty, label, assetType);
+        }
+
+        public static void DrawResourcesPathField(Rect position, SerializedProperty serializedProperty, GUIContent label, Type assetType)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+            if (serializedProperty.propertyType != SerializedPropertyType.String) throw new ArgumentException("Serialized property type must be 'String'.");
+
+            serializedProperty.stringValue = DrawResourcesPathField(position, serializedProperty.stringValue, label, assetType);
+        }
+
+        public static string DrawResourcesPathField(string path, GUIContent label, Type assetType, params GUILayoutOption[] options)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            return DrawResourcesPathField(position, path, label, assetType);
+        }
+
+        public static string DrawResourcesPathField(Rect position, string path, GUIContent label, Type assetType)
+        {
+            if (path == null) throw new ArgumentNullException(nameof(path));
+            if (label == null) throw new ArgumentNullException(nameof(label));
+            if (assetType == null) throw new ArgumentNullException(nameof(assetType));
+            if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
+
+            Object asset = Resources.Load(path, assetType);
+
+            if (!string.IsNullOrEmpty(path) && asset == null)
+            {
+                asset = EditorIMGUIUtility.MissingObject;
+            }
+
+            asset = EditorGUI.ObjectField(position, label, asset, assetType, false);
+
+            if (!EditorIMGUIUtility.IsMissingObject(asset))
+            {
+                path = AssetsEditorUtility.TryGetResourcesPath(asset, out string result) ? result : string.Empty;
             }
 
             return path;
