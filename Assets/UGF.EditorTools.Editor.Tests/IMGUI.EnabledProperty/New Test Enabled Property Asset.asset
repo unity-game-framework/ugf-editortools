@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fdaeee6ab7149079ac1739ba1f1dfff, type: 3}
+  m_Name: New Test Enabled Property Asset
+  m_EditorClassIdentifier: 
+  m_bool:
+    m_enabled: 1
+    m_value: 0
+  m_float:
+    m_enabled: 0
+    m_value: 3.31
+  m_quaternion:
+    m_enabled: 0
+    m_value: {x: 0.93, y: 0, z: -4.22, w: 0}
+  m_rect:
+    m_enabled: 0
+    m_value:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  m_bounds:
+    m_enabled: 0
+    m_value:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0, y: 0, z: 0}
+  m_layerMask:
+    m_enabled: 0
+    m_value:
+      serializedVersion: 2
+      m_Bits: 2
+  m_data:
+    m_enabled: 1
+    m_value:
+      m_bool: 1
+      m_float: 0
+      m_quaternion: {x: 2.26, y: 0, z: -3.33, w: 0}
+      m_vector3:
+        m_enabled: 0
+        m_value: {x: 0, y: 0, z: 0}
+  m_scriptableObject:
+    m_enabled: 1
+    m_value: {fileID: 0}
+  m_list1:
+  - m_enabled: 0
+    m_value:
+      m_bool: 0
+      m_float: 0
+      m_quaternion: {x: 0, y: 0, z: 0, w: 0}
+      m_vector3:
+        m_enabled: 0
+        m_value: {x: 0, y: 0, z: 0}
+  m_list2:
+  - m_enabled: 0
+    m_value: {fileID: 0}
+  - m_enabled: 1
+    m_value: {fileID: 0}

@@ -2,20 +2,40 @@
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
-    public static class EditorIMGUIUtility
+    public static partial class EditorIMGUIUtility
     {
+        public static float IndentPerLevel { get; }
+        public static Object MissingObject { get; }
+
         private static readonly FieldInfo m_lastControlID;
         private static readonly PropertyInfo m_indent;
 
         static EditorIMGUIUtility()
         {
+            MissingObject = ScriptableObject.CreateInstance<ScriptableObject>();
+            MissingObject.hideFlags = HideFlags.HideAndDontSave;
+
+            Object.DestroyImmediate(MissingObject);
+
             m_lastControlID = typeof(EditorGUIUtility).GetField("s_LastControlID", BindingFlags.NonPublic | BindingFlags.Static);
             m_indent = typeof(EditorGUI).GetProperty("indent", BindingFlags.NonPublic | BindingFlags.Static);
+
+            FieldInfo kIndentPerLevel = typeof(EditorGUI).GetField("kIndentPerLevel", BindingFlags.NonPublic | BindingFlags.Static);
+
+            if (m_lastControlID == null) throw new ArgumentException("Field not found by the specified name: 's_LastControlID'.");
+            if (m_indent == null) throw new ArgumentException("Property not found by the specified name: 'indent'.");
+            if (kIndentPerLevel == null) throw new ArgumentException("Field not found by the specified name: 'kIndentPerLevel'.");
+
+            IndentPerLevel = (float)kIndentPerLevel.GetValue(null);
+        }
+
+        public static bool IsMissingObject(Object target)
+        {
+            return ReferenceEquals(target, MissingObject);
         }
 
         public static int GetLastControlId()
@@ -26,6 +46,11 @@ namespace UGF.EditorTools.Editor.IMGUI
         public static float GetIndent()
         {
             return (float)m_indent.GetMethod.Invoke(null, Array.Empty<object>());
+        }
+
+        public static float GetIndentWithLevel(int level)
+        {
+            return IndentPerLevel * level;
         }
 
         public static bool DrawDefaultInspector(SerializedObject serializedObject)
@@ -76,33 +101,6 @@ namespace UGF.EditorTools.Editor.IMGUI
                     EditorGUILayout.PropertyField(serializedProperty, true);
                 }
             }
-        }
-
-        public static void DrawAssetGuidField(Rect position, SerializedProperty serializedProperty, GUIContent label, Type assetType)
-        {
-            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
-            if (label == null) throw new ArgumentNullException(nameof(label));
-            if (assetType == null) throw new ArgumentNullException(nameof(assetType));
-            if (serializedProperty.propertyType != SerializedPropertyType.String) throw new ArgumentException("Serialized property type must be 'String'.");
-
-            serializedProperty.stringValue = DrawAssetGuidField(position, serializedProperty.stringValue, label, assetType);
-        }
-
-        public static string DrawAssetGuidField(Rect position, string guid, GUIContent label, Type assetType)
-        {
-            if (label == null) throw new ArgumentNullException(nameof(label));
-            if (assetType == null) throw new ArgumentNullException(nameof(assetType));
-            if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
-
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            Object asset = AssetDatabase.LoadAssetAtPath(path, assetType);
-
-            asset = EditorGUI.ObjectField(position, label, asset, assetType, false);
-
-            path = AssetDatabase.GetAssetPath(asset);
-            guid = AssetDatabase.AssetPathToGUID(path);
-
-            return guid;
         }
     }
 }
