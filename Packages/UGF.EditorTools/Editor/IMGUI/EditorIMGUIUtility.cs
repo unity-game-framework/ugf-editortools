@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Reflection;
-using UGF.EditorTools.Editor.IMGUI.Attributes;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
-    public static class EditorIMGUIUtility
+    public static partial class EditorIMGUIUtility
     {
         public static float IndentPerLevel { get; }
         public static Object MissingObject { get; }
@@ -102,18 +101,6 @@ namespace UGF.EditorTools.Editor.IMGUI
                     EditorGUILayout.PropertyField(serializedProperty, true);
                 }
             }
-        }
-
-        [Obsolete("DrawAssetGuidField has been deprecated. Use AttributeEditorGUIUtility.DrawAssetGuidField instead.")]
-        public static void DrawAssetGuidField(Rect position, SerializedProperty serializedProperty, GUIContent label, Type assetType)
-        {
-            AttributeEditorGUIUtility.DrawAssetGuidField(position, serializedProperty, label, assetType);
-        }
-
-        [Obsolete("DrawAssetGuidField has been deprecated. Use AttributeEditorGUIUtility.DrawAssetGuidField instead.")]
-        public static string DrawAssetGuidField(Rect position, string guid, GUIContent label, Type assetType)
-        {
-            return AttributeEditorGUIUtility.DrawAssetGuidField(position, guid, label, assetType);
         }
     }
 }
