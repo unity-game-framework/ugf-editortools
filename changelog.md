@@ -5,6 +5,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.1.0) - 2020-09-25  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/10?closed=1)  
+    
+
+### Added
+
+- Add AssetPathAttribute and ResourcesPathAttribute  to assign path from asset reference ([#58](https://github.com/unity-game-framework/ugf-editortools/pull/58))  
+    - Add `AssetPathAttribute` used to mark field of `string` type to display as object field which select asset full path.
+    - Add `ResourcesPathAttribute` used to mark field of `string` type to display as object field which select asset resources path.
+    - Add `AttributeEditorGUIUtility` which replaces `DrawAssetGuidField` method and overloads from `EditorIMGUIUtility`, and they become deprecated.
+    - Add `AttributeEditorGUIUtility.DrawAssetPathField` to draw object field which select asset path.
+    - Add `EditorIMGUIUtility.MissingObject` which can be used to display "Missing" object in object field.
+    - Add `EditorIMGUIUtility.IsMissingObject` to determine whether specified object is `EditorIMGUIUtility.MissingObject`.
+    - Add `AssetsEditorUtility.TryGetResourcesPath` method used to get asset resources path.
+    - Add `AssetsEditorUtility.TryGetResourcesRelativePath` method used to convert full asset path to resources relative path.
+    - Add `AttributeEditorGUIUtility.DrawResourcesPathField` to draw object field which select asset resources path.
+- Add enabled property ([#57](https://github.com/unity-game-framework/ugf-editortools/pull/57))  
+    - Add `EnabledProperty<TValue>` structure to store any value with `Enabled` property.
+    - Add `EnabledPropertyDrawer` and `EnabledPropertyGUIUtility` to draw default and custom enabled property.
+    - Add `EnabledPropertyListDrawer` to draw reorderable list of `EnabledProperty<TValue>` structure.
+    - Add `PropertyDrawerBase` as default implementation of `PropertyDrawer`, and change `PropertyDrawer<TAttribute>` to inherit from it.
+    - Add `LabelWidthChangeScope` to change editor GUI label width inside of scope.
+    - Add `EditorIMGUIUtility.IndentPerLevel` property to access editor internal `kIndentPerLevel` value.
+    - Add `EditorIMGUIUtility.GetIndentWithLevel` method to calculate indent with specific indent level.
+- Add compile defines controls ([#53](https://github.com/unity-game-framework/ugf-editortools/pull/53))  
+    - Add `DefinesEditorUtility` with methods to change compile defines per platform.
+- Add DrawerBase as default drawer class ([#50](https://github.com/unity-game-framework/ugf-editortools/pull/50))  
+    - Add `DrawerBase` with `Enable` and `Disable` methods.
+    - Change some other drawers to inherit `DrawerBase`.
+
+### Changed
+
+- Change EditorDrawer.DisplayTitlebar to false by default ([#51](https://github.com/unity-game-framework/ugf-editortools/pull/51))  
+
+### Deprecated
+
+- Deprecate EditorIMGUIUtility.DrawAssetGuidField methods ([#59](https://github.com/unity-game-framework/ugf-editortools/issues/59))  
+    - Methods relocated to `AttributeEditorGUIUtility` class, use them instead.
+
 ## [1.0.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.0.0) - 2020-09-18  
 
 ### Release Notes
