@@ -5,10 +5,10 @@ using UnityEngine;
 namespace UGF.EditorTools.Runtime.Platforms
 {
     [Serializable]
-    public class PlatformSettings<TGroup> where TGroup : IPlatformGroup
+    public class PlatformSettings<TTarget>
     {
-        [SerializeField] private List<TGroup> m_groups = new List<TGroup>();
+        [SerializeField] private List<PlatformGroup<TTarget>> m_groups = new List<PlatformGroup<TTarget>>();
 
-        public List<TGroup> Groups { get { return m_groups; } }
+        public List<PlatformGroup<TTarget>> Groups { get { return m_groups; } }
     }
 }

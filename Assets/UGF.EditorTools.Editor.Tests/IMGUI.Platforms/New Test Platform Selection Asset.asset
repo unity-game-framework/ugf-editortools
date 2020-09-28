@@ -71,7 +71,7 @@ MonoBehaviour:
       data:
         m_bool: 0
         m_float: -2.22
-        m_vector3: {x: 0, y: 4.06, z: 0}
+        m_vector3: {x: -3.43, y: 4.06, z: 0}
     00000005:
       type: {class: TestPlatformSettings2, ns: UGF.EditorTools.Editor.Tests.IMGUI.Platforms, asm: UGF.EditorTools.Editor.Tests}
       data:
