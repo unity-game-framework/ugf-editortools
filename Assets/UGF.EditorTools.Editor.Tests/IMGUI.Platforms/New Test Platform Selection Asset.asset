@@ -12,22 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f33504957634303837801c5b1c64418, type: 3}
   m_Name: New Test Platform Selection Asset
   m_EditorClassIdentifier: 
-  m_settings:
+  m_editor:
     m_groups:
     - m_target: 1
       m_settings:
         id: 0
-    - m_target: 1
+    - m_target: 7
       m_settings:
         id: 1
+  m_editor2:
+    m_groups:
+    - m_target: 5
+      m_settings:
+        id: 2
+    - m_target: 13
+      m_settings:
+        id: 3
+  m_runtime:
+    m_groups:
+    - m_target: 2
+      m_settings:
+        id: 4
+    - m_target: 11
+      m_settings:
+        id: 5
   references:
     version: 1
     00000000:
       type: {class: TestPlatformSettings1, ns: UGF.EditorTools.Editor.Tests.IMGUI.Platforms, asm: UGF.EditorTools.Editor.Tests}
       data:
-        m_bool: 1
-        m_float: 2.84
-        m_vector3: {x: 0, y: -4.11, z: 0}
+        m_bool: 0
+        m_float: 3.27
+        m_vector3: {x: 0, y: 5.81, z: 0}
     00000001:
       type: {class: TestPlatformSettings2, ns: UGF.EditorTools.Editor.Tests.IMGUI.Platforms, asm: UGF.EditorTools.Editor.Tests}
       data:
@@ -36,3 +52,31 @@ MonoBehaviour:
         m_layerMask:
           serializedVersion: 2
           m_Bits: 2
+    00000002:
+      type: {class: TestPlatformSettings1, ns: UGF.EditorTools.Editor.Tests.IMGUI.Platforms, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_bool: 0
+        m_float: -8.99
+        m_vector3: {x: 0, y: 13.37, z: 0}
+    00000003:
+      type: {class: TestPlatformSettings2, ns: UGF.EditorTools.Editor.Tests.IMGUI.Platforms, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_scriptableObject: {fileID: 11400000}
+        m_material: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+        m_layerMask:
+          serializedVersion: 2
+          m_Bits: 4
+    00000004:
+      type: {class: TestPlatformSettings1, ns: UGF.EditorTools.Editor.Tests.IMGUI.Platforms, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_bool: 0
+        m_float: -2.22
+        m_vector3: {x: 0, y: 4.06, z: 0}
+    00000005:
+      type: {class: TestPlatformSettings2, ns: UGF.EditorTools.Editor.Tests.IMGUI.Platforms, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_scriptableObject: {fileID: 11400000}
+        m_material: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+        m_layerMask:
+          serializedVersion: 2
+          m_Bits: 4

@@ -1,5 +1,5 @@
 ﻿using System;
-using UGF.EditorTools.Editor.IMGUI.Platforms;
+using UGF.EditorTools.Runtime.Platforms;
 using UnityEngine;
 
 namespace UGF.EditorTools.Editor.Tests.IMGUI.Platforms

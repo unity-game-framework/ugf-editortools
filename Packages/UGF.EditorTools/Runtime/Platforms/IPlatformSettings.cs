@@ -1,4 +1,4 @@
-﻿namespace UGF.EditorTools.Editor.IMGUI.Platforms
+﻿namespace UGF.EditorTools.Runtime.Platforms
 {
     public interface IPlatformSettings
     {
