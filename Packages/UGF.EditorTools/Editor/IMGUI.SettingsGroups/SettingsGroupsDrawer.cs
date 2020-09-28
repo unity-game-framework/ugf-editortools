@@ -105,6 +105,7 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
             GUIContent label = OnGetGroupLabel(propertyGroups, index);
 
             using (new IndentIncrementScope(1))
+            using (new LabelWidthChangeScope(-padding))
             {
                 EditorGUI.PropertyField(position, propertySettings, label, true);
             }

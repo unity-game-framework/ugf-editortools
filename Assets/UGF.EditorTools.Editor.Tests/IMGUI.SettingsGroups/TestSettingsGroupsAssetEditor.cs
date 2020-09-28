@@ -22,7 +22,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups
 
         public override void OnInspectorGUI()
         {
-            // base.OnInspectorGUI();
+            base.OnInspectorGUI();
 
             EditorGUILayout.BeginBuildTargetSelectionGrouping();
 
