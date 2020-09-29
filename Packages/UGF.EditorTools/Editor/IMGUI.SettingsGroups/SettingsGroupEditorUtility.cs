@@ -23,6 +23,9 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
             if (TryGetGroup(propertyGroups, name, out SerializedProperty propertyGroup))
             {
                 propertySettings = propertyGroup.FindPropertyRelative("m_settings");
+
+                if (propertySettings == null) throw new ArgumentException("Found group has no 'm_settings' property.");
+
                 return true;
             }
 
