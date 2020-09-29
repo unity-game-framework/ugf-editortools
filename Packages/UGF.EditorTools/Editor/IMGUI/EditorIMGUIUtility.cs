@@ -21,14 +21,14 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             Object.DestroyImmediate(MissingObject);
 
-            m_lastControlID = typeof(EditorGUIUtility).GetField("s_LastControlID", BindingFlags.NonPublic | BindingFlags.Static);
-            m_indent = typeof(EditorGUI).GetProperty("indent", BindingFlags.NonPublic | BindingFlags.Static);
+            m_lastControlID = typeof(EditorGUIUtility).GetField("s_LastControlID", BindingFlags.NonPublic | BindingFlags.Static)
+                              ?? throw new ArgumentException("Field not found by the specified name: 's_LastControlID'.");
 
-            FieldInfo kIndentPerLevel = typeof(EditorGUI).GetField("kIndentPerLevel", BindingFlags.NonPublic | BindingFlags.Static);
+            m_indent = typeof(EditorGUI).GetProperty("indent", BindingFlags.NonPublic | BindingFlags.Static)
+                       ?? throw new ArgumentException("Property not found by the specified name: 'indent'.");
 
-            if (m_lastControlID == null) throw new ArgumentException("Field not found by the specified name: 's_LastControlID'.");
-            if (m_indent == null) throw new ArgumentException("Property not found by the specified name: 'indent'.");
-            if (kIndentPerLevel == null) throw new ArgumentException("Field not found by the specified name: 'kIndentPerLevel'.");
+            FieldInfo kIndentPerLevel = typeof(EditorGUI).GetField("kIndentPerLevel", BindingFlags.NonPublic | BindingFlags.Static)
+                                        ?? throw new ArgumentException("Field not found by the specified name: 'kIndentPerLevel'.");
 
             IndentPerLevel = (float)kIndentPerLevel.GetValue(null);
         }
