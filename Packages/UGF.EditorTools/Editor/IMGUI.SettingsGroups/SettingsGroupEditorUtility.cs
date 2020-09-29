@@ -44,6 +44,37 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
             return false;
         }
 
+        public static SerializedProperty AddGroup(SerializedProperty propertyGroups, string name)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
+
+            propertyGroups.InsertArrayElementAtIndex(propertyGroups.arraySize);
+
+            SerializedProperty propertyGroup = propertyGroups.GetArrayElementAtIndex(propertyGroups.arraySize - 1);
+            SerializedProperty propertyName = propertyGroup.FindPropertyRelative("m_name");
+
+            propertyName.stringValue = name;
+
+            return propertyGroup;
+        }
+
+        public static bool RemoveGroup(SerializedProperty propertyGroups, string name)
+        {
+            for (int i = 0; i < propertyGroups.arraySize; i++)
+            {
+                SerializedProperty propertyGroup = propertyGroups.GetArrayElementAtIndex(i);
+                SerializedProperty propertyName = propertyGroup.FindPropertyRelative("m_name");
+
+                if (propertyName.stringValue == name)
+                {
+                    propertyGroups.DeleteArrayElementAtIndex(i);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public static bool TryGetGroup(SerializedProperty propertyGroups, string name, out SerializedProperty propertyGroup)
         {
             for (int i = 0; i < propertyGroups.arraySize; i++)

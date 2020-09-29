@@ -19,25 +19,8 @@ MonoBehaviour:
         id: 0
     - m_name: Second
       m_settings:
-        id: 1
-    - m_name: Third
-      m_settings:
-        id: 2
+        id: 0
   references:
     version: 1
     00000000:
-      type: {class: TestSettings1, ns: UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups, asm: UGF.EditorTools.Editor.Tests}
-      data:
-        m_bool: 1
-        m_float: -4.62
-        m_vector3: {x: 0, y: 4.53, z: 0}
-    00000001:
-      type: {class: TestSettings2, ns: UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups, asm: UGF.EditorTools.Editor.Tests}
-      data:
-        m_scriptableObject: {fileID: 11400000}
-        m_material: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
-        m_layerMask:
-          serializedVersion: 2
-          m_Bits: 2
-    00000002:
       type: {class: , ns: , asm: }
