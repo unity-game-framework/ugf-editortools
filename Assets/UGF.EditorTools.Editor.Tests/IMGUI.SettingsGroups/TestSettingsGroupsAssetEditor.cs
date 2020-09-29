@@ -1,6 +1,7 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.EditorTools.Editor.IMGUI.SettingsGroups;
 using UnityEditor;
+using UnityEngine;
 
 namespace UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups
 {
@@ -10,7 +11,6 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups
         private SerializedProperty m_propertyGroups;
         private SerializedProperty m_propertyFirst;
         private SettingsGroupsDrawer m_drawer = new SettingsGroupsDrawer();
-        private int m_selected;
 
         private void OnEnable()
         {
@@ -18,6 +18,9 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups
 
             m_propertyGroups = propertySettings.FindPropertyRelative("m_groups");
             m_propertyFirst = m_propertyGroups.GetArrayElementAtIndex(0).FindPropertyRelative("m_settings");
+
+            m_drawer.Toolbar.TabLabels.AddRange(new[] { new GUIContent("First"), new GUIContent("Second") });
+            m_drawer.Toolbar.Count = m_drawer.Toolbar.TabLabels.Count;
         }
 
         public override void OnInspectorGUI()
@@ -33,7 +36,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups
 
             EditorGUILayout.EndBuildTargetSelectionGrouping();
 
-            m_selected = m_drawer.DrawGUILayout(m_propertyGroups, m_selected);
+            m_drawer.DrawGUILayout(m_propertyGroups);
         }
     }
 }

@@ -40,10 +40,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Toolbar
 
         public void DrawGUI(Rect position)
         {
-            if (m_styles == null)
-            {
-                m_styles = new StylesCache(Styles);
-            }
+            if (m_styles == null) m_styles = new StylesCache(Styles);
 
             OnDrawGUI(position);
         }

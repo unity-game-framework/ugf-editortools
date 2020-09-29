@@ -7,88 +7,53 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
 {
     public class SettingsGroupsDrawer : DrawerBase
     {
+        public SettingsGroupsToolbarDrawer Toolbar { get; set; } = new SettingsGroupsToolbarDrawer();
+
         private Styles m_styles;
 
         private class Styles
         {
             public GUIStyle FrameBox { get; } = new GUIStyle("FrameBox");
-            public GUIStyle TabOne { get; } = new GUIStyle("Tab onlyOne");
-            public GUIStyle TabFirst { get; } = new GUIStyle("Tab first");
-            public GUIStyle TabMiddle { get; } = new GUIStyle("Tab middle");
-            public GUIStyle TabLast { get; } = new GUIStyle("Tab last");
         }
 
-        public int DrawGUILayout(SerializedProperty propertyGroups, int selected)
+        public void DrawGUILayout(SerializedProperty propertyGroups)
         {
             if (propertyGroups == null) throw new ArgumentNullException(nameof(propertyGroups));
-            if (selected < 0 || selected >= propertyGroups.arraySize) throw new ArgumentOutOfRangeException(nameof(selected));
-            if (m_styles == null) m_styles = new Styles();
 
-            return OnDrawGUILayout(propertyGroups, selected);
-        }
-
-        public int DrawGUI(Rect position, SerializedProperty propertyGroups, int selected)
-        {
-            if (propertyGroups == null) throw new ArgumentNullException(nameof(propertyGroups));
-            if (selected < 0 || selected >= propertyGroups.arraySize) throw new ArgumentOutOfRangeException(nameof(selected));
-            if (m_styles == null) m_styles = new Styles();
-
-            return OnDrawGUI(position, propertyGroups, selected);
-        }
-
-        protected virtual int OnDrawGUILayout(SerializedProperty propertyGroups, int selected)
-        {
-            float height = OnGetHeight(propertyGroups, selected);
+            float height = OnGetHeight(propertyGroups);
             Rect position = EditorGUILayout.GetControlRect(false, height);
 
-            return OnDrawGUI(position, propertyGroups, selected);
+            DrawGUI(position, propertyGroups);
         }
 
-        protected virtual int OnDrawGUI(Rect position, SerializedProperty propertyGroups, int selected)
+        public void DrawGUI(Rect position, SerializedProperty propertyGroups)
+        {
+            if (propertyGroups == null) throw new ArgumentNullException(nameof(propertyGroups));
+            if (m_styles == null) m_styles = new Styles();
+
+            OnDrawGUI(position, propertyGroups);
+        }
+
+        protected virtual void OnDrawGUI(Rect position, SerializedProperty propertyGroups)
         {
             if (Event.current.type == EventType.Repaint)
             {
                 m_styles.FrameBox.Draw(position, false, false, false, false);
             }
 
-            float toolbarHeight = OnGetToolbarHeight(propertyGroups);
+            float toolbarHeight = OnGetToolbarHeight();
             var toolbarPosition = new Rect(position.x, position.y, position.width, toolbarHeight);
 
-            float settingsHeight = OnGetSettingsHeight(propertyGroups, selected);
+            float settingsHeight = OnGetSettingsHeight(propertyGroups, Toolbar.Selected);
             var settingsPosition = new Rect(position.x, toolbarPosition.yMax, position.width, settingsHeight);
 
-            selected = OnDrawToolbar(toolbarPosition, propertyGroups, selected);
-
-            OnDrawSettings(settingsPosition, propertyGroups, selected);
-
-            return selected;
+            OnDrawToolbar(toolbarPosition);
+            OnDrawSettings(settingsPosition, propertyGroups, Toolbar.Selected);
         }
 
-        protected virtual int OnDrawToolbar(Rect position, SerializedProperty propertyGroups, int selected)
+        protected virtual void OnDrawToolbar(Rect position)
         {
-            int count = propertyGroups.arraySize;
-            float tabWidth = position.width / count;
-
-            for (int i = 0; i < propertyGroups.arraySize; i++)
-            {
-                var tabPosition = new Rect(position.x + tabWidth * i, position.y, tabWidth, position.height);
-
-                if (OnDrawToolbarTab(tabPosition, propertyGroups, i, selected))
-                {
-                    selected = i;
-                }
-            }
-
-            return selected;
-        }
-
-        protected virtual bool OnDrawToolbarTab(Rect position, SerializedProperty propertyGroups, int index, int selected)
-        {
-            GUIContent label = OnGetGroupLabel(propertyGroups, index);
-            GUIStyle style = GetTabStyle(propertyGroups, index);
-            bool state = index == selected;
-
-            return GUI.Toggle(position, state, label, style) != state;
+            Toolbar.DrawGUI(position);
         }
 
         protected virtual void OnDrawSettings(Rect position, SerializedProperty propertyGroups, int index)
@@ -102,24 +67,23 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
 
             SerializedProperty propertyGroup = propertyGroups.GetArrayElementAtIndex(index);
             SerializedProperty propertySettings = propertyGroup.FindPropertyRelative("m_settings");
-            GUIContent label = OnGetGroupLabel(propertyGroups, index);
 
             using (new IndentIncrementScope(1))
             using (new LabelWidthChangeScope(-padding))
             {
-                EditorGUI.PropertyField(position, propertySettings, label, true);
+                EditorGUI.PropertyField(position, propertySettings, true);
             }
         }
 
-        protected virtual float OnGetHeight(SerializedProperty propertyGroups, int selected)
+        protected virtual float OnGetHeight(SerializedProperty propertyGroups)
         {
-            float toolbar = OnGetToolbarHeight(propertyGroups);
-            float settings = OnGetSettingsHeight(propertyGroups, selected);
+            float toolbar = OnGetToolbarHeight();
+            float settings = OnGetSettingsHeight(propertyGroups, Toolbar.Selected);
 
             return toolbar + settings;
         }
 
-        protected virtual float OnGetToolbarHeight(SerializedProperty propertyGroups)
+        protected virtual float OnGetToolbarHeight()
         {
             return EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing * 3F;
         }
@@ -132,36 +96,6 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
             float padding = 5F;
 
             return EditorGUI.GetPropertyHeight(propertySettings) + padding * 2F;
-        }
-
-        protected virtual GUIContent OnGetGroupLabel(SerializedProperty propertyGroups, int index)
-        {
-            SerializedProperty propertyGroup = propertyGroups.GetArrayElementAtIndex(index);
-            SerializedProperty propertyName = propertyGroup.FindPropertyRelative("m_name");
-
-            return new GUIContent(propertyName.stringValue);
-        }
-
-        private GUIStyle GetTabStyle(SerializedProperty propertyGroups, int index)
-        {
-            int count = propertyGroups.arraySize;
-
-            if (count == 1)
-            {
-                return m_styles.TabOne;
-            }
-
-            if (index == 0)
-            {
-                return m_styles.TabFirst;
-            }
-
-            if (index == count - 1)
-            {
-                return m_styles.TabLast;
-            }
-
-            return m_styles.TabMiddle;
         }
     }
 }
