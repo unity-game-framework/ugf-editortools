@@ -9,12 +9,10 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
     public static class PlatformSettingsEditorUtility
     {
-        private static readonly BuildTarget[] m_buildTargets;
         private static readonly BuildTargetGroup[] m_buildTargetGroups;
 
         static PlatformSettingsEditorUtility()
         {
-            m_buildTargets = GetEnumValues<BuildTarget>().ToArray();
             m_buildTargetGroups = GetEnumValues<BuildTargetGroup>().ToArray();
         }
 
@@ -22,15 +20,18 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
         {
             if (platforms == null) throw new ArgumentNullException(nameof(platforms));
 
-            foreach (BuildTarget buildTarget in m_buildTargets)
+            foreach (BuildTargetGroup buildTargetGroup in m_buildTargetGroups)
             {
-                BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(buildTarget);
-
-                if (BuildPipeline.IsBuildTargetSupported(group, buildTarget))
+                if (buildTargetGroup != BuildTargetGroup.Unknown)
                 {
-                    PlatformSettingsInfo info = GetPlatformInfo(group);
+                    BuildTarget buildTarget = GetBuildTarget(buildTargetGroup);
 
-                    platforms.Add(info);
+                    if (BuildPipeline.IsBuildTargetSupported(buildTargetGroup, buildTarget))
+                    {
+                        PlatformSettingsInfo info = GetPlatformInfo(buildTargetGroup);
+
+                        platforms.Add(info);
+                    }
                 }
             }
         }
@@ -41,9 +42,12 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 
             foreach (BuildTargetGroup buildTargetGroup in m_buildTargetGroups)
             {
-                PlatformSettingsInfo info = GetPlatformInfo(buildTargetGroup);
+                if (buildTargetGroup != BuildTargetGroup.Unknown)
+                {
+                    PlatformSettingsInfo info = GetPlatformInfo(buildTargetGroup);
 
-                platforms.Add(info);
+                    platforms.Add(info);
+                }
             }
         }
 
@@ -55,7 +59,7 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 
             GUIContent label = TryGetPlatformIcon(targetGroup, out Texture2D texture)
                 ? new GUIContent(texture, tooltip)
-                : new GUIContent(groupName, tooltip);
+                : new GUIContent(displayName, tooltip);
 
             var info = new PlatformSettingsInfo(groupName, targetGroup, label);
 
@@ -84,6 +88,38 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 
                     yield return value;
                 }
+            }
+        }
+
+        public static BuildTarget GetBuildTarget(BuildTargetGroup buildTargetGroup)
+        {
+            switch (buildTargetGroup)
+            {
+                case BuildTargetGroup.Unknown: return BuildTarget.NoTarget;
+                case BuildTargetGroup.Standalone:
+                {
+                    switch (Application.platform)
+                    {
+                        case RuntimePlatform.OSXEditor: return BuildTarget.StandaloneOSX;
+                        case RuntimePlatform.WindowsEditor: return BuildTarget.StandaloneWindows;
+                        case RuntimePlatform.LinuxEditor: return BuildTarget.StandaloneLinux64;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(Application.platform), Application.platform, "Unknown runtime platform.");
+                    }
+                }
+                case BuildTargetGroup.iOS: return BuildTarget.iOS;
+                case BuildTargetGroup.Android: return BuildTarget.Android;
+                case BuildTargetGroup.WebGL: return BuildTarget.WebGL;
+                case BuildTargetGroup.WSA: return BuildTarget.WSAPlayer;
+                case BuildTargetGroup.PS4: return BuildTarget.PS4;
+                case BuildTargetGroup.XboxOne: return BuildTarget.XboxOne;
+                case BuildTargetGroup.tvOS: return BuildTarget.tvOS;
+                case BuildTargetGroup.Switch: return BuildTarget.Switch;
+                case BuildTargetGroup.Lumin: return BuildTarget.Lumin;
+                case BuildTargetGroup.Stadia: return BuildTarget.Stadia;
+                case BuildTargetGroup.CloudRendering: return BuildTarget.CloudRendering;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(buildTargetGroup), buildTargetGroup, "Unknown build target group.");
             }
         }
     }

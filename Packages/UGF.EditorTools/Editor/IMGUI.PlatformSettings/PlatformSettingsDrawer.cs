@@ -11,9 +11,16 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 
         public event Action<string, SerializedProperty> SettingsCreated;
 
-        public PlatformSettingsDrawer()
+        public PlatformSettingsDrawer(bool displayAllPlatforms = false)
         {
-            PlatformSettingsEditorUtility.GetPlatformsAll(PlatformSettingsInfos);
+            if (displayAllPlatforms)
+            {
+                PlatformSettingsEditorUtility.GetPlatformsAll(PlatformSettingsInfos);
+            }
+            else
+            {
+                PlatformSettingsEditorUtility.GetPlatformsAvailable(PlatformSettingsInfos);
+            }
 
             for (int i = 0; i < PlatformSettingsInfos.Count; i++)
             {
