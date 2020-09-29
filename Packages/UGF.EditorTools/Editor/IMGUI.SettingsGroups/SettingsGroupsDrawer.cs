@@ -37,6 +37,11 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
             OnDrawGUI(position, propertyGroups);
         }
 
+        public float GetHeight(SerializedProperty propertyGroups)
+        {
+            return OnGetHeight(propertyGroups);
+        }
+
         protected virtual void OnDrawGUI(Rect position, SerializedProperty propertyGroups)
         {
             if (Event.current.type == EventType.Repaint)
