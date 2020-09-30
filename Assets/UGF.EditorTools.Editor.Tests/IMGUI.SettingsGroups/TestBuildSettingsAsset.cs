@@ -59,8 +59,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups
 
             foreach (string target in targets)
             {
-                m_drawer.Groups.Add(target);
-                m_drawer.Toolbar.TabLabels.Add(new GUIContent(ObjectNames.NicifyVariableName(target)));
+                m_drawer.AddGroup(target, new GUIContent(ObjectNames.NicifyVariableName(target)));
             }
 
             m_drawer.Toolbar.Count = m_drawer.Toolbar.TabLabels.Count;

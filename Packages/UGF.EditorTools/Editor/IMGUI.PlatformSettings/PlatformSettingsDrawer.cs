@@ -1,36 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.SettingsGroups;
 using UnityEditor;
+using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
     public class PlatformSettingsDrawer : SettingsGroupsDrawer
     {
-        public List<PlatformSettingsInfo> PlatformSettingsInfos { get; } = new List<PlatformSettingsInfo>();
-
         public event Action<string, SerializedProperty> SettingsCreated;
 
-        public PlatformSettingsDrawer(bool displayAllPlatforms = false)
+        public void AddPlatform(BuildTargetGroup targetGroup)
         {
-            if (displayAllPlatforms)
-            {
-                PlatformSettingsEditorUtility.GetPlatformsAll(PlatformSettingsInfos);
-            }
-            else
-            {
-                PlatformSettingsEditorUtility.GetPlatformsAvailable(PlatformSettingsInfos);
-            }
+            string name = targetGroup.ToString();
+            GUIContent label = PlatformSettingsEditorUtility.GetPlatformLabel(targetGroup);
 
-            for (int i = 0; i < PlatformSettingsInfos.Count; i++)
-            {
-                PlatformSettingsInfo info = PlatformSettingsInfos[i];
+            AddGroup(name, label);
+        }
 
-                Groups.Add(info.Name);
-                Toolbar.TabLabels.Add(info.Label);
-            }
+        public bool RemovePlatform(BuildTargetGroup targetGroup)
+        {
+            string name = targetGroup.ToString();
+            bool result = RemoveGroup(name);
 
-            Toolbar.Count = PlatformSettingsInfos.Count;
+            return result;
         }
 
         protected override void OnCreateSettings(SerializedProperty propertyGroups, string name, SerializedProperty propertySettings)

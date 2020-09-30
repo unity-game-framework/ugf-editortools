@@ -1,4 +1,5 @@
-﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
+﻿using System.Collections.Generic;
+using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UGF.EditorTools.Runtime.IMGUI.PlatformSettings;
 using UnityEditor;
 using UnityEngine;
@@ -12,6 +13,17 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 
         public PlatformSettingsPropertyDrawer()
         {
+            var platforms = new List<BuildTargetGroup>();
+
+            PlatformSettingsEditorUtility.GetPlatformsAll(platforms);
+
+            for (int i = 0; i < platforms.Count; i++)
+            {
+                BuildTargetGroup platform = platforms[i];
+
+                Drawer.AddPlatform(platform);
+            }
+
             Drawer.SettingsCreated += OnDrawerSettingsCreated;
         }
 

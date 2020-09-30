@@ -10,13 +10,20 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
     public static class PlatformSettingsEditorUtility
     {
         private static readonly BuildTargetGroup[] m_buildTargetGroups;
+        private static readonly Func<BuildTargetGroup, string> m_getBuildTargetGroupDisplayName;
 
         static PlatformSettingsEditorUtility()
         {
             m_buildTargetGroups = GetEnumValues<BuildTargetGroup>().ToArray();
+
+            MethodInfo getBuildTargetGroupDisplayName = typeof(BuildPipeline).GetMethod("GetBuildTargetGroupDisplayName", BindingFlags.Static | BindingFlags.NonPublic)
+                                                        ?? throw new ArgumentException("Method not found by the specified name: 'GetBuildTargetGroupDisplayName'.");
+
+            m_getBuildTargetGroupDisplayName = (Func<BuildTargetGroup, string>)getBuildTargetGroupDisplayName.CreateDelegate(typeof(Func<BuildTargetGroup, string>))
+                                               ?? throw new ArgumentException($"Can not create delegate from specified method info: '{getBuildTargetGroupDisplayName.Name}'.");
         }
 
-        public static void GetPlatformsAvailable(ICollection<PlatformSettingsInfo> platforms)
+        public static void GetPlatformsAvailable(ICollection<BuildTargetGroup> platforms)
         {
             if (platforms == null) throw new ArgumentNullException(nameof(platforms));
 
@@ -28,15 +35,13 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 
                     if (BuildPipeline.IsBuildTargetSupported(buildTargetGroup, buildTarget))
                     {
-                        PlatformSettingsInfo info = GetPlatformInfo(buildTargetGroup);
-
-                        platforms.Add(info);
+                        platforms.Add(buildTargetGroup);
                     }
                 }
             }
         }
 
-        public static void GetPlatformsAll(ICollection<PlatformSettingsInfo> platforms)
+        public static void GetPlatformsAll(ICollection<BuildTargetGroup> platforms)
         {
             if (platforms == null) throw new ArgumentNullException(nameof(platforms));
 
@@ -44,34 +49,57 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
             {
                 if (buildTargetGroup != BuildTargetGroup.Unknown)
                 {
-                    PlatformSettingsInfo info = GetPlatformInfo(buildTargetGroup);
-
-                    platforms.Add(info);
+                    platforms.Add(buildTargetGroup);
                 }
             }
         }
 
-        public static PlatformSettingsInfo GetPlatformInfo(BuildTargetGroup targetGroup)
+        public static GUIContent GetPlatformLabel(BuildTargetGroup targetGroup)
         {
-            string groupName = targetGroup.ToString();
-            string displayName = ObjectNames.NicifyVariableName(groupName);
+            string displayName = GetPlatformDisplayName(targetGroup);
             string tooltip = $"{displayName} settings.";
 
             GUIContent label = TryGetPlatformIcon(targetGroup, out Texture2D texture)
                 ? new GUIContent(texture, tooltip)
                 : new GUIContent(displayName, tooltip);
 
-            var info = new PlatformSettingsInfo(groupName, targetGroup, label);
+            return label;
+        }
 
-            return info;
+        public static string GetPlatformDisplayName(BuildTargetGroup targetGroup)
+        {
+            return m_getBuildTargetGroupDisplayName(targetGroup);
         }
 
         public static bool TryGetPlatformIcon(BuildTargetGroup targetGroup, out Texture2D texture, bool big = false)
         {
-            string name = targetGroup.ToString();
-            string textureName = big ? $"BuildSettings.{name}" : $"BuildSettings.{name}.Small";
+            string name;
 
-            texture = EditorGUIUtility.FindTexture(textureName);
+            switch (targetGroup)
+            {
+                case BuildTargetGroup.WSA:
+                {
+                    name = big ? "BuildSettings.Metro" : "BuildSettings.Metro.Small";
+                    break;
+                }
+                case BuildTargetGroup.iOS:
+                {
+                    name = big ? "BuildSettings.Metro" : "BuildSettings.iPhone.Small";
+                    break;
+                }
+                case BuildTargetGroup.CloudRendering:
+                {
+                    name = big ? "CloudConnect@2x" : "CloudConnect";
+                    break;
+                }
+                default:
+                {
+                    name = big ? $"BuildSettings.{targetGroup.ToString()}" : $"BuildSettings.{targetGroup.ToString()}.Small";
+                    break;
+                }
+            }
+
+            texture = EditorGUIUtility.FindTexture(name);
             return texture != null;
         }
 

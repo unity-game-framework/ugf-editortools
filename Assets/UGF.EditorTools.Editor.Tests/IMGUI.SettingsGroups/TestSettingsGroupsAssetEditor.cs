@@ -16,9 +16,8 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups
 
             m_propertyGroups = propertySettings.FindPropertyRelative("m_groups");
 
-            m_drawer.Toolbar.TabLabels.AddRange(new[] { new GUIContent("First"), new GUIContent("Second") });
-            m_drawer.Toolbar.Count = m_drawer.Toolbar.TabLabels.Count;
-            m_drawer.Groups.AddRange(new[] { "First", "Second" });
+            m_drawer.AddGroup("First", new GUIContent("First"));
+            m_drawer.AddGroup("Second", new GUIContent("Second"));
         }
 
         public override void OnInspectorGUI()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
@@ -8,15 +9,52 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
 {
     public class SettingsGroupsDrawer : DrawerBase
     {
-        public List<string> Groups { get; } = new List<string>();
+        public IReadOnlyList<string> Groups { get; }
         public SettingsGroupsToolbarDrawer Toolbar { get; set; } = new SettingsGroupsToolbarDrawer();
 
+        private List<string> m_groups = new List<string>();
         private Styles m_styles;
         private static float m_padding = 5F;
 
         private class Styles
         {
             public GUIStyle FrameBox { get; } = new GUIStyle("FrameBox");
+        }
+
+        public SettingsGroupsDrawer()
+        {
+            Groups = new ReadOnlyCollection<string>(m_groups);
+        }
+
+        public void AddGroup(string name, GUIContent label)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            m_groups.Add(name);
+            Toolbar.AddLabel(label);
+        }
+
+        public bool RemoveGroup(string name)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
+
+            int index = m_groups.IndexOf(name);
+
+            if (index >= 0 || index < Groups.Count)
+            {
+                m_groups.RemoveAt(index);
+                Toolbar.RemoveLabel(Toolbar.TabLabels[index]);
+                return true;
+            }
+
+            return false;
+        }
+
+        public void ClearGroups()
+        {
+            m_groups.Clear();
+            Toolbar.ClearLabels();
         }
 
         public void DrawGUILayout(SerializedProperty propertyGroups)

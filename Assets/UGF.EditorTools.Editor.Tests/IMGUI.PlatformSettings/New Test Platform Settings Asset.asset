@@ -20,6 +20,12 @@ MonoBehaviour:
     - m_name: Standalone
       m_settings:
         id: 0
+    - m_name: Android
+      m_settings:
+        id: 0
+    - m_name: CloudRendering
+      m_settings:
+        id: 0
   references:
     version: 1
     00000000:
