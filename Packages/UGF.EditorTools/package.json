@@ -11,8 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/unity-game-framework/ugf-editortools.git",
-    "directory": "Packages/Package"
+    "url": "git://github.com/unity-game-framework/ugf-editortools.git"
   },
   "changelogUrl": "https://github.com/unity-game-framework/ugf-editortools/blob/master/license",
   "licenseUrl": "https://github.com/unity-game-framework/ugf-editortools/blob/master/changelog.md",

@@ -1,5 +1,4 @@
-﻿using System;
-using UGF.EditorTools.Editor.IMGUI.Scopes;
+﻿using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
 

@@ -1,5 +1,4 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
-using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.EditorTools.Runtime.IMGUI.EnabledProperty;
 using UnityEditor;
 using UnityEngine;

@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fcbf3c408ef463d90e4ae811ec150a7, type: 3}
+  m_Name: New Test Build Settings Asset
+  m_EditorClassIdentifier: 
+  m_settings:
+    m_groups:
+    - m_name: Unknown
+      m_settings:
+        id: 0
+    - m_name: Standalone
+      m_settings:
+        id: 0
+    - m_name: WebPlayer
+      m_settings:
+        id: 0
+    - m_name: iPhone
+      m_settings:
+        id: 0
+    - m_name: Lumin
+      m_settings:
+        id: 0
+    - m_name: Switch
+      m_settings:
+        id: 1
+  references:
+    version: 1
+    00000000:
+      type: {class: , ns: , asm: }
+    00000001:
+      type: {class: TestBuildSettings1, ns: UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_bool: 1
+        m_float: -2.24
+        m_vector3: {x: 0, y: 1.89, z: 0}
