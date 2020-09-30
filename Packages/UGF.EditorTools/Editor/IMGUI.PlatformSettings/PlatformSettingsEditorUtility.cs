@@ -103,22 +103,6 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
             return texture != null;
         }
 
-        private static IEnumerable<T> GetEnumValues<T>()
-        {
-            Type type = typeof(T);
-            FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
-
-            foreach (FieldInfo field in fields)
-            {
-                if (!field.IsDefined(typeof(ObsoleteAttribute)))
-                {
-                    var value = (T)field.GetValue(null);
-
-                    yield return value;
-                }
-            }
-        }
-
         public static BuildTarget GetBuildTarget(BuildTargetGroup buildTargetGroup)
         {
             switch (buildTargetGroup)
@@ -148,6 +132,22 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
                 case BuildTargetGroup.CloudRendering: return BuildTarget.CloudRendering;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(buildTargetGroup), buildTargetGroup, "Unknown build target group.");
+            }
+        }
+
+        private static IEnumerable<T> GetEnumValues<T>()
+        {
+            Type type = typeof(T);
+            FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
+
+            foreach (FieldInfo field in fields)
+            {
+                if (!field.IsDefined(typeof(ObsoleteAttribute)))
+                {
+                    var value = (T)field.GetValue(null);
+
+                    yield return value;
+                }
             }
         }
     }
