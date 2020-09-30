@@ -12,7 +12,7 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
         public IReadOnlyList<string> Groups { get; }
         public SettingsGroupsToolbarDrawer Toolbar { get; set; } = new SettingsGroupsToolbarDrawer();
 
-        private List<string> m_groups = new List<string>();
+        private readonly List<string> m_groups = new List<string>();
         private Styles m_styles;
         private static float m_padding = 5F;
 
