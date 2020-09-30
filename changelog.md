@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.2.0) - 2020-09-30  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/11?closed=1)  
+    
+
+### Added
+
+- Add editor and runtime platform settings selection ([#64](https://github.com/unity-game-framework/ugf-editortools/pull/64))  
+    - Add `PlatformSettings` to store settings by `BuildTargetGroup`.
+    - Add `PlatformSettingsDrawer` to draw platform selection group with toolbar, with default implementation for `PlatformSettings`.
+    - Add `SettingsGroups` with collection of `SettingsGroup` to store groups with settings of any type, using `SerializeReference`.
+    - Add `SettingsGroupsDrawer` to draw `SettingsGroups` with toolbar group selection.
+    - Add `ToolbarDrawer` to draw horizonal or vertical toolbars.
+    - Add `PlatformSettingsEditorUtility` with utilities to get information about build platforms, such as display name and icons.
+
 ## [1.1.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.1.0) - 2020-09-25  
 
 ### Release Notes
