@@ -8,11 +8,6 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
     {
         protected PlatformSettingsDrawer Drawer { get; set; } = new PlatformSettingsDrawer();
 
-        protected PlatformSettingsPropertyDrawerBase()
-        {
-            Drawer.SettingsCreated += OnDrawerSettingsCreated;
-        }
-
         protected override void OnDrawProperty(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
             SerializedProperty propertyGroups = serializedProperty.FindPropertyRelative("m_groups");
@@ -26,7 +21,5 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 
             return Drawer.GetHeight(propertyGroups);
         }
-
-        protected abstract void OnDrawerSettingsCreated(string name, SerializedProperty propertySettings);
     }
 }

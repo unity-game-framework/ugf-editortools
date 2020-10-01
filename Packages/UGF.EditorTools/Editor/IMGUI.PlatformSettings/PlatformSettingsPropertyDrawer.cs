@@ -19,14 +19,6 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 
                 Drawer.AddPlatform(platform);
             }
-
-            Drawer.SettingsCreated += OnDrawerSettingsCreated;
-        }
-
-        protected override void OnDrawerSettingsCreated(string name, SerializedProperty propertySettings)
-        {
-            propertySettings.managedReferenceValue = null;
-            propertySettings.serializedObject.ApplyModifiedProperties();
         }
     }
 }

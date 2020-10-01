@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
-    public class PlatformSettingsDrawer : SettingsGroupsDrawer
+    public class PlatformSettingsDrawer : SettingsGroupsWithTypesDrawer
     {
+        public bool AutoSettingsInstanceCreation { get; set; }
+
         public event SettingsCreatedHandler SettingsCreated;
         public event SettingsDrawingHandler SettingsDrawing;
 
@@ -36,7 +38,15 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
             }
             else
             {
-                base.OnCreateSettings(propertyGroups, name, propertySettings);
+                if (AutoSettingsInstanceCreation)
+                {
+                    base.OnCreateSettings(propertyGroups, name, propertySettings);
+                }
+                else
+                {
+                    propertySettings.managedReferenceValue = null;
+                    propertySettings.serializedObject.ApplyModifiedProperties();
+                }
             }
         }
 
