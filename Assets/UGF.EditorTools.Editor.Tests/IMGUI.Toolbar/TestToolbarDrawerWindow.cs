@@ -1,5 +1,4 @@
-﻿using UGF.EditorTools.Editor.IMGUI;
-using UGF.EditorTools.Editor.IMGUI.Toolbar;
+﻿using UGF.EditorTools.Editor.IMGUI.Toolbar;
 using UnityEditor;
 
 namespace UGF.EditorTools.Editor.Tests.IMGUI.Toolbar
