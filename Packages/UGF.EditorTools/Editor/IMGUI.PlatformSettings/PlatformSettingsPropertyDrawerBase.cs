@@ -6,7 +6,12 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
     public abstract class PlatformSettingsPropertyDrawerBase : PropertyDrawerBase
     {
-        protected PlatformSettingsDrawer Drawer { get; } = new PlatformSettingsDrawer();
+        protected PlatformSettingsDrawer Drawer { get; set; } = new PlatformSettingsDrawer();
+
+        protected PlatformSettingsPropertyDrawerBase()
+        {
+            Drawer.SettingsCreated += OnDrawerSettingsCreated;
+        }
 
         protected override void OnDrawProperty(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
