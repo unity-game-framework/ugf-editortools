@@ -1,5 +1,7 @@
 ﻿using System;
+using UGF.EditorTools.Editor.IMGUI.PlatformSettings;
 using UGF.EditorTools.Runtime.IMGUI.PlatformSettings;
+using UnityEditor;
 using UnityEngine;
 
 namespace UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings
@@ -38,5 +40,16 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings
         public ScriptableObject ScriptableObject { get { return m_scriptableObject; } set { m_scriptableObject = value; } }
         public Material Material { get { return m_material; } set { m_material = value; } }
         public LayerMask LayerMask { get { return m_layerMask; } set { m_layerMask = value; } }
+    }
+
+    [CustomPropertyDrawer(typeof(PlatformSettings<ITestPlatformSettings>), true)]
+    public class TestPlatformSettingsDrawer : PlatformSettingsPropertyDrawer
+    {
+        public TestPlatformSettingsDrawer()
+        {
+            Drawer.AutoSettingsInstanceCreation = true;
+            Drawer.AddGroup("A", new GUIContent("A"), typeof(TestPlatformSettingsA));
+            Drawer.AddGroup("B", new GUIContent("B"), typeof(TestPlatformSettingsB));
+        }
     }
 }

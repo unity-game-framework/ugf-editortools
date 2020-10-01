@@ -1,9 +1,11 @@
-﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
+﻿using System;
+using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UnityEditor;
 using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
+    [Obsolete("PlatformSettingsPropertyDrawerBase has been deprecated. Use PlatformSettingsPropertyDrawer instead.")]
     public abstract class PlatformSettingsPropertyDrawerBase : PropertyDrawerBase
     {
         protected PlatformSettingsDrawer Drawer { get; set; } = new PlatformSettingsDrawer();
@@ -20,6 +22,11 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
             SerializedProperty propertyGroups = serializedProperty.FindPropertyRelative("m_groups");
 
             return Drawer.GetHeight(propertyGroups);
+        }
+
+        [Obsolete("OnDrawerSettingsCreated has been deprecated. Use Drawer.SettingsCreated event instead.")]
+        protected virtual void OnDrawerSettingsCreated(string name, SerializedProperty propertySettings)
+        {
         }
     }
 }
