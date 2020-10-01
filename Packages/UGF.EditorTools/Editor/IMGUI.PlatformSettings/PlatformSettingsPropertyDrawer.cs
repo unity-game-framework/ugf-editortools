@@ -26,6 +26,7 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
         protected override void OnDrawerSettingsCreated(string name, SerializedProperty propertySettings)
         {
             propertySettings.managedReferenceValue = null;
+            propertySettings.serializedObject.ApplyModifiedProperties();
         }
     }
 }

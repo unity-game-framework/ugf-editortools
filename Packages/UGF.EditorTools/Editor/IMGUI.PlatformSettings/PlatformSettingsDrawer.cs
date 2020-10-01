@@ -1,5 +1,4 @@
-﻿using System;
-using UGF.EditorTools.Editor.IMGUI.SettingsGroups;
+﻿using UGF.EditorTools.Editor.IMGUI.SettingsGroups;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,7 +6,11 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
     public class PlatformSettingsDrawer : SettingsGroupsDrawer
     {
-        public event Action<string, SerializedProperty> SettingsCreated;
+        public event SettingsCreatedHandler SettingsCreated;
+        public event SettingsDrawingHandler SettingsDrawing;
+
+        public delegate void SettingsCreatedHandler(string name, SerializedProperty propertySettings);
+        public delegate void SettingsDrawingHandler(Rect position, SerializedProperty propertySettings, string name);
 
         public void AddPlatform(BuildTargetGroup targetGroup)
         {
@@ -29,11 +32,25 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
         {
             if (SettingsCreated != null)
             {
-                SettingsCreated(name, propertySettings);
+                SettingsCreated.Invoke(name, propertySettings);
             }
             else
             {
                 base.OnCreateSettings(propertyGroups, name, propertySettings);
+            }
+        }
+
+        protected override void OnDrawSettings(Rect position, SerializedProperty propertyGroups, string name)
+        {
+            if (SettingsDrawing != null)
+            {
+                SerializedProperty propertySettings = OnGetSettings(propertyGroups, name);
+
+                SettingsDrawing?.Invoke(position, propertySettings, name);
+            }
+            else
+            {
+                base.OnDrawSettings(position, propertyGroups, name);
             }
         }
     }
