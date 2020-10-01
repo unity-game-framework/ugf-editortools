@@ -40,6 +40,21 @@ namespace UGF.EditorTools.Runtime.IMGUI.EnabledProperty
             return EqualityComparer<TValue>.Default.GetHashCode(m_value);
         }
 
+        public static bool operator ==(EnabledProperty<TValue> first, EnabledProperty<TValue> second)
+        {
+            return first.Equals(second);
+        }
+
+        public static bool operator !=(EnabledProperty<TValue> first, EnabledProperty<TValue> second)
+        {
+            return !first.Equals(second);
+        }
+
+        public static implicit operator bool(EnabledProperty<TValue> property)
+        {
+            return property.m_enabled;
+        }
+
         public static implicit operator TValue(EnabledProperty<TValue> property)
         {
             return property.m_value;
