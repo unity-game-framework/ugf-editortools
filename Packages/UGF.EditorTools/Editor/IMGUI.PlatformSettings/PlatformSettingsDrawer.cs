@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.SettingsGroups;
 using UnityEditor;
 using UnityEngine;
@@ -8,6 +9,32 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
     public class PlatformSettingsDrawer : SettingsGroupsDrawer
     {
         public event Action<string, SerializedProperty> SettingsCreated;
+
+        public void AddPlatformAllAvailable()
+        {
+            var platforms = new List<BuildTargetGroup>();
+
+            PlatformSettingsEditorUtility.GetPlatformsAvailable(platforms);
+
+            AddPlatformAll(platforms);
+        }
+
+        public void AddPlatformAll()
+        {
+            var platforms = new List<BuildTargetGroup>();
+
+            PlatformSettingsEditorUtility.GetPlatformsAll(platforms);
+
+            AddPlatformAll(platforms);
+        }
+
+        public void AddPlatformAll(IReadOnlyList<BuildTargetGroup> targetGroups)
+        {
+            for (int i = 0; i < targetGroups.Count; i++)
+            {
+                AddPlatform(targetGroups[i]);
+            }
+        }
 
         public void AddPlatform(BuildTargetGroup targetGroup)
         {
