@@ -21,6 +21,9 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.References
 
         [SerializeReference, ManagedReference] private IManagedReferenceTest[] m_test5;
         [SerializeReference, ManagedReference] private List<IManagedReferenceTest> m_test6;
+
+        [SerializeReference, ManagedReference(typeof(ManagedReferenceTest))]
+        private IManagedReferenceTest m_test7;
     }
 
     public interface IManagedReferenceTest
