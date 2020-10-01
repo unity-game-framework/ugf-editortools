@@ -17,27 +17,46 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
             Types = new ReadOnlyDictionary<string, Type>(m_types);
         }
 
+        public void AddGroupType(string name, Type type)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
+            if (type == null) throw new ArgumentNullException(nameof(type));
+
+            m_types.Add(name, type);
+        }
+
+        public bool RemoveGroupType(string name)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
+
+            return m_types.Remove(name);
+        }
+
+        public void ClearGroupTypes()
+        {
+            m_types.Clear();
+        }
+
         public void AddGroup(string name, GUIContent label, Type type)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
 
             AddGroup(name, label);
-
-            m_types.Add(name, type);
+            AddGroupType(name, type);
         }
 
         protected override void OnGroupRemoved(string name)
         {
             base.OnGroupRemoved(name);
 
-            m_types.Remove(name);
+            RemoveGroupType(name);
         }
 
         protected override void OnGroupsCleared()
         {
             base.OnGroupsCleared();
 
-            m_types.Clear();
+            ClearGroupTypes();
         }
 
         protected override void OnCreateSettings(SerializedProperty propertyGroups, string name, SerializedProperty propertySettings)

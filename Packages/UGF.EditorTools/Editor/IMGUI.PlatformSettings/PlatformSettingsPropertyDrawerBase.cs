@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
-    [Obsolete("PlatformSettingsPropertyDrawerBase has been deprecated. Use PlatformSettingsPropertyDrawer instead.")]
     public abstract class PlatformSettingsPropertyDrawerBase : PropertyDrawerBase
     {
         protected PlatformSettingsDrawer Drawer { get; set; } = new PlatformSettingsDrawer();

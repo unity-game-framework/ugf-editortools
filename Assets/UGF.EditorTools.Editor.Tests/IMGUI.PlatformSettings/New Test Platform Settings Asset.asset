@@ -13,6 +13,26 @@ MonoBehaviour:
   m_Name: New Test Platform Settings Asset
   m_EditorClassIdentifier: 
   m_settings:
-    m_groups: []
+    m_groups:
+    - m_name: Standalone
+      m_settings:
+        id: 0
+    - m_name: Android
+      m_settings:
+        id: 1
   references:
     version: 1
+    00000000:
+      type: {class: TestPlatformSettingsA, ns: UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_bool: 0
+        m_float: 0
+        m_vector3: {x: 0, y: 0, z: 0}
+    00000001:
+      type: {class: TestPlatformSettingsB, ns: UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_scriptableObject: {fileID: 0}
+        m_material: {fileID: 0}
+        m_layerMask:
+          serializedVersion: 2
+          m_Bits: 0

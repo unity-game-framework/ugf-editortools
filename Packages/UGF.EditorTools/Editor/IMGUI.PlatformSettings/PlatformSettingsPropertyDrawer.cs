@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
+﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UGF.EditorTools.Runtime.IMGUI.PlatformSettings;
-﻿using UGF.EditorTools.Runtime.IMGUI.PlatformSettings;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,16 +12,7 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 
         public PlatformSettingsPropertyDrawer()
         {
-            var platforms = new List<BuildTargetGroup>();
-
-            PlatformSettingsEditorUtility.GetPlatformsAvailable(platforms);
-
-            for (int i = 0; i < platforms.Count; i++)
-            {
-                BuildTargetGroup platform = platforms[i];
-
-                Drawer.AddPlatform(platform);
-            }
+            Drawer.AddPlatformAllAvailable();
         }
 
         protected override void OnDrawProperty(Rect position, SerializedProperty serializedProperty, GUIContent label)
