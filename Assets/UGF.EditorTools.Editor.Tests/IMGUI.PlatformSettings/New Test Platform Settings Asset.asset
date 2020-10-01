@@ -13,20 +13,6 @@ MonoBehaviour:
   m_Name: New Test Platform Settings Asset
   m_EditorClassIdentifier: 
   m_settings:
-    m_groups:
-    - m_name: Unknown
-      m_settings:
-        id: 0
-    - m_name: Standalone
-      m_settings:
-        id: 0
-    - m_name: Android
-      m_settings:
-        id: 0
-    - m_name: CloudRendering
-      m_settings:
-        id: 0
+    m_groups: []
   references:
     version: 1
-    00000000:
-      type: {class: , ns: , asm: }

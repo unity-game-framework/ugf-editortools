@@ -11,6 +11,7 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
     {
         public IReadOnlyList<string> Groups { get; }
         public SettingsGroupsToolbarDrawer Toolbar { get; set; } = new SettingsGroupsToolbarDrawer();
+        public bool AllowEmptySettings { get; set; } = true;
 
         private readonly List<string> m_groups = new List<string>();
         private Styles m_styles;
@@ -132,10 +133,16 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
                 if (!SettingsGroupEditorUtility.TryGetGroup(propertyGroups, name, out SerializedProperty propertyGroup))
                 {
                     propertyGroup = SettingsGroupEditorUtility.AddGroup(propertyGroups, name);
+                    propertyGroup.serializedObject.ApplyModifiedProperties();
                 }
 
                 propertySettings = propertyGroup.FindPropertyRelative("m_settings");
 
+                OnCreateSettings(propertyGroups, name, propertySettings);
+            }
+
+            if (!AllowEmptySettings && string.IsNullOrEmpty(propertySettings.managedReferenceFullTypename))
+            {
                 OnCreateSettings(propertyGroups, name, propertySettings);
             }
 
