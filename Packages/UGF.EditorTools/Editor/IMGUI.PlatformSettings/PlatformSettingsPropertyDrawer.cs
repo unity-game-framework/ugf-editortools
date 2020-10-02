@@ -1,21 +1,32 @@
-﻿using UGF.EditorTools.Runtime.IMGUI.PlatformSettings;
+﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
+using UGF.EditorTools.Runtime.IMGUI.PlatformSettings;
 using UnityEditor;
+using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
     [CustomPropertyDrawer(typeof(PlatformSettings<>), true)]
-    internal class PlatformSettingsPropertyDrawer : PlatformSettingsPropertyDrawerBase
+    public class PlatformSettingsPropertyDrawer : PropertyDrawerBase
     {
+        protected PlatformSettingsDrawer Drawer { get; set; } = new PlatformSettingsDrawer();
+
         public PlatformSettingsPropertyDrawer()
         {
             Drawer.AddPlatformAllAvailable();
-            Drawer.SettingsCreated += OnDrawerSettingsCreated;
         }
 
-        protected override void OnDrawerSettingsCreated(string name, SerializedProperty propertySettings)
+        protected override void OnDrawProperty(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
-            propertySettings.managedReferenceValue = null;
-            propertySettings.serializedObject.ApplyModifiedProperties();
+            SerializedProperty propertyGroups = serializedProperty.FindPropertyRelative("m_groups");
+
+            Drawer.DrawGUI(position, propertyGroups);
+        }
+
+        public override float GetPropertyHeight(SerializedProperty serializedProperty, GUIContent label)
+        {
+            SerializedProperty propertyGroups = serializedProperty.FindPropertyRelative("m_groups");
+
+            return Drawer.GetHeight(propertyGroups);
         }
     }
 }
