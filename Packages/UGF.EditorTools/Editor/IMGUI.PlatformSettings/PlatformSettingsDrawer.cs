@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.SettingsGroups;
 using UnityEditor;
 using UnityEngine;
@@ -18,20 +17,12 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 
         public void AddPlatformAllAvailable()
         {
-            var platforms = new List<BuildTargetGroup>();
-
-            PlatformSettingsEditorUtility.GetPlatformsAvailable(platforms);
-
-            AddPlatformAll(platforms);
+            AddPlatformAll(PlatformSettingsEditorUtility.BuildTargetGroupsAllAvailable);
         }
 
         public void AddPlatformAll()
         {
-            var platforms = new List<BuildTargetGroup>();
-
-            PlatformSettingsEditorUtility.GetPlatformsAll(platforms);
-
-            AddPlatformAll(platforms);
+            AddPlatformAll(PlatformSettingsEditorUtility.BuildTargetGroupsAll);
         }
 
         public void AddPlatformAll(IReadOnlyList<BuildTargetGroup> targetGroups)

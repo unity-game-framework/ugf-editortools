@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
@@ -7,51 +8,42 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
-    public static class PlatformSettingsEditorUtility
+    public static partial class PlatformSettingsEditorUtility
     {
-        private static readonly BuildTargetGroup[] m_buildTargetGroups;
+        public static IReadOnlyList<BuildTargetGroup> BuildTargetGroupsAll { get; }
+        public static IReadOnlyList<BuildTargetGroup> BuildTargetGroupsAllAvailable { get; }
+
         private static readonly Func<BuildTargetGroup, string> m_getBuildTargetGroupDisplayName;
 
         static PlatformSettingsEditorUtility()
         {
-            m_buildTargetGroups = GetEnumValues<BuildTargetGroup>().ToArray();
-
             MethodInfo getBuildTargetGroupDisplayName = typeof(BuildPipeline).GetMethod("GetBuildTargetGroupDisplayName", BindingFlags.Static | BindingFlags.NonPublic)
                                                         ?? throw new ArgumentException("Method not found by the specified name: 'GetBuildTargetGroupDisplayName'.");
 
             m_getBuildTargetGroupDisplayName = (Func<BuildTargetGroup, string>)getBuildTargetGroupDisplayName.CreateDelegate(typeof(Func<BuildTargetGroup, string>))
                                                ?? throw new ArgumentException($"Can not create delegate from specified method info: '{getBuildTargetGroupDisplayName.Name}'.");
-        }
 
-        public static void GetPlatformsAvailable(ICollection<BuildTargetGroup> platforms)
-        {
-            if (platforms == null) throw new ArgumentNullException(nameof(platforms));
+            var all = new List<BuildTargetGroup>();
+            var allAvailable = new List<BuildTargetGroup>();
+            BuildTargetGroup[] groups = GetEnumValues<BuildTargetGroup>().ToArray();
 
-            foreach (BuildTargetGroup buildTargetGroup in m_buildTargetGroups)
+            foreach (BuildTargetGroup buildTargetGroup in groups)
             {
                 if (buildTargetGroup != BuildTargetGroup.Unknown)
                 {
+                    all.Add(buildTargetGroup);
+
                     BuildTarget buildTarget = GetBuildTarget(buildTargetGroup);
 
                     if (BuildPipeline.IsBuildTargetSupported(buildTargetGroup, buildTarget))
                     {
-                        platforms.Add(buildTargetGroup);
+                        allAvailable.Add(buildTargetGroup);
                     }
                 }
             }
-        }
 
-        public static void GetPlatformsAll(ICollection<BuildTargetGroup> platforms)
-        {
-            if (platforms == null) throw new ArgumentNullException(nameof(platforms));
-
-            foreach (BuildTargetGroup buildTargetGroup in m_buildTargetGroups)
-            {
-                if (buildTargetGroup != BuildTargetGroup.Unknown)
-                {
-                    platforms.Add(buildTargetGroup);
-                }
-            }
+            BuildTargetGroupsAll = new ReadOnlyCollection<BuildTargetGroup>(all);
+            BuildTargetGroupsAllAvailable = new ReadOnlyCollection<BuildTargetGroup>(allAvailable);
         }
 
         public static GUIContent GetPlatformLabel(BuildTargetGroup targetGroup)
