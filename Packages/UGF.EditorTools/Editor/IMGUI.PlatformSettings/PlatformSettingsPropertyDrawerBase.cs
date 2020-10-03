@@ -1,4 +1,5 @@
-﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
+﻿using System;
+using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
     public abstract class PlatformSettingsPropertyDrawerBase : PropertyDrawerBase
     {
-        protected PlatformSettingsDrawer Drawer { get; } = new PlatformSettingsDrawer();
+        protected PlatformSettingsDrawer Drawer { get; set; } = new PlatformSettingsDrawer();
 
         protected override void OnDrawProperty(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
@@ -22,6 +23,9 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
             return Drawer.GetHeight(propertyGroups);
         }
 
-        protected abstract void OnDrawerSettingsCreated(string name, SerializedProperty propertySettings);
+        [Obsolete("OnDrawerSettingsCreated has been deprecated. Use Drawer.SettingsCreated event instead.")]
+        protected virtual void OnDrawerSettingsCreated(string name, SerializedProperty propertySettings)
+        {
+        }
     }
 }

@@ -17,11 +17,11 @@ namespace UGF.EditorTools.Editor.IMGUI.References
             if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
             var items = new List<DropdownItem<Type>>();
-            TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(targetType);
+            TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom<object>();
 
             foreach (Type type in types)
             {
-                if (IsValidType(type))
+                if (type.IsAssignableFrom(targetType) && IsValidType(type))
                 {
                     DropdownItem<Type> item = TypesDropdownEditorUtility.CreateItem(type, useFullPath);
 
@@ -54,7 +54,8 @@ namespace UGF.EditorTools.Editor.IMGUI.References
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
 
-            return !type.IsAbstract
+            return type.IsClass
+                   && !type.IsAbstract
                    && !type.IsGenericType
                    && type.IsDefined(typeof(SerializableAttribute))
                    && !typeof(Object).IsAssignableFrom(type)

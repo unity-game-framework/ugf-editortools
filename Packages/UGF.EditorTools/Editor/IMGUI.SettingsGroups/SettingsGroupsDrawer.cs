@@ -11,6 +11,7 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
     {
         public IReadOnlyList<string> Groups { get; }
         public SettingsGroupsToolbarDrawer Toolbar { get; set; } = new SettingsGroupsToolbarDrawer();
+        public bool AllowEmptySettings { get; set; } = true;
 
         private readonly List<string> m_groups = new List<string>();
         private Styles m_styles;
@@ -33,20 +34,25 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
 
             m_groups.Add(name);
             Toolbar.AddLabel(label);
+
+            OnGroupAdded(name);
         }
 
         public bool RemoveGroup(string name)
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
 
-            int index = m_groups.IndexOf(name);
-
-            if (index >= 0 || index < Groups.Count)
+            if (TryGetGroupLabel(name, out GUIContent label))
             {
-                m_groups.RemoveAt(index);
-                Toolbar.RemoveLabel(Toolbar.TabLabels[index]);
+                m_groups.Remove(name);
+                Toolbar.RemoveLabel(label);
+
+                OnGroupRemoved(name);
+
                 return true;
             }
+
+            OnGroupRemoved(name);
 
             return false;
         }
@@ -55,6 +61,24 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
         {
             m_groups.Clear();
             Toolbar.ClearLabels();
+
+            OnGroupsCleared();
+        }
+
+        public bool TryGetGroupLabel(string name, out GUIContent label)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
+
+            int index = m_groups.IndexOf(name);
+
+            if (index >= 0 || index < Groups.Count)
+            {
+                label = Toolbar.TabLabels[index];
+                return true;
+            }
+
+            label = null;
+            return false;
         }
 
         public void DrawGUILayout(SerializedProperty propertyGroups)
@@ -78,6 +102,18 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
         public float GetHeight(SerializedProperty propertyGroups)
         {
             return OnGetHeight(propertyGroups);
+        }
+
+        protected virtual void OnGroupAdded(string name)
+        {
+        }
+
+        protected virtual void OnGroupRemoved(string name)
+        {
+        }
+
+        protected virtual void OnGroupsCleared()
+        {
         }
 
         protected virtual void OnDrawGUI(Rect position, SerializedProperty propertyGroups)
@@ -132,10 +168,16 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
                 if (!SettingsGroupEditorUtility.TryGetGroup(propertyGroups, name, out SerializedProperty propertyGroup))
                 {
                     propertyGroup = SettingsGroupEditorUtility.AddGroup(propertyGroups, name);
+                    propertyGroup.serializedObject.ApplyModifiedProperties();
                 }
 
                 propertySettings = propertyGroup.FindPropertyRelative("m_settings");
 
+                OnCreateSettings(propertyGroups, name, propertySettings);
+            }
+
+            if (!AllowEmptySettings && string.IsNullOrEmpty(propertySettings.managedReferenceFullTypename))
+            {
                 OnCreateSettings(propertyGroups, name, propertySettings);
             }
 
@@ -145,6 +187,7 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
         protected virtual void OnCreateSettings(SerializedProperty propertyGroups, string name, SerializedProperty propertySettings)
         {
             propertySettings.managedReferenceValue = null;
+            propertySettings.serializedObject.ApplyModifiedProperties();
         }
 
         protected virtual string GetSelectedGroupName()

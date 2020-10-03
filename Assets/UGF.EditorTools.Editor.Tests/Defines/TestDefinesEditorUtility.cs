@@ -35,7 +35,7 @@ namespace UGF.EditorTools.Editor.Tests.Defines
         [Test]
         public void SetDefine()
         {
-            bool result = DefinesEditorUtility.SetDefine("TEST", BuildTargetGroup.Standalone);
+            bool result = DefinesEditorUtility.SetDefine("TEST", BuildTargetGroup.Android);
 
             Assert.True(result);
         }
