@@ -5,6 +5,52 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.3.0) - 2020-10-03  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/12?closed=1)  
+    
+
+### Added
+
+- Add automatic setttings object instance creation ([#78](https://github.com/unity-game-framework/ugf-editortools/pull/78))  
+    - Add `SettingsGroupsWithTypesDrawer` with types collection for each group to automatically create on demand.
+    - Add `PlatformSettingsDrawer.AutoSettingsInstanceCreation` to determine whether to automatically create object instance of required settings.
+    - Add `SettingsGroupsDrawer.TryGetGroupLabel` method to get label by group name.
+    - Add `OnGroupAdded`, `OnGroupRemoved` and `OnGroupsCleared` virtual methods for `SettingsGroupsDrawer` class.
+    - Change `PlatformSettingsDrawer` inherit from `SettingsGroupsWithTypesDrawer` to support group types.
+    - Change `PlatformSettingsPropertyDrawer` to be public class with default implementation to draw properties of `PlatformSettings<T>` type.
+    - Deprecate `PlatformSettingsPropertyDrawerBase.OnDrawerSettingsCreated` method, which no longer used and will be removed, use `Drawer.SettingsCreated` event instead, when settings creation override required.
+    - Deprecate `PlatformSettingsEditorUtility.GetPlatformsAvailable` and `PlatformSettingsEditorUtility.GetPlatformsAll` methods, use `BuildTargetGroupsAll` and `BuildTargetGroupsAllAvailable` properties instead.
+- Add PlatformSettingsDrawer.SettingsDrawing event to override drawing ([#77](https://github.com/unity-game-framework/ugf-editortools/pull/77))  
+    - Add `PlatformSettingsDrawer.SettingsDrawing` event which called when selected settings drawing.
+    - Add `SettingsGroupsDrawer.AllowEmptySettings` to determine whether empty settings allowed, otherwise force to create settings object through the `OnCreateSettings` method or `SettingsCreated` event.
+    - Change `PlatformSettingsPropertyDrawerBase.Drawer` set accessor to be public.
+    - Change `PlatformSettingsDrawer.SettingsCreated` event type, with `SettingsCreatedHandler` to specify parameters meaning.
+    - ~~Fix `PlatformSettingsPropertyDrawerBase` not subscribed on `Drawer.SettingsCreated` event.~~ (Related: #78)
+- Add methods to append all or only available platforms for PlatformSettingsDrawer ([#75](https://github.com/unity-game-framework/ugf-editortools/pull/75))  
+    - Add `PlatformSettingsDrawer.AddPlatformAllAvailable` method to add all available platforms to draw.
+    - Add `PlatformSettingsDrawer.AddPlatformAll` method to add all known platforms to draw.
+    - Add `PlatformSettingsDrawer.AddPlatformAll` method overload to add platforms to display form specified list.
+    - Change `PlatformSettingsPropertyDrawer` to add all platforms to drawer by default.
+- Add EnabledProperty equality operators ([#74](https://github.com/unity-game-framework/ugf-editortools/pull/74))  
+    - Add `==` and `!=` operators to compare property value only.
+    - Add implicit operator to convert property to `boolean`, which can be used to check whether property enabled.
+
+### Deprecated
+
+- Deprecate PlatformSettingsPropertyDrawerBase.OnDrawerSettingsCreated method ([#80](https://github.com/unity-game-framework/ugf-editortools/issues/80))  
+    - `PlatformSettingsPropertyDrawerBase.OnDrawerSettingsCreated` method no longer used and will be removed, use `Drawer.SettingsCreated` event instead, when settings creation override required.
+- Deprecate PlatformSettingsEditorUtility.GetPlatformsAvailable and GetPlatformsAll methods ([#79](https://github.com/unity-game-framework/ugf-editortools/issues/79))  
+    - Deprecate `PlatformSettingsEditorUtility.GetPlatformsAvailable` and `PlatformSettingsEditorUtility.GetPlatformsAll` methods, use `BuildTargetGroupsAll` and `BuildTargetGroupsAllAvailable` properties instead.
+
+### Fixed
+
+- Fix ManagedReferenceAttribute dropdown selection display only derived types ([#76](https://github.com/unity-game-framework/ugf-editortools/pull/76))  
+    - Fix `ManagedReferenceEditorUtility.GetTypeItems` to return all types assignable from specified target type.
+    - Fix `ManagedReferenceEditorUtility.IsValidType` to validate only types of classes.
+
 ## [1.2.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.2.0) - 2020-09-30  
 
 ### Release Notes
