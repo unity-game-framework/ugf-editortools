@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
+using UnityEditor;
 using UnityEditorInternal;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.Yaml
@@ -15,11 +17,11 @@ namespace UGF.EditorTools.Editor.Yaml
     /// </summary>
     public static class EditorYamlUtility
     {
-        public static string ToYaml(Object target)
+        public static string ToYaml(Object target, bool validate = true)
         {
             using (var scope = new EditorTempScope())
             {
-                ToYamlAtPath(target, scope.Path);
+                ToYamlAtPath(target, scope.Path, validate);
 
                 string content = File.ReadAllText(scope.Path);
 
@@ -27,11 +29,11 @@ namespace UGF.EditorTools.Editor.Yaml
             }
         }
 
-        public static string ToYamlAll(Object[] targets)
+        public static string ToYamlAll(Object[] targets, bool validate = true)
         {
             using (var scope = new EditorTempScope())
             {
-                ToYamlAllAtPath(targets, scope.Path);
+                ToYamlAllAtPath(targets, scope.Path, validate);
 
                 string content = File.ReadAllText(scope.Path);
 
@@ -72,18 +74,29 @@ namespace UGF.EditorTools.Editor.Yaml
             }
         }
 
-        public static void ToYamlAtPath(Object target, string path)
+        public static void ToYamlAtPath(Object target, string path, bool validate = true)
         {
             if (target == null) throw new ArgumentNullException(nameof(target));
 
-            ToYamlAllAtPath(new[] { target }, path);
+            ToYamlAllAtPath(new[] { target }, path, validate);
         }
 
-        public static void ToYamlAllAtPath(Object[] targets, string path)
+        public static void ToYamlAllAtPath(Object[] targets, string path, bool validate = true)
         {
             if (targets == null) throw new ArgumentNullException(nameof(targets));
             if (targets.Length == 0) throw new ArgumentException("Value cannot be an empty collection.", nameof(targets));
             if (string.IsNullOrEmpty(path)) throw new ArgumentException("Value cannot be null or empty.", nameof(path));
+
+            if (validate)
+            {
+                foreach (Object target in targets)
+                {
+                    if (!ValidateForDeserialization(target))
+                    {
+                        throw new ArgumentException($"Invalid specified target which can not be deserialized from result: '{target}'.");
+                    }
+                }
+            }
 
             InternalEditorUtility.SaveToSerializedFileAndForget(targets, path, true);
         }
@@ -105,6 +118,32 @@ namespace UGF.EditorTools.Editor.Yaml
             if (string.IsNullOrEmpty(path)) throw new ArgumentException("Value cannot be null or empty.", nameof(path));
 
             return InternalEditorUtility.LoadSerializedFileAndForget(path);
+        }
+
+        /// <summary>
+        /// Validates the specified object to determines whether it can be properly deserialized.
+        /// </summary>
+        /// <param name="target">Unity Object to validate.</param>
+        /// <remarks>
+        /// All MonoBehaviour's and ScriptableObject's must be defined in files with the same name as the name of the class, to support Unity serialization in editor.
+        /// This is required to determine type of the object it should create and deserialize.
+        /// In cases of serialization to text, this is not required, because type of the object already known.
+        /// </remarks>
+        public static bool ValidateForDeserialization(Object target)
+        {
+            if (target == null) throw new ArgumentNullException(nameof(target));
+
+            if (target is MonoBehaviour monoBehaviour)
+            {
+                return MonoScript.FromMonoBehaviour(monoBehaviour) != null;
+            }
+
+            if (target is ScriptableObject scriptableObject)
+            {
+                return MonoScript.FromScriptableObject(scriptableObject) != null;
+            }
+
+            return true;
         }
     }
 }
