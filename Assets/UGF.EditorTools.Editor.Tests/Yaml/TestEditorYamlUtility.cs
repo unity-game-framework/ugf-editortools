@@ -16,11 +16,21 @@ namespace UGF.EditorTools.Editor.Tests.Yaml
         }
 
         [Test]
+        public void ToYamlMaterial()
+        {
+            var data = new Material(Shader.Find("Standard"));
+            string yaml = EditorYamlUtility.ToYaml(data);
+
+            Assert.Pass(yaml);
+        }
+
+        [Test]
         public void ToYamlAll()
         {
             var data = ScriptableObject.CreateInstance<TestEditorYamlUtilityData>();
             var data2 = ScriptableObject.CreateInstance<TestEditorYamlUtilityData2>();
-            string yaml = EditorYamlUtility.ToYamlAll(new Object[] { data, data2 });
+            var data3 = ScriptableObject.CreateInstance<TestEditorYamlUtilityData3Invalid>();
+            string yaml = EditorYamlUtility.ToYamlAll(new Object[] { data, data2, data3 }, false);
 
             Assert.Pass(yaml);
         }
@@ -58,19 +68,42 @@ namespace UGF.EditorTools.Editor.Tests.Yaml
         {
             var data = ScriptableObject.CreateInstance<TestEditorYamlUtilityData>();
             var data2 = ScriptableObject.CreateInstance<TestEditorYamlUtilityData2>();
+            var data3 = ScriptableObject.CreateInstance<TestEditorYamlUtilityData3Invalid>();
 
             data.Name = "Data Name";
             data2.Name = "Data Name 2";
+            data2.Name = "Data Name 3";
 
-            string yaml = EditorYamlUtility.ToYamlAll(new Object[] { data, data2 });
+            string yaml = EditorYamlUtility.ToYamlAll(new Object[] { data, data2, data3 }, false);
 
             Object[] dataAll = EditorYamlUtility.FromYamlAll(yaml);
 
-            Assert.AreEqual(2, dataAll.Length);
+            Assert.AreEqual(3, dataAll.Length);
             Assert.IsInstanceOf<TestEditorYamlUtilityData>(dataAll[0]);
             Assert.IsInstanceOf<TestEditorYamlUtilityData2>(dataAll[1]);
+            Assert.IsNotInstanceOf<TestEditorYamlUtilityData3Invalid>(dataAll[2]);
             Assert.AreEqual(data.Name, ((TestEditorYamlUtilityData)dataAll[0]).Name);
             Assert.AreEqual(data2.Name, ((TestEditorYamlUtilityData2)dataAll[1]).Name);
+        }
+
+        [Test]
+        public void ValidateForDeserialization()
+        {
+            var data = ScriptableObject.CreateInstance<TestEditorYamlUtilityData>();
+            var data2 = ScriptableObject.CreateInstance<TestEditorYamlUtilityData2>();
+            var data3 = ScriptableObject.CreateInstance<TestEditorYamlUtilityData3Invalid>();
+
+            data.Name = "Data Name";
+            data2.Name = "Data Name 2";
+            data3.Name = "Data Name 3";
+
+            bool result1 = EditorYamlUtility.ValidateForDeserialization(data);
+            bool result2 = EditorYamlUtility.ValidateForDeserialization(data2);
+            bool result3 = EditorYamlUtility.ValidateForDeserialization(data3);
+
+            Assert.True(result1);
+            Assert.True(result2);
+            Assert.False(result3);
         }
     }
 }

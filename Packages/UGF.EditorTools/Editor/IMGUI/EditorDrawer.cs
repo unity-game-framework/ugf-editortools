@@ -18,7 +18,7 @@ namespace UGF.EditorTools.Editor.IMGUI
             {
                 if (DisplayTitlebar)
                 {
-                    EditorGUILayout.InspectorTitlebar(true, m_editor, false);
+                    EditorGUILayout.InspectorTitlebar(true, m_editor.target, false);
                 }
 
                 m_editor.OnInspectorGUI();

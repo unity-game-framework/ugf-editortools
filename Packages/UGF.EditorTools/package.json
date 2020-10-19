@@ -2,7 +2,7 @@
   "name": "com.ugf.editortools",
   "displayName": "UGF.EditorTools",
   "version": "1.3.1",
-  "unity": "2020.1",
+  "unity": "2020.2",
   "apiCompatibility": ".NET Standard 2.0",
   "description": "Provides tools for working with editor code.",
   "author": {
@@ -13,8 +13,8 @@
     "type": "git",
     "url": "git://github.com/unity-game-framework/ugf-editortools.git"
   },
-  "changelogUrl": "https://github.com/unity-game-framework/ugf-editortools/blob/master/license",
-  "licenseUrl": "https://github.com/unity-game-framework/ugf-editortools/blob/master/changelog.md",
+  "changelogUrl": "https://github.com/unity-game-framework/ugf-editortools/blob/master/changelog.md",
+  "licensesUrl": "https://github.com/unity-game-framework/ugf-editortools/blob/master/license",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@unity-game-framework"
   },
