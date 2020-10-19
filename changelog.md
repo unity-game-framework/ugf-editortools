@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.4.0) - 2020-10-19  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/14?closed=1)  
+    
+
+### Added
+
+- Add check for MonoScript existence during editor yaml serialization ([#91](https://github.com/unity-game-framework/ugf-editortools/pull/91))  
+    - Add `EditorYamlUtility.ValidateForDeserialization` to determines whether specified object has properly defined script file.
+    - Add additional parameter `validate` for all serialize to yaml methods of `EditorYamlUtility` class, to determines whether specified targets can be properly deserialized later.
+
+### Changed
+
+- Update to Unity 2020.2 ([#89](https://github.com/unity-game-framework/ugf-editortools/pull/89))  
+
+### Fixed
+
+- Fix EditorDrawer use editor object to display titlebar instead of target ([#90](https://github.com/unity-game-framework/ugf-editortools/pull/90))
+
 ## [1.3.1](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.3.1) - 2020-10-04  
 
 ### Release Notes
