@@ -94,7 +94,8 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
         public void DrawGUI(Rect position, SerializedProperty propertyGroups)
         {
             if (propertyGroups == null) throw new ArgumentNullException(nameof(propertyGroups));
-            if (m_styles == null) m_styles = new Styles();
+
+            m_styles ??= new Styles();
 
             OnDrawGUI(position, propertyGroups);
         }

@@ -12,6 +12,13 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         private UnityEditor.Editor m_editor;
 
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            Clear();
+        }
+
         public void DrawGUILayout()
         {
             if (m_editor != null)

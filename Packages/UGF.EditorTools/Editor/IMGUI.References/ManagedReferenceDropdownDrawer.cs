@@ -24,10 +24,7 @@ namespace UGF.EditorTools.Editor.IMGUI.References
 
         public override void DrawGUI(Rect position, GUIContent label, SerializedProperty serializedProperty, FocusType focusType = FocusType.Keyboard)
         {
-            if (m_styles == null)
-            {
-                m_styles = new Styles();
-            }
+            m_styles ??= new Styles();
 
             Rect dropdownPosition = position;
             float height = EditorGUIUtility.singleLineHeight;

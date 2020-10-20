@@ -10,6 +10,20 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            Drawer.Enable();
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            Drawer.Disable();
+        }
+
         protected override void OnRemove()
         {
             base.OnRemove();
