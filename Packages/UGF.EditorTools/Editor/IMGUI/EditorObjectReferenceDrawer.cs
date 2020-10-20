@@ -13,6 +13,20 @@ namespace UGF.EditorTools.Editor.IMGUI
             SerializedProperty = serializedProperty ?? throw new ArgumentNullException(nameof(serializedProperty));
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            Drawer.Enable();
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            Drawer.Disable();
+        }
+
         public void DrawGUILayout()
         {
             if (SerializedProperty.objectReferenceValue != null)
