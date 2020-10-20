@@ -11,16 +11,16 @@ namespace UGF.EditorTools.Editor.IMGUI.Toolbar
         public ToolbarDirection Direction { get; set; } = ToolbarDirection.Horizontal;
         public ToolbarStyles Styles { get; set; } = new ToolbarStyles("miniButton", "miniButtonLeft", "miniButtonMid", "miniButtonRight");
 
-        private StylesCache m_styles;
+        private StylesGUI m_styles;
 
-        private class StylesCache
+        private class StylesGUI
         {
             public GUIStyle TabSingle { get; }
             public GUIStyle TabFirst { get; }
             public GUIStyle TabMiddle { get; }
             public GUIStyle TabLast { get; }
 
-            public StylesCache(ToolbarStyles styles)
+            public StylesGUI(ToolbarStyles styles)
             {
                 TabSingle = new GUIStyle(styles.TabSingle);
                 TabFirst = new GUIStyle(styles.TabMiddle);
@@ -40,7 +40,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Toolbar
 
         public void DrawGUI(Rect position)
         {
-            if (m_styles == null) m_styles = new StylesCache(Styles);
+            m_styles ??= new StylesGUI(Styles);
 
             OnDrawGUI(position);
         }
