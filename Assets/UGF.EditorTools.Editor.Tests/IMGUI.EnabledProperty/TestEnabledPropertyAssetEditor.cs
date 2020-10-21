@@ -43,6 +43,12 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.EnabledProperty
 
             serializedObject.UpdateIfRequiredOrScript();
 
+            using (new IndentIncrementScope(0))
+            {
+                m_list1.DrawGUILayout();
+                m_list2.DrawGUILayout();
+            }
+
             using (new IndentIncrementScope(4))
             {
                 m_list1.DrawGUILayout();
