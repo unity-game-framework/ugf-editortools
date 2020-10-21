@@ -18,5 +18,10 @@ namespace UGF.EditorTools.Editor.IMGUI.AssetReferences
         {
             return EditorGUIUtility.singleLineHeight;
         }
+
+        protected override bool OnElementHasVisibleChildren(SerializedProperty serializedProperty)
+        {
+            return false;
+        }
     }
 }
