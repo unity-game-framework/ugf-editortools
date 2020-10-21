@@ -16,8 +16,8 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.EnabledProperty
         [SerializeField] private EnabledProperty<LayerMask> m_layerMask;
         [SerializeField] private EnabledProperty<Data> m_data;
         [SerializeField] private EnabledProperty<ScriptableObject> m_scriptableObject;
-        [SerializeField] private List<EnabledProperty<Data>> m_list1 = new List<EnabledProperty<Data>>();
-        [SerializeField] private List<EnabledProperty<ScriptableObject>> m_list2 = new List<EnabledProperty<ScriptableObject>>();
+        [SerializeField, NonReorderable] private List<EnabledProperty<Data>> m_list1 = new List<EnabledProperty<Data>>();
+        [SerializeField, NonReorderable] private List<EnabledProperty<ScriptableObject>> m_list2 = new List<EnabledProperty<ScriptableObject>>();
 
         public EnabledProperty<bool> Bool { get { return m_bool; } set { m_bool = value; } }
         public EnabledProperty<float> Float { get { return m_float; } set { m_float = value; } }

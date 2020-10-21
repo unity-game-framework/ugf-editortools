@@ -133,7 +133,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             SerializedProperty propertyElement = SerializedProperty.GetArrayElementAtIndex(index);
 
-            if (propertyElement.hasVisibleChildren)
+            if (OnElementHasVisibleChildren(propertyElement))
             {
                 position.xMin += height - space;
             }
@@ -169,6 +169,11 @@ namespace UGF.EditorTools.Editor.IMGUI
             return serializedProperty.propertyType == SerializedPropertyType.ObjectReference
                 ? EditorGUIUtility.singleLineHeight
                 : EditorGUI.GetPropertyHeight(serializedProperty, true);
+        }
+
+        protected virtual bool OnElementHasVisibleChildren(SerializedProperty serializedProperty)
+        {
+            return serializedProperty.hasVisibleChildren;
         }
 
         protected virtual void OnAdd()
