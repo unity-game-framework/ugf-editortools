@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.5.0) - 2020-10-21  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/16?closed=1)  
+    
+
+### Added
+
+- Add AssetReference property to store asset guid and asset ([#98](https://github.com/unity-game-framework/ugf-editortools/pull/98))  
+    - Add `AssetReference<T>` to store asset reference with asset guid at runtime.
+    - Add `AssetReferenceEditorGUIUtility` to draw `AssetReference<T>` property in editor.
+    - Add `AssetReferenceListDrawer` to draw list of `AssetReference<T>` properties.
+
+### Fixed
+
+- Fix elements indent in EnabledPropertyListDrawer ([#99](https://github.com/unity-game-framework/ugf-editortools/pull/99))  
+    - Fix `EnabledPropertyListDrawer` to not display additional indent where not required.
+    - Add `ReorderableListDrawer.OnElementHasVisibleChildren` overridable method to determine whether element should be indented to display foldout button.
+
 ## [1.4.1](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.4.1) - 2020-10-20  
 
 ### Release Notes
