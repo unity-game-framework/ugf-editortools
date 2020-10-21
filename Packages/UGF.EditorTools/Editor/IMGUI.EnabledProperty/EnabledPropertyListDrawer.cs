@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using UGF.EditorTools.Editor.IMGUI.Scopes;
+using UnityEditor;
 using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
@@ -19,8 +20,18 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
             }
             else
             {
-                base.OnDrawElementContent(position, serializedProperty, index, isActive, isFocused);
+                float width = EditorIMGUIUtility.GetIndentWithLevel(1);
+
+                using (new LabelWidthChangeScope(width))
+                {
+                    base.OnDrawElementContent(position, serializedProperty, index, isActive, isFocused);
+                }
             }
+        }
+
+        protected override bool OnElementHasVisibleChildren(SerializedProperty serializedProperty)
+        {
+            return false;
         }
     }
 }
