@@ -12,5 +12,10 @@ namespace UGF.EditorTools.Editor.IMGUI.AssetReferences
         {
             AssetReferenceEditorGUIUtility.AssetReference(position, label, serializedProperty);
         }
+
+        public override float GetPropertyHeight(SerializedProperty serializedProperty, GUIContent label)
+        {
+            return EditorGUIUtility.singleLineHeight;
+        }
     }
 }
