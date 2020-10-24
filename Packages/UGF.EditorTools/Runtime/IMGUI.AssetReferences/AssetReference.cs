@@ -11,13 +11,20 @@ namespace UGF.EditorTools.Runtime.IMGUI.AssetReferences
         [SerializeField] private string m_guid;
         [SerializeField] private TAsset m_asset;
 
-        public string Guid { get { return m_guid; } set { m_guid = value; } }
-        public TAsset Asset { get { return m_asset; } set { m_asset = value; } }
+        public string Guid { get { return !string.IsNullOrEmpty(m_guid) ? m_guid : throw new ArgumentException("Asset guid not specified."); } set { m_guid = value; } }
+        public bool HasGuid { get { return !string.IsNullOrEmpty(m_guid); } }
+        public TAsset Asset { get { return m_asset ? m_asset : throw new ArgumentException("Asset not specified."); } set { m_asset = value; } }
+        public bool HasAsset { get { return m_asset != null; } }
 
         public AssetReference(string guid, TAsset asset)
         {
-            m_guid = guid ?? throw new ArgumentNullException(nameof(guid));
+            m_guid = guid;
             m_asset = asset;
+        }
+
+        public bool IsValid()
+        {
+            return !string.IsNullOrEmpty(m_guid) && m_asset != null;
         }
 
         public bool Equals(AssetReference<TAsset> other)
