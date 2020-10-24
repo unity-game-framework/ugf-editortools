@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.2](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.5.2) - 2020-10-24  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/18?closed=1)  
+    
+
+### Added
+
+- Add AssetReference validation ([#107](https://github.com/unity-game-framework/ugf-editortools/pull/107))  
+    - Add `HasGuid` and `HasAsset` properties.
+    - Add `IsValid` to validate asset reference data.
+    - Change `Guid` and `Asset` properties to throw exceptions when data is invalid.
+
+### Fixed
+
+- Fix managed reference dropdown not display types to select ([#106](https://github.com/unity-game-framework/ugf-editortools/pull/106))
+
 ## [1.5.1](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.5.1) - 2020-10-22  
 
 ### Release Notes
