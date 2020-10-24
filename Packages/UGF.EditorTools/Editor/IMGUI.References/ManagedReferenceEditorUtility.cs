@@ -21,7 +21,7 @@ namespace UGF.EditorTools.Editor.IMGUI.References
 
             foreach (Type type in types)
             {
-                if (type.IsAssignableFrom(targetType) && IsValidType(type))
+                if (targetType.IsAssignableFrom(type) && IsValidType(type))
                 {
                     DropdownItem<Type> item = TypesDropdownEditorUtility.CreateItem(type, useFullPath);
 
