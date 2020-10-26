@@ -140,7 +140,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
             if (!EditorIMGUIUtility.IsMissingObject(asset))
             {
-                path = AssetsEditorUtility.TryGetResourcesPath(asset, out string result) ? result : string.Empty;
+                path = asset != null && AssetsEditorUtility.TryGetResourcesPath(asset, out string result) ? result : string.Empty;
             }
 
             return path;
