@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
-    public static partial class PlatformSettingsEditorUtility
+    public static class PlatformSettingsEditorUtility
     {
         public static IReadOnlyList<BuildTargetGroup> BuildTargetGroupsAll { get; }
         public static IReadOnlyList<BuildTargetGroup> BuildTargetGroupsAllAvailable { get; }

@@ -16,6 +16,7 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
             SerializedProperty = serializedProperty ?? throw new ArgumentNullException(nameof(serializedProperty));
             PropertySize = SerializedProperty.FindPropertyRelative("Array.size");
+
             List = new ReorderableList(serializedProperty.serializedObject, serializedProperty)
             {
                 headerHeight = EditorGUIUtility.standardVerticalSpacing,
@@ -45,7 +46,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         protected virtual void OnDrawGUILayout(GUIContent label = null)
         {
-            if (label == null) label = new GUIContent(SerializedProperty.displayName);
+            label ??= new GUIContent(SerializedProperty.displayName);
 
             float height = GetHeight();
             Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, height);
@@ -55,7 +56,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         protected virtual void OnDrawGUI(Rect position, GUIContent label = null)
         {
-            if (label == null) label = new GUIContent(SerializedProperty.displayName);
+            label ??= new GUIContent(SerializedProperty.displayName);
 
             var foldoutPosition = new Rect(position.x, position.y, position.width, OnGetFoldoutHeight());
 
@@ -143,13 +144,20 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         protected virtual void OnDrawElementContent(Rect position, SerializedProperty serializedProperty, int index, bool isActive, bool isFocused)
         {
-            if (serializedProperty.propertyType == SerializedPropertyType.ObjectReference)
+            if (OnElementHasVisibleChildren(serializedProperty))
             {
-                EditorGUI.PropertyField(position, serializedProperty, GUIContent.none);
+                EditorGUI.PropertyField(position, serializedProperty, true);
             }
             else
             {
-                EditorGUI.PropertyField(position, serializedProperty, true);
+                if (serializedProperty.propertyType == SerializedPropertyType.ManagedReference)
+                {
+                    EditorGUI.PropertyField(position, serializedProperty);
+                }
+                else
+                {
+                    EditorGUI.PropertyField(position, serializedProperty, GUIContent.none);
+                }
             }
         }
 
@@ -166,9 +174,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         protected virtual float OnElementHeightContent(SerializedProperty serializedProperty, int index)
         {
-            return serializedProperty.propertyType == SerializedPropertyType.ObjectReference
-                ? EditorGUIUtility.singleLineHeight
-                : EditorGUI.GetPropertyHeight(serializedProperty, true);
+            return EditorGUI.GetPropertyHeight(serializedProperty, true);
         }
 
         protected virtual bool OnElementHasVisibleChildren(SerializedProperty serializedProperty)
