@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.6.0) - 2020-10-26  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/19?closed=1)  
+    
+
+### Added
+
+- Add SerializedObject scope to update and apply properties ([#114](https://github.com/unity-game-framework/ugf-editortools/pull/114))  
+    - Add `SerializedObjectUpdateScope` disposable scope to write code between serializedobject update and apply.
+
+### Changed
+
+- Change reorderable list to not display label when element has no visible children ([#113](https://github.com/unity-game-framework/ugf-editortools/pull/113))  
+    - Change to display label only when element has visible children or it is empty reference.
+
+### Removed
+
+- Remove deprecated code ([#115](https://github.com/unity-game-framework/ugf-editortools/pull/115))  
+    - Remove `PlatformSettingsPropertyDrawerBase.OnDrawerSettingsCreated` method.
+    - Remove `PlatformSettingsEditorUtility.GetPlatformsAvailable` and `PlatformSettingsEditorUtility.GetPlatformsAll` methods which works with `BuildTargetGroup` enumerable.
+    - Remove `EditorIMGUIUtility.DrawAssetGuidField` and `EditorIMGUIUtility.DrawAssetGuidField` methods.
+
+### Fixed
+
+- Fix DrawResourcesPathField throws error when select none ([#111](https://github.com/unity-game-framework/ugf-editortools/pull/111))
+
 ## [1.5.2](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.5.2) - 2020-10-24  
 
 ### Release Notes
