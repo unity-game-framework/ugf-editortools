@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
-    public static partial class EditorIMGUIUtility
+    public static class EditorIMGUIUtility
     {
         public static float IndentPerLevel { get; }
         public static Object MissingObject { get; }

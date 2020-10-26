@@ -1,5 +1,4 @@
-﻿using System;
-using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
+﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,11 +20,6 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
             SerializedProperty propertyGroups = serializedProperty.FindPropertyRelative("m_groups");
 
             return Drawer.GetHeight(propertyGroups);
-        }
-
-        [Obsolete("OnDrawerSettingsCreated has been deprecated. Use Drawer.SettingsCreated event instead.")]
-        protected virtual void OnDrawerSettingsCreated(string name, SerializedProperty propertySettings)
-        {
         }
     }
 }
