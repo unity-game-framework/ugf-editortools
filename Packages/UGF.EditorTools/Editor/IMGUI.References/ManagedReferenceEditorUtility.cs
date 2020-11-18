@@ -1,36 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using UGF.EditorTools.Editor.IMGUI.Dropdown;
-using UGF.EditorTools.Editor.IMGUI.Types;
-using UnityEditor;
 using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI.References
 {
-    public static class ManagedReferenceEditorUtility
+    public static partial class ManagedReferenceEditorUtility
     {
         private static readonly char[] m_separator = { ' ' };
-
-        public static List<DropdownItem<Type>> GetTypeItems(Type targetType, bool useFullPath = false)
-        {
-            if (targetType == null) throw new ArgumentNullException(nameof(targetType));
-
-            var items = new List<DropdownItem<Type>>();
-            TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom<object>();
-
-            foreach (Type type in types)
-            {
-                if (targetType.IsAssignableFrom(type) && IsValidType(type))
-                {
-                    DropdownItem<Type> item = TypesDropdownEditorUtility.CreateItem(type, useFullPath, false);
-
-                    items.Add(item);
-                }
-            }
-
-            return items;
-        }
 
         public static bool TryGetType(string managedReferenceTypeName, out Type type)
         {
