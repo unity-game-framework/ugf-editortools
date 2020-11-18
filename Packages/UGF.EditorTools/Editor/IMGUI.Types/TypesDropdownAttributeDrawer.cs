@@ -12,7 +12,6 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
     internal class TypesDropdownAttributeDrawer : PropertyDrawerTyped<TypesDropdownAttribute>
     {
         private readonly TypesDropdownDrawer m_drawer;
-
         private readonly DropdownItem<Type> m_noneItem = new DropdownItem<Type>("None")
         {
             Priority = int.MaxValue
@@ -30,7 +29,9 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 
         private IEnumerable<DropdownItem<Type>> OnGetItems()
         {
-            List<DropdownItem<Type>> items = TypesDropdownEditorUtility.GetTypeItems(Attribute.TargetType, Attribute.DisplayFullPath);
+            var items = new List<DropdownItem<Type>>();
+
+            TypesDropdownEditorUtility.GetTypeItems(items, Attribute.TargetType, Attribute.DisplayFullPath, Attribute.DisplayAssemblyName);
 
             items.Add(m_noneItem);
 

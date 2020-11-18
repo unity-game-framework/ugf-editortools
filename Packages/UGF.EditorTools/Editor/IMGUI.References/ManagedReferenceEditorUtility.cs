@@ -23,7 +23,7 @@ namespace UGF.EditorTools.Editor.IMGUI.References
             {
                 if (targetType.IsAssignableFrom(type) && IsValidType(type))
                 {
-                    DropdownItem<Type> item = TypesDropdownEditorUtility.CreateItem(type, useFullPath);
+                    DropdownItem<Type> item = TypesDropdownEditorUtility.CreateItem(type, useFullPath, false);
 
                     items.Add(item);
                 }

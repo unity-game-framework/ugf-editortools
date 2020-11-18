@@ -32,7 +32,16 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             {
                 var type = Type.GetType(value);
 
-                content = type != null ? new GUIContent(type.Name) : ContentMissing;
+                if (type != null)
+                {
+                    string name = TypesDropdownEditorUtility.GetTypeDisplayName(type, false);
+
+                    content = new GUIContent(name);
+                }
+                else
+                {
+                    content = ContentMissing;
+                }
             }
             else
             {
