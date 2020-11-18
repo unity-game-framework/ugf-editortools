@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using UGF.EditorTools.Editor.IMGUI.Dropdown;
 using UGF.EditorTools.Editor.IMGUI.Types;
 using UGF.EditorTools.Runtime.IMGUI.Attributes;
 using UGF.EditorTools.Runtime.IMGUI.Types;
@@ -64,7 +66,15 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
 
         private void OnEnable()
         {
-            m_drawer = new TypesDropdownDrawer(() => TypesDropdownEditorUtility.GetTypeItems(typeof(ScriptableObject)));
+            m_drawer = new TypesDropdownDrawer(() =>
+            {
+                var items = new List<DropdownItem<Type>>();
+
+                TypesDropdownEditorUtility.GetTypeItems(items, typeof(ScriptableObject), false, false);
+
+                return items;
+            });
+
             m_propertyTypeName = serializedObject.FindProperty("m_typeName");
         }
 
