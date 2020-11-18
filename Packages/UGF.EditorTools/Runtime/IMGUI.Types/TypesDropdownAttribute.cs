@@ -8,6 +8,7 @@ namespace UGF.EditorTools.Runtime.IMGUI.Types
     {
         public Type TargetType { get; }
         public bool DisplayFullPath { get; set; } = true;
+        public bool DisplayAssemblyName { get; set; }
 
         public TypesDropdownAttribute(Type targetType = null)
         {
