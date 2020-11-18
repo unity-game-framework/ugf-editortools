@@ -26,7 +26,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
 
-            string name = GetTypeName(type, displayAssemblyName);
+            string name = GetTypeDisplayName(type, displayAssemblyName);
             var item = new DropdownItem<Type>(name, type);
 
             if (useFullPath && !string.IsNullOrEmpty(type.Namespace))
@@ -37,11 +37,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             return item;
         }
 
-        private static string GetTypeName(Type type, bool displayAssemblyName)
+        public static string GetTypeDisplayName(Type type, bool displayAssemblyName)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
 
-            string name = type.IsNested ? $"{GetTypeName(type.DeclaringType, false)}+{type.Name}" : type.Name;
+            string name = type.IsNested ? $"{GetTypeDisplayName(type.DeclaringType, false)}+{type.Name}" : type.Name;
 
             if (displayAssemblyName)
             {
