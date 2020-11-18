@@ -9,9 +9,9 @@ using UnityEngine;
 namespace UGF.EditorTools.Editor.IMGUI.References
 {
     [CustomPropertyDrawer(typeof(ManagedReferenceAttribute), true)]
-    internal class ManagedReferenceAttributeDrawer : TypesDropdownAttributePropertyDrawer<ManagedReferenceAttribute>
+    internal class ManagedReferenceAttributePropertyDrawer : TypesDropdownAttributePropertyDrawer<ManagedReferenceAttribute>
     {
-        public ManagedReferenceAttributeDrawer() : base(SerializedPropertyType.ManagedReference)
+        public ManagedReferenceAttributePropertyDrawer() : base(SerializedPropertyType.ManagedReference)
         {
         }
 
@@ -34,7 +34,7 @@ namespace UGF.EditorTools.Editor.IMGUI.References
         {
             base.OnGetItems(items);
 
-            TypesDropdownEditorUtility.GetTypeItems(items, OnValidate, Attribute.DisplayFullPath, false);
+            TypesDropdownEditorUtility.GetTypeItems(items, OnValidate, Attribute.DisplayFullPath, Attribute.DisplayAssemblyName);
         }
 
         private bool OnValidate(Type type)
