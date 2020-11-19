@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
 using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
+using UGF.EditorTools.Runtime.IMGUI.Types;
 using UnityEditor;
 using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.Types
 {
-    public abstract class TypesDropdownAttributePropertyDrawer<TAttribute> : PropertyDrawerTyped<TAttribute> where TAttribute : PropertyAttribute
+    public abstract class TypesDropdownAttributePropertyDrawer<TAttribute> : PropertyDrawerTyped<TAttribute> where TAttribute : TypesDropdownAttributeBase
     {
         protected DropdownDrawer<DropdownItem<Type>> Drawer { get { return m_drawer ??= OnCreateDrawer(); } }
 
@@ -24,14 +25,16 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 
         protected abstract DropdownDrawer<DropdownItem<Type>> OnCreateDrawer();
 
-        protected override void OnDrawProperty(Rect position, SerializedProperty property, GUIContent label)
+        protected override void OnDrawProperty(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
-            Drawer.DrawGUI(position, label, property);
+            Drawer.DrawGUI(position, label, serializedProperty);
         }
 
         protected virtual void OnGetItems(ICollection<DropdownItem<Type>> items)
         {
             items.Add(NoneItem);
+
+            TypesDropdownEditorUtility.GetTypeItems(items, Attribute.TargetType, Attribute.DisplayFullPath, Attribute.DisplayAssemblyName);
         }
 
         protected IEnumerable<DropdownItem<Type>> GetItems()
