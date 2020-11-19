@@ -4,12 +4,13 @@ using UnityEngine;
 namespace UGF.EditorTools.Runtime.IMGUI.Types
 {
     [Serializable]
-    public struct TypeReference : IEquatable<TypeReference>, IComparable<TypeReference>
+    public struct TypeReference<TType> : IEquatable<TypeReference<TType>>, IComparable<TypeReference<TType>>
     {
         [SerializeField] private string m_value;
 
         public string Value { get { return HasValue ? m_value : throw new ArgumentException("Value not specified."); } set { m_value = value; } }
         public bool HasValue { get { return !string.IsNullOrEmpty(m_value); } }
+        public Type Type { get { return typeof(TType); } }
 
         public TypeReference(string value)
         {
@@ -42,14 +43,14 @@ namespace UGF.EditorTools.Runtime.IMGUI.Types
             m_value = string.Empty;
         }
 
-        public bool Equals(TypeReference other)
+        public bool Equals(TypeReference<TType> other)
         {
             return m_value == other.m_value;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is TypeReference other && Equals(other);
+            return obj is TypeReference<TType> other && Equals(other);
         }
 
         public override int GetHashCode()
@@ -57,17 +58,17 @@ namespace UGF.EditorTools.Runtime.IMGUI.Types
             return m_value != null ? m_value.GetHashCode() : 0;
         }
 
-        public int CompareTo(TypeReference other)
+        public int CompareTo(TypeReference<TType> other)
         {
             return string.Compare(m_value, other.m_value, StringComparison.Ordinal);
         }
 
-        public static bool operator ==(TypeReference first, TypeReference second)
+        public static bool operator ==(TypeReference<TType> first, TypeReference<TType> second)
         {
             return first.Equals(second);
         }
 
-        public static bool operator !=(TypeReference first, TypeReference second)
+        public static bool operator !=(TypeReference<TType> first, TypeReference<TType> second)
         {
             return !first.Equals(second);
         }

@@ -1,14 +1,11 @@
 ﻿using System;
-using UnityEngine;
 
 namespace UGF.EditorTools.Runtime.IMGUI.Types
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class TypesDropdownAttribute : PropertyAttribute
+    public class TypesDropdownAttribute : TypesDropdownAttributeBase
     {
-        public Type TargetType { get; }
-        public bool DisplayFullPath { get; set; } = true;
-        public bool DisplayAssemblyName { get; set; }
+        public override Type TargetType { get; }
 
         public TypesDropdownAttribute(Type targetType = null)
         {

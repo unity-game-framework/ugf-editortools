@@ -12,17 +12,17 @@ namespace UGF.EditorTools.Editor.IMGUI.PropertyDrawers
             PropertyType = propertyType;
         }
 
-        protected override void OnGUIProperty(Rect position, SerializedProperty property, GUIContent label)
+        protected override void OnGUIProperty(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
-            if (property.propertyType == PropertyType)
+            if (serializedProperty.propertyType == PropertyType)
             {
-                base.OnGUIProperty(position, property, label);
+                base.OnGUIProperty(position, serializedProperty, label);
             }
             else
             {
-                OnDrawPropertyDefault(position, property, label);
+                OnDrawPropertyDefault(position, serializedProperty, label);
 
-                Debug.LogWarning($"Invalid type of specified serialized property: '{property.propertyPath} ({property.propertyType})', must be '{PropertyType}' in order to use '{typeof(TAttribute)}'.");
+                Debug.LogWarning($"Invalid type of specified serialized property: '{serializedProperty.propertyPath} ({serializedProperty.propertyType})', must be '{PropertyType}' in order to use '{typeof(TAttribute)}'.");
             }
         }
     }

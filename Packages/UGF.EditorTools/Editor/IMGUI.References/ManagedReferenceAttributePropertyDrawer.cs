@@ -32,7 +32,7 @@ namespace UGF.EditorTools.Editor.IMGUI.References
 
         protected override void OnGetItems(ICollection<DropdownItem<Type>> items)
         {
-            base.OnGetItems(items);
+            items.Add(NoneItem);
 
             TypesDropdownEditorUtility.GetTypeItems(items, OnValidate, Attribute.DisplayFullPath, Attribute.DisplayAssemblyName);
         }

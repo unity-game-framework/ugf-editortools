@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
 using UGF.EditorTools.Runtime.IMGUI.Types;
 using UnityEditor;
@@ -16,13 +15,6 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
         protected override DropdownDrawer<DropdownItem<Type>> OnCreateDrawer()
         {
             return new TypesDropdownDrawer(GetItems);
-        }
-
-        protected override void OnGetItems(ICollection<DropdownItem<Type>> items)
-        {
-            base.OnGetItems(items);
-
-            TypesDropdownEditorUtility.GetTypeItems(items, Attribute.TargetType, Attribute.DisplayFullPath, Attribute.DisplayAssemblyName);
         }
     }
 }
