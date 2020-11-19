@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: New Test Type Reference Asset
   m_EditorClassIdentifier: 
   m_type:
-    m_value: 
+    m_value: <PrivateImplementationDetails>+__StaticArrayInitTypeSize=108, UnityEngine.UIElementsModule,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_type2:
+    m_value: UGF.EditorTools.Editor.Tests.Yaml.TestEditorYamlUtilityData, UGF.EditorTools.Editor.Tests,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null

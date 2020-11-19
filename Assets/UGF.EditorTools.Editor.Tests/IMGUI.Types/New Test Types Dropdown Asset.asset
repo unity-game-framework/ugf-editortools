@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd0b85bb94647e889210cd5109594a0, type: 3}
   m_Name: New Test Types Dropdown Asset
   m_EditorClassIdentifier: 
-  m_type: <PrivateImplementationDetails>+__StaticArrayInitTypeSize=108, UnityEngine.UIElementsModule,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_type: <>f__AnonymousType1`2, UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
