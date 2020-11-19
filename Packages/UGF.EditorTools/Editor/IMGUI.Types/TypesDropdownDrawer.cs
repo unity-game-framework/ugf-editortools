@@ -32,7 +32,16 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             {
                 var type = Type.GetType(value);
 
-                content = type != null ? new GUIContent(type.Name) : ContentMissing;
+                if (type != null)
+                {
+                    string name = OnGetContentDisplayText(serializedProperty, type);
+
+                    content = new GUIContent(name);
+                }
+                else
+                {
+                    content = ContentMissing;
+                }
             }
             else
             {
@@ -40,6 +49,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             }
 
             return content;
+        }
+
+        protected virtual string OnGetContentDisplayText(SerializedProperty serializedProperty, Type type)
+        {
+            return TypesDropdownEditorUtility.GetTypeDisplayName(type, false);
         }
     }
 }

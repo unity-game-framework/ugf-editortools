@@ -10,7 +10,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.References
     {
         [SerializeReference, ManagedReference] private IManagedReferenceTest m_test;
 
-        [SerializeReference, ManagedReference(typeof(object), true)]
+        [SerializeReference, ManagedReference(typeof(object))]
         private object m_test2;
 
         [SerializeReference, ManagedReference(typeof(IManagedReferenceTest))]
