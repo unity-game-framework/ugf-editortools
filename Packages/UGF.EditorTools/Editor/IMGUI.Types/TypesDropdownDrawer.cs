@@ -34,7 +34,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 
                 if (type != null)
                 {
-                    string name = TypesDropdownEditorUtility.GetTypeDisplayName(type, false);
+                    string name = OnGetContentDisplayText(serializedProperty, type);
 
                     content = new GUIContent(name);
                 }
@@ -49,6 +49,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             }
 
             return content;
+        }
+
+        protected virtual string OnGetContentDisplayText(SerializedProperty serializedProperty, Type type)
+        {
+            return TypesDropdownEditorUtility.GetTypeDisplayName(type, false);
         }
     }
 }

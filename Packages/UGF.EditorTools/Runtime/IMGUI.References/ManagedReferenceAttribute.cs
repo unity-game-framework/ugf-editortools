@@ -9,6 +9,7 @@ namespace UGF.EditorTools.Runtime.IMGUI.References
         public Type TargetType { get { return m_targetType ?? throw new ArgumentException("No target type specified."); } }
         public bool HasTargetType { get { return m_targetType != null; } }
         public bool DisplayFullPath { get; }
+        public bool DisplayAssemblyName { get; set; }
 
         private readonly Type m_targetType;
 

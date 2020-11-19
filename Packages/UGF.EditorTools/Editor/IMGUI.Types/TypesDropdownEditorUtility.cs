@@ -7,6 +7,24 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 {
     public static partial class TypesDropdownEditorUtility
     {
+        public static void GetTypeItems(ICollection<DropdownItem<Type>> collection, Func<Type, bool> validate, bool useFullPath, bool displayAssemblyName)
+        {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+            if (validate == null) throw new ArgumentNullException(nameof(validate));
+
+            TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom<object>();
+
+            foreach (Type type in types)
+            {
+                if (validate(type))
+                {
+                    DropdownItem<Type> item = CreateItem(type, useFullPath, displayAssemblyName);
+
+                    collection.Add(item);
+                }
+            }
+        }
+
         public static void GetTypeItems(ICollection<DropdownItem<Type>> collection, Type targetType, bool useFullPath, bool displayAssemblyName)
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));

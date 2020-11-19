@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
-using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
+using UGF.EditorTools.Editor.IMGUI.Types;
 using UGF.EditorTools.Runtime.IMGUI.References;
 using UnityEditor;
 using UnityEngine;
@@ -9,23 +9,20 @@ using UnityEngine;
 namespace UGF.EditorTools.Editor.IMGUI.References
 {
     [CustomPropertyDrawer(typeof(ManagedReferenceAttribute), true)]
-    internal class ManagedReferenceAttributeDrawer : PropertyDrawerTyped<ManagedReferenceAttribute>
+    internal class ManagedReferenceAttributePropertyDrawer : TypesDropdownAttributePropertyDrawer<ManagedReferenceAttribute>
     {
-        private readonly ManagedReferenceDropdownDrawer m_drawer;
-
-        private readonly DropdownItem<Type> m_noneItem = new DropdownItem<Type>("None")
+        public ManagedReferenceAttributePropertyDrawer() : base(SerializedPropertyType.ManagedReference)
         {
-            Priority = int.MaxValue
-        };
+        }
 
-        public ManagedReferenceAttributeDrawer() : base(SerializedPropertyType.ManagedReference)
+        protected override DropdownDrawer<DropdownItem<Type>> OnCreateDrawer()
         {
-            m_drawer = new ManagedReferenceDropdownDrawer(OnGetItems);
+            return new ManagedReferenceDropdownDrawer(GetItems);
         }
 
         protected override void OnDrawProperty(Rect position, SerializedProperty property, GUIContent label)
         {
-            m_drawer.DrawGUI(position, label, property);
+            base.OnDrawProperty(position, property, label);
 
             using (new EditorGUI.PropertyScope(position, label, property))
             {
@@ -33,14 +30,18 @@ namespace UGF.EditorTools.Editor.IMGUI.References
             }
         }
 
-        private IEnumerable<DropdownItem<Type>> OnGetItems()
+        protected override void OnGetItems(ICollection<DropdownItem<Type>> items)
+        {
+            base.OnGetItems(items);
+
+            TypesDropdownEditorUtility.GetTypeItems(items, OnValidate, Attribute.DisplayFullPath, Attribute.DisplayAssemblyName);
+        }
+
+        private bool OnValidate(Type type)
         {
             Type targetType = GetTargetType();
-            List<DropdownItem<Type>> items = ManagedReferenceEditorUtility.GetTypeItems(targetType, Attribute.DisplayFullPath);
 
-            items.Add(m_noneItem);
-
-            return items;
+            return targetType.IsAssignableFrom(type) && ManagedReferenceEditorUtility.IsValidType(type);
         }
 
         private Type GetTargetType()
