@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.7.0) - 2020-11-19  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/20?closed=1)  
+    
+
+### Added
+
+- Add TypeReference serializable container for type with dropdown selection ([#123](https://github.com/unity-game-framework/ugf-editortools/pull/123))  
+    - Add `TypeReference<T>` to store and select type using dropdown.
+    - Add `TypeReferenceDropdownAttribute` attribute to control `TypeReference<T>` dropdown display.
+    - Add `TypesDropdownAttributeBase` abstract attribute as base attribute used to display types dropdown.
+    - Change `TypesDropdownAttributePropertyDrawer<T>` target attribute type to `TypesDropdownAttributeBase` attribute.
+- Add ability to extend types dropdown attribute display behaviour ([#122](https://github.com/unity-game-framework/ugf-editortools/pull/122))  
+    - Add `TypesDropdownAttributePropertyDrawer<T>` abstract class to implement custom types dropdown property drawer.
+    - Add `TypesDropdownDrawer.OnGetContentDisplayText` method to override display of current selected type.
+    - Add `TypesDropdownEditorUtility.GetTypeItems` overload method with type validation function.
+    - Add `ManagedReferenceAttribute.DisplayAssemblyName` property to determine whether to display assembly name within type name.
+    - Change `ManagedReferenceEditorUtility.GetTypeItems` method to be deprecated, use `TypesDropdownEditorUtility.GetTypeItems` instead.
+
+### Fixed
+
+- Fix types dropdown incorrect nested type name display ([#121](https://github.com/unity-game-framework/ugf-editortools/pull/121))  
+    - Fix types dropdown displays only short name of nested types for item and current selected value.
+    - Add `TypesDropdownAttribute.DisplayAssemblyName` property to determine whether to display assembly name within type name.
+    - Add `TypesDropdownEditorUtility.GetTypeDisplayName` to get type name with consideration of nested types and assembly name.
+    - Change `TypesDropdownEditorUtility.GetTypeItems` to be deprecated, use method overload with collection and display assembly name arguments.
+    - Change `TypesDropdownEditorUtility.CreateItem` to be deprecated, use method overload with display assembly name argument.
+
 ## [1.6.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.6.0) - 2020-10-26  
 
 ### Release Notes
