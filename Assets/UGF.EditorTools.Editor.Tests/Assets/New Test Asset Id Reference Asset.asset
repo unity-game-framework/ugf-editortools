@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c238c45ea3f44cd0814ee32584576b32, type: 3}
+  m_Name: New Test Asset Id Reference Asset
+  m_EditorClassIdentifier: 
+  m_scriptable:
+    m_guid:
+      m_first: 3572554012151200165
+      m_second: 2250078598285564601
+    m_asset: {fileID: 11400000}
+  m_material:
+    m_guid:
+      m_first: 5644284074733981451
+      m_second: 8935266605448331448
+    m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
+  m_list:
+  - m_guid:
+      m_first: 5644284074733981451
+      m_second: 8935266605448331448
+    m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
+  - m_guid:
+      m_first: 5644284074733981451
+      m_second: 8935266605448331448
+    m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
