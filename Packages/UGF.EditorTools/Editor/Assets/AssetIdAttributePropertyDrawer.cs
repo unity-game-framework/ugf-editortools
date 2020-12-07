@@ -21,14 +21,7 @@ namespace UGF.EditorTools.Editor.Assets
 
             guid = AttributeEditorGUIUtility.DrawAssetGuidField(position, guid, label, Attribute.AssetType);
 
-            if (!string.IsNullOrEmpty(guid))
-            {
-                GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
-            }
-            else
-            {
-                GlobalIdEditorUtility.SetGlobalIdToProperty(serializedProperty, GlobalId.Empty);
-            }
+            GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
         }
 
         public override float GetPropertyHeight(SerializedProperty serializedProperty, GUIContent label)

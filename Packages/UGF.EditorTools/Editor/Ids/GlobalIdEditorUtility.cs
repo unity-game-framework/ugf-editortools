@@ -14,17 +14,16 @@ namespace UGF.EditorTools.Editor.Ids
             return guid;
         }
 
-        public static bool SetGuidToProperty(SerializedProperty serializedProperty, string guid)
+        public static void SetGuidToProperty(SerializedProperty serializedProperty, string guid)
         {
-            if (string.IsNullOrEmpty(guid)) throw new ArgumentException("Value cannot be null or empty.", nameof(guid));
-
-            if (GlobalId.TryParse(guid, out GlobalId id))
+            if (!string.IsNullOrEmpty(guid) && GlobalId.TryParse(guid, out GlobalId id))
             {
                 SetGlobalIdToProperty(serializedProperty, id);
-                return true;
             }
-
-            return false;
+            else
+            {
+                SetGlobalIdToProperty(serializedProperty, GlobalId.Empty);
+            }
         }
 
         public static GlobalId GetGlobalIdFromProperty(SerializedProperty serializedProperty)
