@@ -12,6 +12,7 @@ namespace UGF.EditorTools.Runtime.Ids
 
         public ulong First { get { return m_first; } set { m_first = value; } }
         public ulong Second { get { return m_second; } set { m_second = value; } }
+        public bool IsEmpty { get { return m_first == 0U && m_second == 0U; } }
 
         public static GlobalId Empty { get; } = new GlobalId(0U, 0U);
 
@@ -102,6 +103,16 @@ namespace UGF.EditorTools.Runtime.Ids
         public static bool operator !=(GlobalId first, GlobalId second)
         {
             return !first.Equals(second);
+        }
+
+        public static implicit operator Guid(GlobalId id)
+        {
+            return ToGuid(id);
+        }
+
+        public static implicit operator GlobalId(Guid guid)
+        {
+            return FromGuid(guid);
         }
 
         public string ToString(string format)
