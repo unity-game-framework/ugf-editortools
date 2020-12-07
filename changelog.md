@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.8.0) - 2020-12-07  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/21?closed=1)  
+    
+
+### Added
+
+- Add global id container ([#127](https://github.com/unity-game-framework/ugf-editortools/pull/127))  
+    - Add `GlobalId` structure to store serialized data of `Guid`, with abilities to convert vice versa.
+    - Add `GlobalIdEditorUtility` class with utilities to work with `GlobalId` at editor.
+    - Add `AssetIdAttribute` to draw field of `GlobalId` as object field for asset of specific type.
+    - Add `AssetIdReference<T>` structure, same as `AssetReference<T>` but asset guid stored as `GlobalId`.
+    - Add `AssetIdReferenceEditorGUIUtility` class with utilities to draw field of `AssetIdReference<T>`.
+    - Add `AssetIdReferenceListDrawer` list drawer to use with list of `AssetIdReference<T>`.
+
 ## [1.7.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.7.0) - 2020-11-19  
 
 ### Release Notes
