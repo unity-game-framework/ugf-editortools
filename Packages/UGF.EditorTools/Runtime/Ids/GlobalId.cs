@@ -81,6 +81,13 @@ namespace UGF.EditorTools.Runtime.Ids
             return false;
         }
 
+        public static GlobalId Generate()
+        {
+            var guid = Guid.NewGuid();
+
+            return FromGuid(guid);
+        }
+
         public static GlobalId FromGuid(Guid guid)
         {
             var converter = new Converter { Guid = guid };
