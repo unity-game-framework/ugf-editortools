@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.1](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.8.1) - 2020-12-14  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/22?closed=1)  
+    
+
+### Added
+
+- Add GlobalId generate ([#130](https://github.com/unity-game-framework/ugf-editortools/pull/130))  
+    - Add `GlobalId.Generate()` static method to create instance with new generated guid data.
+
 ## [1.8.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.8.0) - 2020-12-07  
 
 ### Release Notes
