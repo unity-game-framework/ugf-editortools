@@ -23,7 +23,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
             if (serializedProperty.propertyType != SerializedPropertyType.String) throw new ArgumentException("Serialized property type must be 'String'.");
 
+            EditorGUI.BeginProperty(position, label, serializedProperty);
+
             serializedProperty.stringValue = DrawAssetGuidField(position, serializedProperty.stringValue, label, assetType);
+
+            EditorGUI.EndProperty();
         }
 
         public static string DrawAssetGuidField(string guid, GUIContent label, Type assetType, params GUILayoutOption[] options)
@@ -60,7 +64,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
             if (serializedProperty.propertyType != SerializedPropertyType.String) throw new ArgumentException("Serialized property type must be 'String'.");
 
+            EditorGUI.BeginProperty(position, label, serializedProperty);
+
             serializedProperty.stringValue = DrawAssetPathField(position, serializedProperty.stringValue, label, assetType);
+
+            EditorGUI.EndProperty();
         }
 
         public static string DrawAssetPathField(string path, GUIContent label, Type assetType, params GUILayoutOption[] options)
@@ -110,7 +118,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
             if (serializedProperty.propertyType != SerializedPropertyType.String) throw new ArgumentException("Serialized property type must be 'String'.");
 
+            EditorGUI.BeginProperty(position, label, serializedProperty);
+
             serializedProperty.stringValue = DrawResourcesPathField(position, serializedProperty.stringValue, label, assetType);
+
+            EditorGUI.EndProperty();
         }
 
         public static string DrawResourcesPathField(string path, GUIContent label, Type assetType, params GUILayoutOption[] options)
