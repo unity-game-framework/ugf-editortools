@@ -96,6 +96,12 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
             asset = EditorGUI.ObjectField(position, label, asset, assetType, false);
 
+            var c = new GUIContent("//", $"{path}");
+            var size = EditorStyles.whiteMiniLabel.CalcSize(c);
+            var rectTooltip = new Rect(position.xMax - size.x - EditorGUIUtility.singleLineHeight - EditorGUIUtility.standardVerticalSpacing, position.y, size.x, size.y);
+
+            GUI.Box(rectTooltip, c, EditorStyles.whiteMiniLabel);
+
             if (!EditorIMGUIUtility.IsMissingObject(asset))
             {
                 path = AssetDatabase.GetAssetPath(asset);
