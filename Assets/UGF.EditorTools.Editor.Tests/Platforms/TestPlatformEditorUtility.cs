@@ -8,9 +8,19 @@ namespace UGF.EditorTools.Editor.Tests.Platforms
     public class TestPlatformEditorUtility
     {
         [Test]
-        public void Platforms()
+        public void PlatformsAll()
         {
-            IReadOnlyList<PlatformInfo> platforms = PlatformEditorUtility.Platforms;
+            Assert.Pass(PrintPlatforms(PlatformEditorUtility.PlatformsAll));
+        }
+
+        [Test]
+        public void PlatformsAllAvailable()
+        {
+            Assert.Pass(PrintPlatforms(PlatformEditorUtility.PlatformsAllAvailable));
+        }
+
+        private string PrintPlatforms(IReadOnlyList<PlatformInfo> platforms)
+        {
             var builder = new StringBuilder();
 
             foreach (PlatformInfo platform in platforms)
@@ -23,7 +33,7 @@ namespace UGF.EditorTools.Editor.Tests.Platforms
                 builder.AppendLine($"  {platform.Label.image.name}");
             }
 
-            Assert.Pass(builder.ToString());
+            return builder.ToString();
         }
     }
 }
