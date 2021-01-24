@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
+    [Obsolete("PlatformSettingsEditorUtility has been deprecated. Use PlatformEditorUtility instead.")]
     public static class PlatformSettingsEditorUtility
     {
         public static IReadOnlyList<BuildTargetGroup> BuildTargetGroupsAll { get; }
