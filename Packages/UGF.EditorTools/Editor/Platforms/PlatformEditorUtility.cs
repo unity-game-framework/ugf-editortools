@@ -7,17 +7,31 @@ namespace UGF.EditorTools.Editor.Platforms
 {
     public static class PlatformEditorUtility
     {
-        public static IReadOnlyList<PlatformInfo> Platforms { get; }
+        public static IReadOnlyList<PlatformInfo> PlatformsAll { get; }
+        public static IReadOnlyList<PlatformInfo> PlatformsAllAvailable { get; }
 
-        private static readonly List<PlatformInfo> m_platforms = new List<PlatformInfo>();
         private static readonly PlatformBuildPlatformsReflection m_buildPlatformsReflection = new PlatformBuildPlatformsReflection();
         private static readonly PlatformBuildPlatformReflection m_buildPlatformReflection = new PlatformBuildPlatformReflection();
 
         static PlatformEditorUtility()
         {
-            Platforms = new ReadOnlyCollection<PlatformInfo>(m_platforms);
+            var all = new List<PlatformInfo>();
+            var available = new List<PlatformInfo>();
 
-            InternalGetPlatforms(m_platforms);
+            InternalGetPlatforms(all);
+
+            for (int i = 0; i < all.Count; i++)
+            {
+                PlatformInfo platform = all[i];
+
+                if (BuildPipeline.IsBuildTargetSupported(platform.BuildTargetGroup, platform.BuildTarget))
+                {
+                    available.Add(platform);
+                }
+            }
+
+            PlatformsAll = new ReadOnlyCollection<PlatformInfo>(all);
+            PlatformsAllAvailable = new ReadOnlyCollection<PlatformInfo>(available);
         }
 
         private static void InternalGetPlatforms(ICollection<PlatformInfo> platforms)
