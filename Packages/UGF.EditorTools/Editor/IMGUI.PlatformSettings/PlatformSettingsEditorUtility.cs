@@ -8,20 +8,28 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 {
+    [Obsolete("PlatformSettingsEditorUtility has been deprecated. Use PlatformEditorUtility instead.")]
     public static class PlatformSettingsEditorUtility
     {
         public static IReadOnlyList<BuildTargetGroup> BuildTargetGroupsAll { get; }
         public static IReadOnlyList<BuildTargetGroup> BuildTargetGroupsAllAvailable { get; }
 
         private static readonly Func<BuildTargetGroup, string> m_getBuildTargetGroupDisplayName;
+        private static readonly Func<string, BuildTarget> m_getBuildTargetByName;
 
         static PlatformSettingsEditorUtility()
         {
             MethodInfo getBuildTargetGroupDisplayName = typeof(BuildPipeline).GetMethod("GetBuildTargetGroupDisplayName", BindingFlags.Static | BindingFlags.NonPublic)
                                                         ?? throw new ArgumentException("Method not found by the specified name: 'GetBuildTargetGroupDisplayName'.");
 
+            MethodInfo getBuildTargetByName = typeof(BuildPipeline).GetMethod("GetBuildTargetByName", BindingFlags.Static | BindingFlags.NonPublic)
+                                              ?? throw new ArgumentException("Method not found by the specified name: 'GetBuildTargetByName'.");
+
             m_getBuildTargetGroupDisplayName = (Func<BuildTargetGroup, string>)getBuildTargetGroupDisplayName.CreateDelegate(typeof(Func<BuildTargetGroup, string>))
                                                ?? throw new ArgumentException($"Can not create delegate from specified method info: '{getBuildTargetGroupDisplayName.Name}'.");
+
+            m_getBuildTargetByName = (Func<string, BuildTarget>)getBuildTargetByName.CreateDelegate(typeof(Func<string, BuildTarget>))
+                                     ?? throw new ArgumentException($"Can not create delegate from specified method info: '{getBuildTargetByName.Name}'.");
 
             var all = new List<BuildTargetGroup>();
             var allAvailable = new List<BuildTargetGroup>();
@@ -76,7 +84,7 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
                 }
                 case BuildTargetGroup.iOS:
                 {
-                    name = big ? "BuildSettings.Metro" : "BuildSettings.iPhone.Small";
+                    name = big ? "BuildSettings.iPhone" : "BuildSettings.iPhone.Small";
                     break;
                 }
                 case BuildTargetGroup.CloudRendering:
@@ -97,34 +105,7 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
 
         public static BuildTarget GetBuildTarget(BuildTargetGroup buildTargetGroup)
         {
-            switch (buildTargetGroup)
-            {
-                case BuildTargetGroup.Unknown: return BuildTarget.NoTarget;
-                case BuildTargetGroup.Standalone:
-                {
-                    switch (Application.platform)
-                    {
-                        case RuntimePlatform.OSXEditor: return BuildTarget.StandaloneOSX;
-                        case RuntimePlatform.WindowsEditor: return BuildTarget.StandaloneWindows;
-                        case RuntimePlatform.LinuxEditor: return BuildTarget.StandaloneLinux64;
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(Application.platform), Application.platform, "Unknown runtime platform.");
-                    }
-                }
-                case BuildTargetGroup.iOS: return BuildTarget.iOS;
-                case BuildTargetGroup.Android: return BuildTarget.Android;
-                case BuildTargetGroup.WebGL: return BuildTarget.WebGL;
-                case BuildTargetGroup.WSA: return BuildTarget.WSAPlayer;
-                case BuildTargetGroup.PS4: return BuildTarget.PS4;
-                case BuildTargetGroup.XboxOne: return BuildTarget.XboxOne;
-                case BuildTargetGroup.tvOS: return BuildTarget.tvOS;
-                case BuildTargetGroup.Switch: return BuildTarget.Switch;
-                case BuildTargetGroup.Lumin: return BuildTarget.Lumin;
-                case BuildTargetGroup.Stadia: return BuildTarget.Stadia;
-                case BuildTargetGroup.CloudRendering: return BuildTarget.CloudRendering;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(buildTargetGroup), buildTargetGroup, "Unknown build target group.");
-            }
+            return m_getBuildTargetByName(buildTargetGroup.ToString());
         }
 
         private static IEnumerable<T> GetEnumValues<T>()

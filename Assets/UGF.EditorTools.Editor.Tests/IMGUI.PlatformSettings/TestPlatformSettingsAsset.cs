@@ -10,6 +10,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings
     public class TestPlatformSettingsAsset : ScriptableObject
     {
         [SerializeField] private PlatformSettings<ITestPlatformSettings> m_settings = new PlatformSettings<ITestPlatformSettings>();
+        [SerializeField] private PlatformSettings<object> m_settings2 = new PlatformSettings<object>();
 
         public PlatformSettings<ITestPlatformSettings> Settings { get { return m_settings; } }
     }
@@ -51,6 +52,16 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings
             Drawer.AllowEmptySettings = false;
             Drawer.AddGroupType(BuildTargetGroup.Standalone.ToString(), typeof(TestPlatformSettingsA));
             Drawer.AddGroupType(BuildTargetGroup.Android.ToString(), typeof(TestPlatformSettingsB));
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(PlatformSettings<object>), true)]
+    public class TestPlatformSettingsDrawer2 : PlatformSettingsPropertyDrawer
+    {
+        public TestPlatformSettingsDrawer2()
+        {
+            Drawer.ClearGroups();
+            Drawer.AddPlatformAll();
         }
     }
 }
