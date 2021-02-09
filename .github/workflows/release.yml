@@ -18,6 +18,7 @@ env:
   version: ${{ github.event.inputs.version }}
   configPath: .github/config.yml
   packagePath: ''
+  packageFolder: ''
   date: ''
 
 jobs:
@@ -32,10 +33,12 @@ jobs:
         ref: ${{ env.branch }}
     - name: Setup
       run: |
-        path=$(find "Packages" -name "UGF.*" -type d)
+        packagePath=$(find "Packages" -name "package.json" -type f)
+        packageFolder=$(dirname $packagePath)
         date=$(date --iso-8601=seconds)
 
-        echo "packagePath=$path/package.json" >> $GITHUB_ENV
+        echo "packagePath=$packagePath" >> $GITHUB_ENV
+        echo "packageFolder=$packageFolder" >> $GITHUB_ENV
         echo "date=$date" >> $GITHUB_ENV
     - name: Config
       uses: unity-game-framework-actions/file-access@master
@@ -58,12 +61,9 @@ jobs:
       with:
         input: |
           get:
-            name:
-              input: ${{ env.packagePath }}
-              path: name
             registry:
               input: ${{ env.packagePath }}
-              path: bintray.registry
+              path: publishConfig.registry
           set:
             version:
               input: ${{ env.packagePath }}
@@ -109,22 +109,13 @@ jobs:
         tag_name: ${{ env.version }}
         release_name: ${{ env.version }}
         commitish: ${{ env.branch }}
+        prerelease: ${{ contains(env.version, '-preview') }}
         body: |
           ${{ steps.notes.outputs.result }}
-    - name: Pack
-      run: |
-        folder=$(dirname "${{ env.packagePath }}")
-
-        npm pack ${{ github.workspace }}/$folder
     - name: Publish
       run: |
-        name=${{ steps.package.outputs.name }}
-        version=${{ env.version }}
         registry=${{ steps.package.outputs.registry }}
-        file=$name-$version.tgz
-        auth=u${{ secrets.bintrayUserName }}:${{ secrets.bintrayUserToken }}
-        package=$name/$version
-        path=$name/-/
+        authUrl=$(dirname ${registry#"https:"})
 
-        curl --silent --show-error --fail -T $file -$auth $registry/$package/$path
-        curl --silent --show-error --fail -X POST -$auth $registry/$package/publish
+        echo "$authUrl/:_authToken=${{ secrets.registryUserToken }}" >> .npmrc
+        npm publish ${{ github.workspace }}/${{ env.packageFolder }}

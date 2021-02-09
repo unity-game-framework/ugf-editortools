@@ -69,8 +69,6 @@ readme:
 
     ### Registry
 
-    - [Public](https://bintray.com/unity-game-framework/public)
-
     Read about where packages stored: [Registry](https://github.com/unity-game-framework/organization/blob/master/docs/registry.md).
 
     ## How to Install
@@ -176,6 +174,9 @@ labels:
 - name: Archived
   description: An issue no longer relevant, but can be reopened.
   color: fef2c0
+- name: 'Branch: develop'
+  description: An issue relevant to development branch only.
+  color: c5def5
 - name: Bug
   description: An issue describes an unexpected problem or unintended behavior.
   color: f9d0c4
@@ -196,4 +197,4 @@ labels:
   color: f9d0c4
 - name: Security
   description: Mentioned in changelog under the Security section.
-  color: d4c5f9
+  color: c5def5
