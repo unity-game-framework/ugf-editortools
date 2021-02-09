@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.11.0) - 2021-02-09  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/25?closed=1)  
+    
+
+### Added
+
+- Add gameobject tag dropdown drawer ([#144](https://github.com/unity-game-framework/ugf-editortools/pull/144))  
+    - Add `TagDropdownAttribute` to draw _Unity_ tag dropdown for fields with `string` value.
+
+### Changed
+
+- Update project registry ([#145](https://github.com/unity-game-framework/ugf-editortools/pull/145))  
+    - Update package publish registry.
+
 ## [1.10.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.10.0) - 2021-01-24  
 
 ### Release Notes

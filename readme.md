@@ -4,7 +4,7 @@ UGF.EditorTools
 
 ## Info
 
-- **Version**: `1.10.0`
+- **Version**: `1.11.0`
 - **Unity**: `2020.2`
 - **API Compatibility Level**: `.NET Standard 2.0`
 
@@ -22,8 +22,6 @@ Provides tools for working with editor code.
 - [Full changelog](changelog.md)
 
 ### Registry
-
-- [Public](https://bintray.com/unity-game-framework/public)
 
 Read about where packages stored: [Registry](https://github.com/unity-game-framework/organization/blob/master/docs/registry.md).
 
