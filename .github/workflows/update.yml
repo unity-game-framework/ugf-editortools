@@ -10,7 +10,7 @@ on:
         required: true
       branch:
         description: 'Branch'
-        default: master
+        default: main
         required: true
       target:
         description: 'Target'

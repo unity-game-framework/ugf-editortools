@@ -6,7 +6,7 @@ on:
     inputs:
       base:
         description: 'Base branch'
-        default: develop
+        default: main
         required: true
       issue:
         description: 'Issue number'

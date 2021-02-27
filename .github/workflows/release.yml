@@ -6,7 +6,7 @@ on:
     inputs:
       branch:
         description: 'Branch'
-        default: master
+        default: main
         required: true
       version:
         description: 'Version'

@@ -69,11 +69,11 @@ readme:
 
     ### Registry
 
-    Read about where packages stored: [Registry](https://github.com/unity-game-framework/organization/blob/master/docs/registry.md).
+    Read about where packages stored: [Registry](https://github.com/unity-game-framework/organization/blob/main/docs/registry.md).
 
     ## How to Install
 
-    Read about how to install any packages from the `Unity Game Framework` registry: [Install Package](https://github.com/unity-game-framework/organization/blob/master/docs/install-packages.md).
+    Read about how to install any packages from the `Unity Game Framework` registry: [Install Package](https://github.com/unity-game-framework/organization/blob/main/docs/install-packages.md).
 
   # Dependency format of package dependencies.
   # Available values:
@@ -174,9 +174,6 @@ labels:
 - name: Archived
   description: An issue no longer relevant, but can be reopened.
   color: fef2c0
-- name: 'Branch: develop'
-  description: An issue relevant to development branch only.
-  color: c5def5
 - name: Bug
   description: An issue describes an unexpected problem or unintended behavior.
   color: f9d0c4

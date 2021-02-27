@@ -6,7 +6,7 @@ on:
     inputs:
       branch:
         description: 'Branch'
-        default: master
+        default: main
         required: true
       name:
         description: 'Name'
@@ -39,9 +39,9 @@ jobs:
         ref: ${{ env.branch }}
     - name: Setup
       run: |
-        path=$(find "Packages" -name "UGF.*" -type d)
+        packagePath=$(find "Packages" -name "package.json" -type f)
 
-        echo "packagePath=$path/package.json" >> $GITHUB_ENV
+        echo "packagePath=$packagePath" >> $GITHUB_ENV
     - name: Config
       uses: unity-game-framework-actions/file-access@master
       id: config
@@ -71,11 +71,11 @@ jobs:
             changelogUrl:
               input: ${{ env.packagePath }}
               path: changelogUrl
-              value: https://github.com/${{ env.repositoryName }}/blob/master/changelog.md
+              value: https://github.com/${{ env.repositoryName }}/blob/main/changelog.md
             licensesUrl:
               input: ${{ env.packagePath }}
               path: licensesUrl
-              value: https://github.com/${{ env.repositoryName }}/blob/master/license
+              value: https://github.com/${{ env.repositoryName }}/blob/main/license
             repositoryUrl:
               input: ${{ env.packagePath }}
               path: repository.url
