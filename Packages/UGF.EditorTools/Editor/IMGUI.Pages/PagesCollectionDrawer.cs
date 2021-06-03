@@ -76,7 +76,9 @@ namespace UGF.EditorTools.Editor.IMGUI.Pages
 
             EditorGUI.PropertyField(rectSize, PropertySize);
 
-            m_pageIndex = EditorGUI.IntSlider(rectPage, m_styles.PageLabel, m_pageIndex, 0, PageCount - 1);
+            int max = PageCount > 0 ? PageCount - 1 : 0;
+
+            m_pageIndex = EditorGUI.IntSlider(rectPage, m_styles.PageLabel, m_pageIndex, 0, max);
         }
 
         protected override float OnGetSizeHeight()
@@ -89,32 +91,39 @@ namespace UGF.EditorTools.Editor.IMGUI.Pages
 
         protected override void OnDrawCollection(Rect position)
         {
-            int start = m_pageIndex * CountPerPage;
-            int end = start + CountPerPage;
-
-            for (int i = start; i < end && i < SerializedProperty.arraySize; i++)
+            if (PageCount > 0)
             {
-                float height = OnElementHeight(i);
+                int start = m_pageIndex * CountPerPage;
+                int end = start + CountPerPage;
 
-                position.height = height;
+                for (int i = start; i < end && i < SerializedProperty.arraySize; i++)
+                {
+                    float height = OnElementHeight(i);
 
-                OnDrawElement(position, i);
+                    position.height = height;
 
-                position.y += height;
+                    OnDrawElement(position, i);
+
+                    position.y += height;
+                }
             }
         }
 
         protected override float OnGetCollectionHeight()
         {
-            int start = m_pageIndex * CountPerPage;
-            int end = start + CountPerPage;
             float height = 0F;
 
-            for (int i = start; i < end && i < SerializedProperty.arraySize; i++)
+            if (PageCount > 0)
             {
-                float elementHeight = OnElementHeight(i);
+                int start = m_pageIndex * CountPerPage;
+                int end = start + CountPerPage;
 
-                height += elementHeight;
+                for (int i = start; i < end && i < SerializedProperty.arraySize; i++)
+                {
+                    float elementHeight = OnElementHeight(i);
+
+                    height += elementHeight;
+                }
             }
 
             return height;
