@@ -68,6 +68,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Pages
 
         protected override void OnDrawSize(Rect position)
         {
+            int max = PageCount > 0 ? PageCount - 1 : 0;
+
             float height = EditorGUIUtility.singleLineHeight;
             float space = EditorGUIUtility.standardVerticalSpacing;
 
@@ -76,9 +78,12 @@ namespace UGF.EditorTools.Editor.IMGUI.Pages
 
             EditorGUI.PropertyField(rectSize, PropertySize);
 
-            int max = PageCount > 0 ? PageCount - 1 : 0;
+            m_pageIndex = Mathf.Clamp(m_pageIndex, 0, max);
 
-            m_pageIndex = EditorGUI.IntSlider(rectPage, m_styles.PageLabel, m_pageIndex, 0, max);
+            if (PageCount > 1)
+            {
+                m_pageIndex = EditorGUI.IntSlider(rectPage, m_styles.PageLabel, m_pageIndex, 0, max);
+            }
         }
 
         protected override float OnGetSizeHeight()
@@ -86,7 +91,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Pages
             float height = EditorGUIUtility.singleLineHeight;
             float space = EditorGUIUtility.standardVerticalSpacing;
 
-            return height * 2F + space;
+            return PageCount > 1 ? height * 2F + space : height;
         }
 
         protected override void OnDrawCollection(Rect position)
