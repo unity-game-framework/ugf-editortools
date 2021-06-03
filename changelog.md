@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.1](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.11.1) - 2021-06-03  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/26?closed=1)  
+    
+
+### Fixed
+
+- Fix pages collection drawer error when array is zero ([#152](https://github.com/unity-game-framework/ugf-editortools/pull/152))  
+    - Fix error when page index more than page max index.
+    - Change page field to display only when page count more than two.
+
 ## [1.11.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.11.0) - 2021-02-09  
 
 ### Release Notes
