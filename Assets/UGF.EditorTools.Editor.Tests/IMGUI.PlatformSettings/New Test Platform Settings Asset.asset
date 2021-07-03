@@ -16,19 +16,30 @@ MonoBehaviour:
     m_groups:
     - m_name: Standalone
       m_settings:
-        id: 0
+        rid: 0
     - m_name: Android
       m_settings:
-        id: 1
+        rid: 1
+    - m_name: Server
+      m_settings:
+        rid: -2
+  m_settings2:
+    m_groups:
+    - m_name: Standalone
+      m_settings:
+        rid: -2
   references:
-    version: 1
-    00000000:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 0
       type: {class: TestPlatformSettingsA, ns: UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings, asm: UGF.EditorTools.Editor.Tests}
       data:
         m_bool: 0
         m_float: 0
         m_vector3: {x: 0, y: 0, z: 0}
-    00000001:
+    - rid: 1
       type: {class: TestPlatformSettingsB, ns: UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings, asm: UGF.EditorTools.Editor.Tests}
       data:
         m_scriptableObject: {fileID: 0}
