@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.SettingsGroups;
 using UGF.EditorTools.Editor.Platforms;
 using UnityEditor;
@@ -22,7 +23,7 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
             {
                 PlatformInfo platform = PlatformEditorUtility.PlatformsAllAvailable[i];
 
-                AddPlatform(platform.BuildTargetGroup);
+                AddPlatform(platform);
             }
         }
 
@@ -32,7 +33,7 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
             {
                 PlatformInfo platform = PlatformEditorUtility.PlatformsAll[i];
 
-                AddPlatform(platform.BuildTargetGroup);
+                AddPlatform(platform);
             }
         }
 
@@ -42,6 +43,15 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
             {
                 AddPlatform(targetGroups[i]);
             }
+        }
+
+        public void AddPlatform(PlatformInfo platform)
+        {
+            if (platform == null) throw new ArgumentNullException(nameof(platform));
+
+            var label = new GUIContent(platform.Label.image, platform.Label.tooltip);
+
+            AddGroup(platform.Name, label);
         }
 
         public void AddPlatform(BuildTargetGroup targetGroup)
