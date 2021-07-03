@@ -4,7 +4,7 @@ using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI.References
 {
-    public static partial class ManagedReferenceEditorUtility
+    public static class ManagedReferenceEditorUtility
     {
         private static readonly char[] m_separator = { ' ' };
 

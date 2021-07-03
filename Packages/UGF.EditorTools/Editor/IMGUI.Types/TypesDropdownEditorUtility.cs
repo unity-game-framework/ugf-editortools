@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace UGF.EditorTools.Editor.IMGUI.Types
 {
-    public static partial class TypesDropdownEditorUtility
+    public static class TypesDropdownEditorUtility
     {
         public static void GetTypeItems(ICollection<DropdownItem<Type>> collection, Func<Type, bool> validate, bool useFullPath, bool displayAssemblyName)
         {

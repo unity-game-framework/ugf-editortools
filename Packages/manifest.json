@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "com.unity.ide.rider": "3.0.7",
-    "com.unity.test-framework": "1.1.26"
+    "com.unity.test-framework": "1.1.27",
+    "com.unity.modules.nvidia": "1.0.0"
   },
   "scopedRegistries": [
     {
