@@ -13,6 +13,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings
         [SerializeField] private PlatformSettings<object> m_settings2 = new PlatformSettings<object>();
 
         public PlatformSettings<ITestPlatformSettings> Settings { get { return m_settings; } }
+        public PlatformSettings<object> Settings2 { get { return m_settings2; } }
     }
 
     public interface ITestPlatformSettings
@@ -49,7 +50,6 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings
         public TestPlatformSettingsDrawer()
         {
             Drawer.AutoSettingsInstanceCreation = true;
-            Drawer.AllowEmptySettings = false;
             Drawer.AddGroupType(BuildTargetGroup.Standalone.ToString(), typeof(TestPlatformSettingsA));
             Drawer.AddGroupType(BuildTargetGroup.Android.ToString(), typeof(TestPlatformSettingsB));
         }
