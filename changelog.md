@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-preview](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.0.0-preview) - 2021-07-03  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/27?closed=1)  
+    
+
+### Changed
+
+- Fix PlatformEditorUtility throws exception on creation with Unity 2021.2 ([#154](https://github.com/unity-game-framework/ugf-editortools/pull/154))  
+    - Change package _Unity_ version to `2021.2`.
+    - Fix `PlatformEditorUtility` throws exceptions on initialization of internal platforms information from the editor.
+    - Remove `PlatformSettingsEditorUtility` class as deprecated.
+    - Remove `ManagedReferenceEditorUtility.GetTypeItems()` method as deprecated.
+    - Remove `TypesDropdownEditorUtility.GetTypeItems()` and `CreateItem()` methods as deprecated.
+
 ## [1.11.1](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.11.1) - 2021-06-03  
 
 ### Release Notes
