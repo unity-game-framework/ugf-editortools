@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-preview.2](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.0.0-preview.2) - 2021-07-24  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/29?closed=1)  
+    
+
+### Added
+
+- Add serialized object shortcut to get script property ([#159](https://github.com/unity-game-framework/ugf-editortools/pull/159))  
+    - Add `EditorIMGUIUtility.DrawScriptProperty()` method to draw _Script_ property of a serialized object.
+    - Add `EditorIMGUIUtility.GetScriptProperty()` method to get _Script_ property of a serialized object.
+
 ## [2.0.0-preview.1](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.0.0-preview.1) - 2021-07-03  
 
 ### Release Notes
