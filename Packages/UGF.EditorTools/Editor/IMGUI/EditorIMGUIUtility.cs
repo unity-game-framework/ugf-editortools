@@ -13,6 +13,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         private static readonly FieldInfo m_lastControlID;
         private static readonly PropertyInfo m_indent;
+        private const string PROPERTY_SCRIPT_NAME = "m_Script";
 
         static EditorIMGUIUtility()
         {
@@ -51,6 +52,25 @@ namespace UGF.EditorTools.Editor.IMGUI
         public static float GetIndentWithLevel(int level)
         {
             return IndentPerLevel * level;
+        }
+
+        public static SerializedProperty GetScriptProperty(SerializedObject serializedObject)
+        {
+            if (serializedObject == null) throw new ArgumentNullException(nameof(serializedObject));
+
+            SerializedProperty propertyScript = serializedObject.FindProperty(PROPERTY_SCRIPT_NAME);
+
+            return propertyScript;
+        }
+
+        public static void DrawScriptProperty(SerializedObject serializedObject)
+        {
+            SerializedProperty propertyScript = GetScriptProperty(serializedObject);
+
+            using (new EditorGUI.DisabledScope(true))
+            {
+                EditorGUILayout.PropertyField(propertyScript);
+            }
         }
 
         public static bool DrawDefaultInspector(SerializedObject serializedObject)
