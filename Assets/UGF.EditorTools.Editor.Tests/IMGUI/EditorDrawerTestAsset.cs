@@ -30,6 +30,8 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
 
         public override void OnInspectorGUI()
         {
+            EditorIMGUIUtility.DrawScriptProperty(serializedObject);
+
             EditorGUILayout.PropertyField(m_propertyTarget);
             EditorGUILayout.PropertyField(m_propertyDisplayTitlebar);
 
