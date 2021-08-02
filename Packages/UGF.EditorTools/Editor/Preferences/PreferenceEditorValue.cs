@@ -1,20 +1,50 @@
 ﻿using System;
 using UGF.EditorTools.Editor.IMGUI;
+using UnityEditor;
 
 namespace UGF.EditorTools.Editor.Preferences
 {
-    public class PreferenceEditorValue<TValue> : DrawerBase
+    public abstract class PreferenceEditorValue : DrawerBase
     {
         public string Key { get; }
-        public TValue DefaultValue { get; }
-        public TValue Value { get; set; }
 
-        public PreferenceEditorValue(string key, TValue defaultValue = default)
+        protected PreferenceEditorValue(string key)
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentException("Value cannot be null or empty.", nameof(key));
 
             Key = key;
-            DefaultValue = defaultValue ?? throw new ArgumentNullException(nameof(defaultValue));
+        }
+
+        public void Apply()
+        {
+            OnApply();
+        }
+
+        public void Revert()
+        {
+            OnRevert();
+        }
+
+        public bool Exists()
+        {
+            return OnExists();
+        }
+
+        public void Clear()
+        {
+            OnClear();
+        }
+
+        public object GetValue()
+        {
+            return OnGetValue();
+        }
+
+        public void SetValue(object value)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+
+            OnSetValue(value);
         }
 
         protected override void OnEnable()
@@ -31,14 +61,20 @@ namespace UGF.EditorTools.Editor.Preferences
             Apply();
         }
 
-        public void Apply()
+        protected abstract void OnApply();
+        protected abstract void OnRevert();
+
+        protected virtual bool OnExists()
         {
-            PreferencesEditorUtility.SetValue(Key, Value);
+            return EditorPrefs.HasKey(Key);
         }
 
-        public void Revert()
+        protected virtual void OnClear()
         {
-            Value = PreferencesEditorUtility.GetValue(Key, DefaultValue);
+            EditorPrefs.DeleteKey(Key);
         }
+
+        protected abstract object OnGetValue();
+        protected abstract void OnSetValue(object value);
     }
 }
