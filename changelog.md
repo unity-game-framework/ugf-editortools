@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.12.0) - 2021-08-02  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/31?closed=1)  
+    
+
+### Added
+
+- Add preference value containers (1.x) ([#165](https://github.com/unity-game-framework/ugf-editortools/pull/165))  
+    - Add `PreferenceEditorValue<T>` class to manage value that stored at editor preferences.
+    - Add `PreferencesEditorUtility` class to work with any type of value that stored at editor preferences.
+- Add serialized object shortcut to get script property (1.x) ([#163](https://github.com/unity-game-framework/ugf-editortools/pull/163))  
+    - Add `EditorIMGUIUtility.DrawScriptProperty()` method to draw _Script_ property of a serialized object.
+    - Add `EditorIMGUIUtility.GetScriptProperty()` method to get _Script_ property of a serialized object.
+
 ## [1.11.1](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.11.1) - 2021-06-03  
 
 ### Release Notes
