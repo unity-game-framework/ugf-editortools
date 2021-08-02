@@ -4,7 +4,7 @@ using UnityEngine;
 namespace UGF.EditorTools.Editor.Preferences
 {
     [Serializable]
-    public class PreferenceEditorValueData<TValue>
+    internal class PreferenceEditorValueData<TValue>
     {
         [SerializeField] private TValue m_value;
 
