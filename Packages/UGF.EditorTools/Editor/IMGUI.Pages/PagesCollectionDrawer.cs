@@ -1,4 +1,5 @@
 ﻿using System;
+using UGF.EditorTools.Editor.Preferences;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,12 +9,12 @@ namespace UGF.EditorTools.Editor.IMGUI.Pages
     {
         public int PageIndex
         {
-            get { return m_pageIndex; }
+            get { return m_pageIndex.Value; }
             set
             {
                 if (value < 0) throw new ArgumentOutOfRangeException(nameof(value), "Value must be greater than zero.");
 
-                m_pageIndex = value;
+                m_pageIndex.Value = value;
             }
         }
 
@@ -30,10 +31,9 @@ namespace UGF.EditorTools.Editor.IMGUI.Pages
 
         public int PageCount { get { return Mathf.CeilToInt((float)SerializedProperty.arraySize / CountPerPage); } }
 
-        private readonly string m_pageIndexPrefPath;
+        private readonly PreferenceEditorValue<int> m_pageIndex;
         private int m_countPerPage = 10;
         private Styles m_styles;
-        private int m_pageIndex;
 
         private class Styles
         {
@@ -42,21 +42,21 @@ namespace UGF.EditorTools.Editor.IMGUI.Pages
 
         public PagesCollectionDrawer(SerializedProperty serializedProperty) : base(serializedProperty)
         {
-            m_pageIndexPrefPath = serializedProperty.propertyPath;
+            m_pageIndex = new PreferenceEditorValue<int>(serializedProperty.propertyPath);
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            m_pageIndex = EditorPrefs.GetInt(m_pageIndexPrefPath);
+            m_pageIndex.Enable();
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
 
-            EditorPrefs.SetInt(m_pageIndexPrefPath, m_pageIndex);
+            m_pageIndex.Disable();
         }
 
         protected override void OnDrawGUI(Rect position, GUIContent label = null)
@@ -78,11 +78,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Pages
 
             EditorGUI.PropertyField(rectSize, PropertySize);
 
-            m_pageIndex = Mathf.Clamp(m_pageIndex, 0, max);
+            PageIndex = Mathf.Clamp(PageIndex, 0, max);
 
             if (PageCount > 1)
             {
-                m_pageIndex = EditorGUI.IntSlider(rectPage, m_styles.PageLabel, m_pageIndex, 0, max);
+                PageIndex = EditorGUI.IntSlider(rectPage, m_styles.PageLabel, PageIndex, 0, max);
             }
         }
 
@@ -98,7 +98,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Pages
         {
             if (PageCount > 0)
             {
-                int start = m_pageIndex * CountPerPage;
+                int start = PageIndex * CountPerPage;
                 int end = start + CountPerPage;
 
                 for (int i = start; i < end && i < SerializedProperty.arraySize; i++)
@@ -120,7 +120,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Pages
 
             if (PageCount > 0)
             {
-                int start = m_pageIndex * CountPerPage;
+                int start = PageIndex * CountPerPage;
                 int end = start + CountPerPage;
 
                 for (int i = start; i < end && i < SerializedProperty.arraySize; i++)
