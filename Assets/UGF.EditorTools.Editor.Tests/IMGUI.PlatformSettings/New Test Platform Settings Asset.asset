@@ -27,7 +27,7 @@ MonoBehaviour:
     m_groups:
     - m_name: Standalone
       m_settings:
-        rid: -2
+        rid: 4713809195011407873
   references:
     version: 2
     RefIds:
@@ -47,3 +47,9 @@ MonoBehaviour:
         m_layerMask:
           serializedVersion: 2
           m_Bits: 0
+    - rid: 4713809195011407873
+      type: {class: TestSettings1, ns: UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups, asm: UGF.EditorTools.Editor.Tests}
+      data:
+        m_bool: 0
+        m_float: 0
+        m_vector3: {x: 0, y: 0, z: 0}

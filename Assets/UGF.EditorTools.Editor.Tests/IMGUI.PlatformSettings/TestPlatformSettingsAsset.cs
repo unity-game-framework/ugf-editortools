@@ -1,5 +1,6 @@
 ﻿using System;
 using UGF.EditorTools.Editor.IMGUI.PlatformSettings;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.EditorTools.Runtime.IMGUI.PlatformSettings;
 using UnityEditor;
 using UnityEngine;
@@ -63,6 +64,32 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings
         {
             Drawer.ClearGroups();
             Drawer.AddPlatformAll();
+        }
+    }
+
+    [CustomEditor(typeof(TestPlatformSettingsAsset))]
+    public class TestPlatformSettingsAssetEditor : UnityEditor.Editor
+    {
+        private SerializedProperty m_propertySettings;
+        private SerializedProperty m_propertySettings2;
+
+        private void OnEnable()
+        {
+            m_propertySettings = serializedObject.FindProperty("m_settings");
+            m_propertySettings2 = serializedObject.FindProperty("m_settings2");
+        }
+
+        public override void OnInspectorGUI()
+        {
+            using (new SerializedObjectUpdateScope(serializedObject))
+            {
+                EditorGUILayout.PropertyField(m_propertySettings);
+
+                using (new IndentIncrementScope(5))
+                {
+                    EditorGUILayout.PropertyField(m_propertySettings2);
+                }
+            }
         }
     }
 }
