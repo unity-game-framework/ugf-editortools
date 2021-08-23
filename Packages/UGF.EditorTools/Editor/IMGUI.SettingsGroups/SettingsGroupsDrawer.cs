@@ -14,8 +14,9 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
         public bool AllowEmptySettings { get; set; } = true;
 
         private readonly List<string> m_groups = new List<string>();
+        private int m_toolbarSelectedPrevious;
         private Styles m_styles;
-        private static float m_padding = 5F;
+        private const float PADDING = 5F;
 
         private class Styles
         {
@@ -130,13 +131,21 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
             float settingsHeight = OnGetSettingsHeight(propertyGroups);
             var settingsPosition = new Rect(position.x, toolbarPosition.yMax, position.width, settingsHeight);
 
-            settingsPosition.xMin += m_padding;
-            settingsPosition.xMax -= m_padding;
-            settingsPosition.yMin += m_padding;
-            settingsPosition.yMax -= m_padding;
+            settingsPosition.xMin += PADDING;
+            settingsPosition.xMax -= PADDING;
+            settingsPosition.yMin += PADDING;
+            settingsPosition.yMax -= PADDING;
 
             OnDrawToolbar(toolbarPosition, propertyGroups);
             OnDrawSettings(settingsPosition, propertyGroups);
+
+            if (Toolbar.Selected != m_toolbarSelectedPrevious)
+            {
+                m_toolbarSelectedPrevious = Toolbar.Selected;
+
+                GUIUtility.hotControl = 0;
+                GUIUtility.keyboardControl = 0;
+            }
         }
 
         protected virtual void OnDrawToolbar(Rect position, SerializedProperty propertyGroups)
@@ -156,7 +165,7 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
             SerializedProperty propertySettings = OnGetSettings(propertyGroups, name);
 
             using (new IndentIncrementScope(1))
-            using (new LabelWidthChangeScope(-m_padding))
+            using (new LabelWidthChangeScope(-PADDING))
             {
                 EditorGUI.PropertyField(position, propertySettings, true);
             }
@@ -217,7 +226,7 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
             string name = GetSelectedGroupName();
             SerializedProperty propertySettings = OnGetSettings(propertyGroups, name);
 
-            return EditorGUI.GetPropertyHeight(propertySettings) + m_padding * 2F;
+            return EditorGUI.GetPropertyHeight(propertySettings) + PADDING * 2F;
         }
     }
 }
