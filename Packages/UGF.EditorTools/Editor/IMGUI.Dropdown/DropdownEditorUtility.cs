@@ -74,7 +74,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
                 }
             }
 
-            child = null;
+            child = default;
             return false;
         }
     }

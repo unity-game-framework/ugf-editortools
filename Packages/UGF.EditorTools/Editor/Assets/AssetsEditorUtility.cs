@@ -20,7 +20,7 @@ namespace UGF.EditorTools.Editor.Assets
 
             string assetPath = AssetDatabase.GetAssetPath(asset);
 
-            path = null;
+            path = default;
             return !string.IsNullOrEmpty(assetPath) && TryGetResourcesRelativePath(assetPath, out path);
         }
 
@@ -46,7 +46,7 @@ namespace UGF.EditorTools.Editor.Assets
                 return true;
             }
 
-            result = null;
+            result = default;
             return false;
         }
 
@@ -68,7 +68,7 @@ namespace UGF.EditorTools.Editor.Assets
                 }
             }
 
-            result = null;
+            result = default;
             return false;
         }
     }
