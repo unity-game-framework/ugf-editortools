@@ -9,6 +9,7 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
     public class PlatformSettingsDrawer : SettingsGroupsWithTypesDrawer
     {
         public bool AutoSettingsInstanceCreation { get; set; }
+        public bool DisplayPlatformName { get; set; } = true;
 
         public event SettingsCreatedHandler SettingsCreated;
         public event SettingsDrawingHandler SettingsDrawing;
@@ -91,8 +92,38 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
             }
             else
             {
-                base.OnDrawSettings(position, propertyGroups, name);
+                if (DisplayPlatformName)
+                {
+                    float height = EditorGUIUtility.singleLineHeight;
+                    float space = EditorGUIUtility.standardVerticalSpacing;
+
+                    var rectPlatformName = new Rect(position.x, position.y, position.width, height);
+                    var rectSettings = new Rect(position.x, rectPlatformName.yMax + space, position.width, position.height - height - space);
+
+                    OnDrawSettingsPlatformName(rectPlatformName, propertyGroups, name);
+
+                    base.OnDrawSettings(rectSettings, propertyGroups, name);
+                }
+                else
+                {
+                    base.OnDrawSettings(position, propertyGroups, name);
+                }
             }
+        }
+
+        protected override float OnGetSettingsHeight(SerializedProperty propertyGroups)
+        {
+            float height = EditorGUIUtility.singleLineHeight;
+            float space = EditorGUIUtility.standardVerticalSpacing;
+
+            return DisplayPlatformName ? base.OnGetSettingsHeight(propertyGroups) + height + space : base.OnGetSettingsHeight(propertyGroups);
+        }
+
+        protected virtual void OnDrawSettingsPlatformName(Rect position, SerializedProperty propertyGroups, string name)
+        {
+            PlatformInfo platform = PlatformEditorUtility.GetPlatform(name);
+
+            EditorGUI.LabelField(position, $"Settings for {platform.Label.text}");
         }
     }
 }
