@@ -35,6 +35,29 @@ namespace UGF.EditorTools.Editor.Platforms
             PlatformsAllAvailable = new ReadOnlyCollection<PlatformInfo>(available);
         }
 
+        public static PlatformInfo GetPlatform(string name)
+        {
+            return TryGetPlatform(name, out PlatformInfo platform) ? platform : throw new ArgumentException($"Platform not found by the specified name: '{name}'.");
+        }
+
+        public static bool TryGetPlatform(string name, out PlatformInfo platform)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
+
+            for (int i = 0; i < PlatformsAll.Count; i++)
+            {
+                platform = PlatformsAll[i];
+
+                if (platform.Name == name)
+                {
+                    return true;
+                }
+            }
+
+            platform = default;
+            return false;
+        }
+
         public static PlatformInfo GetPlatform(BuildTargetGroup buildTargetGroup)
         {
             return TryGetPlatform(buildTargetGroup, out PlatformInfo platform) ? platform : throw new ArgumentException($"Platform not found by the specified build target group: '{buildTargetGroup}'.");
