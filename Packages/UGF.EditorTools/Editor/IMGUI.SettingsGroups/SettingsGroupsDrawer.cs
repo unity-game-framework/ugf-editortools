@@ -14,6 +14,7 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
         public bool AllowEmptySettings { get; set; } = true;
 
         private readonly List<string> m_groups = new List<string>();
+        private int m_toolbarSelectedPrevious;
         private Styles m_styles;
         private const float PADDING = 5F;
 
@@ -141,6 +142,14 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
 
             OnDrawToolbar(rectToolbar, propertyGroups);
             OnDrawSettings(rectSettings, propertyGroups);
+
+            if (Toolbar.Selected != m_toolbarSelectedPrevious)
+            {
+                m_toolbarSelectedPrevious = Toolbar.Selected;
+
+                GUIUtility.hotControl = 0;
+                GUIUtility.keyboardControl = 0;
+            }
         }
 
         protected virtual void OnDrawToolbar(Rect position, SerializedProperty propertyGroups)
