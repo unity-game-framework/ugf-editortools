@@ -120,24 +120,28 @@ namespace UGF.EditorTools.Editor.IMGUI.SettingsGroups
 
         protected virtual void OnDrawGUI(Rect position, SerializedProperty propertyGroups)
         {
+            float heightToolbar = OnGetToolbarHeight(propertyGroups);
+            float heightSettings = OnGetSettingsHeight(propertyGroups);
+
+            Rect rectFrame = position;
+            var rectToolbar = new Rect(position.x, position.y, position.width, heightToolbar);
+            var rectSettings = new Rect(position.x, rectToolbar.yMax, position.width, heightSettings);
+
+            rectFrame = EditorGUI.IndentedRect(rectFrame);
+            rectToolbar = EditorGUI.IndentedRect(rectToolbar);
+
+            rectSettings.xMin += PADDING;
+            rectSettings.xMax -= PADDING;
+            rectSettings.yMin += PADDING;
+            rectSettings.yMax -= PADDING;
+
             if (Event.current.type == EventType.Repaint)
             {
-                m_styles.FrameBox.Draw(position, false, false, false, false);
+                m_styles.FrameBox.Draw(rectFrame, false, false, false, false);
             }
 
-            float toolbarHeight = OnGetToolbarHeight(propertyGroups);
-            var toolbarPosition = new Rect(position.x, position.y, position.width, toolbarHeight);
-
-            float settingsHeight = OnGetSettingsHeight(propertyGroups);
-            var settingsPosition = new Rect(position.x, toolbarPosition.yMax, position.width, settingsHeight);
-
-            settingsPosition.xMin += PADDING;
-            settingsPosition.xMax -= PADDING;
-            settingsPosition.yMin += PADDING;
-            settingsPosition.yMax -= PADDING;
-
-            OnDrawToolbar(toolbarPosition, propertyGroups);
-            OnDrawSettings(settingsPosition, propertyGroups);
+            OnDrawToolbar(rectToolbar, propertyGroups);
+            OnDrawSettings(rectSettings, propertyGroups);
 
             if (Toolbar.Selected != m_toolbarSelectedPrevious)
             {

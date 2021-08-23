@@ -64,7 +64,7 @@ namespace UGF.EditorTools.Runtime.IMGUI.SettingsGroups
         {
             if (TryGetGroup(name, out SettingsGroup<TSettings> group))
             {
-                group.Settings = null;
+                group.Settings = default;
                 return true;
             }
 

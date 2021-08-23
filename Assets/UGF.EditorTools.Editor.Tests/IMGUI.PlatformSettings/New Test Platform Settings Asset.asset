@@ -20,6 +20,17 @@ MonoBehaviour:
     - m_name: Android
       m_settings:
         id: 1
+    - m_name: Server
+      m_settings:
+        id: 1
+  m_settings2:
+    m_groups:
+    - m_name: Standalone
+      m_settings:
+        id: 2
+    - m_name: Switch
+      m_settings:
+        id: 1
   references:
     version: 1
     00000000:
@@ -29,10 +40,10 @@ MonoBehaviour:
         m_float: 0
         m_vector3: {x: 0, y: 0, z: 0}
     00000001:
-      type: {class: TestPlatformSettingsB, ns: UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings, asm: UGF.EditorTools.Editor.Tests}
+      type: {class: , ns: , asm: }
+    00000002:
+      type: {class: TestSettings1, ns: UGF.EditorTools.Editor.Tests.IMGUI.SettingsGroups, asm: UGF.EditorTools.Editor.Tests}
       data:
-        m_scriptableObject: {fileID: 0}
-        m_material: {fileID: 0}
-        m_layerMask:
-          serializedVersion: 2
-          m_Bits: 0
+        m_bool: 0
+        m_float: 0
+        m_vector3: {x: 0, y: 0, z: 0}
