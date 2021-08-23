@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-preview.4](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.0.0-preview.4) - 2021-08-23  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/32?closed=1)  
+    
+
+### Added
+
+- Add indent support for group settings drawer ([#173](https://github.com/unity-game-framework/ugf-editortools/pull/173))  
+    - Add `SettingsGroupsDrawer` ability to use indent in current scope.
+- Add platform settings to display platform name ([#170](https://github.com/unity-game-framework/ugf-editortools/pull/170))  
+    - Add `PlatformSettingsDrawer.DisplayPlatformName` property to determine whether to display platform name as label on top of the settings data.
+    - Add `PlatformSettingsDrawer.OnDrawSettingsPlatformName` protected virtual method to override platform display.
+    - Add `PlatformEditorUtility.TryGetPlatform()` and `GetPlatform()` methods to get platform info by platform name.
+
+### Fixed
+
+- Fix reset GUI selection when tab changed ([#172](https://github.com/unity-game-framework/ugf-editortools/pull/172))  
+    - Fix `SettingsGroupsDrawer` to reset GUI selection when change tab.
+
 ## [2.0.0-preview.3](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.0.0-preview.3) - 2021-08-02  
 
 ### Release Notes
