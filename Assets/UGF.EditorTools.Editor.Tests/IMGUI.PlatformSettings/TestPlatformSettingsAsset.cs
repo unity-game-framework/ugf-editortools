@@ -50,6 +50,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.PlatformSettings
         {
             Drawer.AutoSettingsInstanceCreation = true;
             Drawer.AllowEmptySettings = false;
+            Drawer.DisplayPlatformName = false;
             Drawer.AddGroupType(BuildTargetGroup.Standalone.ToString(), typeof(TestPlatformSettingsA));
             Drawer.AddGroupType(BuildTargetGroup.Android.ToString(), typeof(TestPlatformSettingsB));
         }
