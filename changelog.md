@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.13.1](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.13.1) - 2021-09-04  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/35?closed=1)  
+    
+
+### Fixed
+
+- Fix PlatformSettingsExtensions incorrect access for settings (1.x) ([#179](https://github.com/unity-game-framework/ugf-editortools/pull/179))  
+    - Fix `PlatformSettingsDrawer` and `PlatformSettingsExtensions` classes to work using platform information from `PlatformEditorUtility` class.
+
 ## [1.13.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/1.13.0) - 2021-08-23  
 
 ### Release Notes
