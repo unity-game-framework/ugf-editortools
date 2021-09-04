@@ -58,16 +58,15 @@ namespace UGF.EditorTools.Editor.IMGUI.PlatformSettings
         public void AddPlatform(BuildTargetGroup targetGroup)
         {
             PlatformInfo platform = PlatformEditorUtility.GetPlatform(targetGroup);
-            string name = targetGroup.ToString();
             var label = new GUIContent(platform.Label.image, platform.Label.tooltip);
 
-            AddGroup(name, label);
+            AddGroup(platform.Name, label);
         }
 
         public bool RemovePlatform(BuildTargetGroup targetGroup)
         {
-            string name = targetGroup.ToString();
-            bool result = RemoveGroup(name);
+            PlatformInfo platform = PlatformEditorUtility.GetPlatform(targetGroup);
+            bool result = RemoveGroup(platform.Name);
 
             return result;
         }
