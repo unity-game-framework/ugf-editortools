@@ -15,7 +15,7 @@ namespace UGF.EditorTools.Editor.Yaml
     /// This is the same as the requirement for MonoBehaviour classes and files naming.
     /// </para>
     /// </summary>
-    public static class EditorYamlUtility
+    public static partial class EditorYamlUtility
     {
         public static string ToYaml(Object target, bool validate = true)
         {
@@ -43,18 +43,19 @@ namespace UGF.EditorTools.Editor.Yaml
 
         public static T FromYaml<T>(string value) where T : Object
         {
-            return (T)FromYaml(value);
+            return (T)FromYaml(value, typeof(T));
         }
 
-        public static Object FromYaml(string value)
+        public static Object FromYaml(string value, Type type)
         {
             if (string.IsNullOrEmpty(value)) throw new ArgumentException("Value cannot be null or empty.", nameof(value));
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             using (var scope = new EditorTempScope())
             {
                 File.WriteAllText(scope.Path, value);
 
-                Object target = FromYamlAtPath(scope.Path);
+                Object target = FromYamlAtPath(scope.Path, type);
 
                 return target;
             }
@@ -103,14 +104,44 @@ namespace UGF.EditorTools.Editor.Yaml
 
         public static T FromYamlAtPath<T>(string path) where T : Object
         {
-            return (T)FromYamlAtPath(path);
+            return (T)FromYamlAtPath(path, typeof(T));
         }
 
-        public static Object FromYamlAtPath(string path)
+        public static Object FromYamlAtPath(string path, Type type)
         {
+            return TryFromYamlAtPath(path, type, out Object target) ? target : throw new ArgumentException($"Target not found from asset at path by the specified type: path:'{path}', type:'{type}'.");
+        }
+
+        public static bool TryFromYamlAtPath<T>(string path, out T target) where T : Object
+        {
+            if (TryFromYamlAtPath(path, typeof(T), out Object value))
+            {
+                target = (T)value;
+                return true;
+            }
+
+            target = default;
+            return false;
+        }
+
+        public static bool TryFromYamlAtPath(string path, Type type, out Object target)
+        {
+            if (type == null) throw new ArgumentNullException(nameof(type));
+
             Object[] targets = FromYamlAllAtPath(path);
 
-            return targets.Length > 0 ? targets[0] : throw new ArgumentException("No objects loaded from Yaml at specified path.");
+            for (int i = 0; i < targets.Length; i++)
+            {
+                target = targets[i];
+
+                if (type.IsInstanceOfType(target))
+                {
+                    return true;
+                }
+            }
+
+            target = default;
+            return false;
         }
 
         public static Object[] FromYamlAllAtPath(string path)
@@ -126,7 +157,7 @@ namespace UGF.EditorTools.Editor.Yaml
         /// <param name="target">Unity Object to validate.</param>
         /// <remarks>
         /// All MonoBehaviour's and ScriptableObject's must be defined in files with the same name as the name of the class, to support Unity serialization in editor.
-        /// This is required to determine type of the object it should create and deserialize.
+        /// This is required to determine type of the object serialization should create and deserialize.
         /// In cases of serialization to text, this is not required, because type of the object already known.
         /// </remarks>
         public static bool ValidateForDeserialization(Object target)
