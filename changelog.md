@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.0.0) - 2021-11-04  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/36?closed=1)  
+    
+
+### Changed
+
+- Add FromYamlAtPath with specified type ([#182](https://github.com/unity-game-framework/ugf-editortools/pull/182))  
+    - Add `EditorYamlUtility.TryFromYamlAtPath()` and `FromYamlAtPath()` methods to get object from _Yaml_ by the specified target type.
+    - Deprecate `EditorYamlUtility.FromYaml()` and `FromYamlAtPath()` methods without specified type.
+
 ## [2.0.0-preview.5](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.0.0-preview.5) - 2021-09-04  
 
 ### Release Notes
