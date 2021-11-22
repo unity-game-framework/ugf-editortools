@@ -16,9 +16,18 @@ namespace UGF.EditorTools.Editor.Tools
             Handle = handle ?? throw new ArgumentNullException(nameof(handle));
         }
 
-        protected abstract Matrix4x4 OnGetMatrix();
-        protected abstract void OnHandleSetup();
-        protected abstract void OnHandleChanged();
+        protected virtual Matrix4x4 OnGetMatrix()
+        {
+            return Component.transform.localToWorldMatrix;
+        }
+
+        protected virtual void OnHandleSetup()
+        {
+        }
+
+        protected virtual void OnHandleChanged()
+        {
+        }
 
         protected override void OnToolGUI()
         {
