@@ -9,8 +9,8 @@ namespace UGF.EditorTools.Editor.Tools
         public string PropertyCenterName { get; }
         public string PropertyRadiusName { get; }
 
-        public SerializedProperty PropertyCenter { get { return m_propertyCenter ?? throw new ArgumentException("Value not specified."); } }
-        public SerializedProperty PropertyRadius { get { return m_propertyRadius ?? throw new ArgumentException("Value not specified."); } }
+        protected SerializedProperty PropertyCenter { get { return m_propertyCenter ?? throw new ArgumentException("Value not specified."); } }
+        protected SerializedProperty PropertyRadius { get { return m_propertyRadius ?? throw new ArgumentException("Value not specified."); } }
 
         private SerializedProperty m_propertyCenter;
         private SerializedProperty m_propertyRadius;
