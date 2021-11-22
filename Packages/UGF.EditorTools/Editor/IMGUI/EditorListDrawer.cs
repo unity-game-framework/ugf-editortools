@@ -24,27 +24,10 @@ namespace UGF.EditorTools.Editor.IMGUI
             Drawer.Disable();
         }
 
-        protected override void OnRemove()
+        protected override void OnSelectionUpdate()
         {
-            base.OnRemove();
+            base.OnSelectionUpdate();
 
-            UpdateSelection();
-        }
-
-        protected override void OnSelect()
-        {
-            base.OnSelect();
-
-            UpdateSelection();
-        }
-
-        public void DrawSelectedLayout()
-        {
-            Drawer.DrawGUILayout();
-        }
-
-        private void UpdateSelection()
-        {
             if (List.index >= 0 && List.index < List.count)
             {
                 SerializedProperty propertyElement = SerializedProperty.GetArrayElementAtIndex(List.index);
@@ -62,6 +45,11 @@ namespace UGF.EditorTools.Editor.IMGUI
             {
                 Drawer.Clear();
             }
+        }
+
+        public void DrawSelectedLayout()
+        {
+            Drawer.DrawGUILayout();
         }
     }
 }

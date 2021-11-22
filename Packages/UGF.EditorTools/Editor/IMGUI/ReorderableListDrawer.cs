@@ -12,6 +12,11 @@ namespace UGF.EditorTools.Editor.IMGUI
         public SerializedProperty PropertySize { get; }
         public ReorderableList List { get; }
 
+        public event Action Added;
+        public event Action Removed;
+        public event Action Selected;
+        public event Action SelectionUpdated;
+
         public ReorderableListDrawer(SerializedProperty serializedProperty)
         {
             SerializedProperty = serializedProperty ?? throw new ArgumentNullException(nameof(serializedProperty));
@@ -215,19 +220,41 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
         }
 
+        protected virtual void OnSelectionUpdate()
+        {
+        }
+
         private void OnListAdd(ReorderableList list)
         {
             OnAdd();
+
+            Added?.Invoke();
+
+            OnSelectionUpdate();
+
+            SelectionUpdated?.Invoke();
         }
 
         private void OnListRemove(ReorderableList list)
         {
             OnRemove();
+
+            Removed?.Invoke();
+
+            OnSelectionUpdate();
+
+            SelectionUpdated?.Invoke();
         }
 
         private void OnListSelect(ReorderableList list)
         {
             OnSelect();
+
+            Selected?.Invoke();
+
+            OnSelectionUpdate();
+
+            SelectionUpdated?.Invoke();
         }
     }
 }
