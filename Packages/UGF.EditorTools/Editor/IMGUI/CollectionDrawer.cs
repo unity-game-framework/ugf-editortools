@@ -124,10 +124,8 @@ namespace UGF.EditorTools.Editor.IMGUI
         protected virtual void OnDrawElement(Rect position, int index)
         {
             float height = EditorGUIUtility.singleLineHeight;
-            float space = EditorGUIUtility.standardVerticalSpacing;
 
             position.height = height;
-            position.y += space;
 
             SerializedProperty propertyElement = SerializedProperty.GetArrayElementAtIndex(index);
 
@@ -145,7 +143,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             float value = OnElementHeightContent(propertyElement, index);
 
-            value += EditorGUIUtility.standardVerticalSpacing * 2F;
+            value += EditorGUIUtility.standardVerticalSpacing;
 
             return value;
         }
