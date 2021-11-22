@@ -30,23 +30,24 @@ MonoBehaviour:
     m_quaternion: {x: 0, y: 0, z: 0, w: 0}
   m_list3:
   - m_bool2: 1
-    m_object: {fileID: 0}
+    m_object: {fileID: 11400000, guid: 49cb3ca7d412bbd4390309f4facd4a53, type: 2}
   - m_bool2: 1
     m_object: {fileID: 0}
   m_list4:
-  - id: 0
-  - id: 1
-  - id: 2
+  - rid: 0
+  - rid: -2
+  - rid: 2
   references:
-    version: 1
-    00000000:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 0
       type: {class: ReorderableListTestAsset/Data2, ns: UGF.EditorTools.Editor.Tests.IMGUI, asm: UGF.EditorTools.Editor.Tests}
       data:
         m_bool2: 0
         m_object: {fileID: 0}
-    00000001:
-      type: {class: , ns: , asm: }
-    00000002:
+    - rid: 2
       type: {class: ReorderableListTestAsset/Data1, ns: UGF.EditorTools.Editor.Tests.IMGUI, asm: UGF.EditorTools.Editor.Tests}
       data:
         m_bool: 0

@@ -43,6 +43,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         private EditorListDrawer m_drawer1;
         private ReorderableListDrawer m_drawer2;
         private ReorderableListDrawer m_drawer3;
+        private ReorderableListSelectionDrawerByPath m_drawer3Selection;
         private ReorderableListDrawer m_drawer4;
 
         private void OnEnable()
@@ -51,7 +52,17 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             m_drawer2 = new ReorderableListDrawer(serializedObject.FindProperty("m_list2"));
             m_drawer3 = new ReorderableListDrawer(serializedObject.FindProperty("m_list3"));
             m_drawer3.List.draggable = false;
+            m_drawer3Selection = new ReorderableListSelectionDrawerByPath(m_drawer3, "m_object");
             m_drawer4 = new ReorderableListDrawer(serializedObject.FindProperty("m_list4"));
+
+            m_drawer1.Enable();
+            m_drawer3Selection.Enable();
+        }
+
+        private void OnDisable()
+        {
+            m_drawer1.Disable();
+            m_drawer3Selection.Disable();
         }
 
         public override void OnInspectorGUI()
@@ -69,6 +80,8 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             {
                 m_drawer3.DrawGUILayout();
             }
+
+            m_drawer3Selection.DrawGUILayout();
 
             m_drawer4.DrawGUILayout();
 

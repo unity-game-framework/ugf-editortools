@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Editor.IMGUI.AssetReferences;
 using UGF.EditorTools.Runtime.IMGUI.AssetReferences;
 using UnityEditor;
@@ -25,6 +25,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.AssetReferences
         private SerializedProperty m_propertyScriptable;
         private SerializedProperty m_propertyMaterial;
         private AssetReferenceListDrawer m_list;
+        private ReorderableListSelectionDrawerByPath m_listSelection;
 
         private void OnEnable()
         {
@@ -33,11 +34,22 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.AssetReferences
 
             m_list = new AssetReferenceListDrawer(serializedObject.FindProperty("m_list"));
             m_list.Enable();
+
+            m_listSelection = new ReorderableListSelectionDrawerByPath(m_list, "m_asset")
+            {
+                Drawer =
+                {
+                    DisplayTitlebar = true
+                }
+            };
+
+            m_listSelection.Enable();
         }
 
         private void OnDisable()
         {
             m_list.Disable();
+            m_listSelection.Disable();
         }
 
         public override void OnInspectorGUI()
@@ -48,6 +60,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.AssetReferences
             EditorGUILayout.PropertyField(m_propertyMaterial);
 
             m_list.DrawGUILayout();
+            m_listSelection.DrawGUILayout();
 
             serializedObject.ApplyModifiedProperties();
         }
