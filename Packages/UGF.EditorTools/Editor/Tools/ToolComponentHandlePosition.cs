@@ -53,9 +53,22 @@ namespace UGF.EditorTools.Editor.Tools
         {
             base.OnHandleDraw();
 
-            Quaternion rotation = UnityEditor.Tools.pivotRotation == PivotRotation.Local ? Component.transform.rotation : Quaternion.identity;
+            if (UnityEditor.Tools.pivotRotation == PivotRotation.Local)
+            {
+                m_position = Handles.PositionHandle(m_position, Quaternion.identity);
+            }
+            else
+            {
+                Matrix4x4 matrix = OnGetMatrix();
+                Vector3 position = matrix.MultiplyPoint3x4(m_position);
 
-            m_position = Handles.PositionHandle(m_position, rotation);
+                using (new Handles.DrawingScope(Matrix4x4.identity))
+                {
+                    position = Handles.PositionHandle(position, Quaternion.identity);
+                }
+
+                m_position = matrix.inverse.MultiplyPoint3x4(position);
+            }
         }
     }
 }
