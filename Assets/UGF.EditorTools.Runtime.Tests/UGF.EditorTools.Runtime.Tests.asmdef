@@ -1,0 +1,16 @@
+{
+    "name": "UGF.EditorTools.Runtime.Tests",
+    "rootNamespace": "",
+    "references": [
+        "GUID:088d00b6871540e44bce58af1a3f0f17"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
