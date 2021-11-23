@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.1.0) - 2021-11-23  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/38?closed=1)  
+    
+
+### Added
+
+- Add shape scene handler drawers ([#191](https://github.com/unity-game-framework/ugf-editortools/pull/191))  
+    - Add `ToolComponent` abstract class to implement _Editor Tool_ bounded to component.
+    - Add `ToolComponentHandle` abstract class as base class for _Editor Tool_ used with in-scene handles.
+    - Add `ToolComponentBoundsHandle<T>` abstract class and multiple implementations to support creating _Editor Tools_ for in scene shape handlers, such as _Box_, _Capsule_ and _Sphere_.
+    - Add `ToolComponentHandlePosition` class as implementation for in-scene handle used to modify position value.
+- Add reorderable list of object references with selection preview ([#190](https://github.com/unity-game-framework/ugf-editortools/pull/190))  
+    - Add `ReorderableListSelectionDrawer` abstract class to implement selection of `ReorderableListDrawer` with preview.
+    - Add `ReorderableListSelectionDrawerByElement` class to draw selection of `ReorderableListDrawer` using object reference value directly from element.
+    - Add `ReorderableListSelectionDrawerByPath` class to draw selection of `ReorderableListDrawer` using object reference from serialized property accessed by specified path from element.
+- Add reorderable list events ([#188](https://github.com/unity-game-framework/ugf-editortools/pull/188))  
+    - Add `ReorderableListDrawer.Added`, `Removed`, `Selected` and `SelectionUpdated` events.
+    - Add `ReorderableListDrawer.OnSelectionUpdate()` method.
+- Add PackageEditorUtility ([#186](https://github.com/unity-game-framework/ugf-editortools/pull/186))  
+    - Add `PackageEditorUtility.TryGetPackage()` method to get `PackageInfo` class with information about package from _Package Manager_ by the specified package name.
+
+### Fixed
+
+- Fix collection drawer element spacing ([#189](https://github.com/unity-game-framework/ugf-editortools/pull/189))  
+    - Fix `CollectionDrawer` element spacing drawing.
+
 ## [2.0.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.0.0) - 2021-11-04  
 
 ### Release Notes
