@@ -7,7 +7,7 @@ namespace UGF.EditorTools.Editor.Tools
     public class ToolComponentPositionHandle : ToolComponentHandle
     {
         public string PropertyPositionName { get; }
-        public override GUIContent toolbarIcon { get; } = ToolEditorUtility.EditPositionContent;
+        public override GUIContent toolbarIcon { get { return ToolEditorUtility.EditPositionContent; } }
 
         protected SerializedProperty PropertyPosition { get { return m_propertyPosition ?? throw new ArgumentException("Value not specified."); } }
 
