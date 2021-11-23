@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.Tools
 {
-    public class ToolComponentPositionHandle : ToolComponentHandle
+    public class ToolComponentHandlePosition : ToolComponentHandle
     {
         public string PropertyPositionName { get; }
         public override GUIContent toolbarIcon { get { return ToolEditorUtility.EditPositionContent; } }
@@ -14,7 +14,7 @@ namespace UGF.EditorTools.Editor.Tools
         private SerializedProperty m_propertyPosition;
         private Vector3 m_position;
 
-        public ToolComponentPositionHandle(string propertyPositionName)
+        public ToolComponentHandlePosition(string propertyPositionName)
         {
             if (string.IsNullOrEmpty(propertyPositionName)) throw new ArgumentException("Value cannot be null or empty.", nameof(propertyPositionName));
 
