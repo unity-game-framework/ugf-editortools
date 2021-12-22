@@ -9,6 +9,15 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 {
     public static class AttributeEditorGUIUtility
     {
+        public static string DrawSelectFileField(GUIContent label, string path, string title, string directory, string extension, bool inAssets = true, params GUILayoutOption[] options)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            return DrawSelectFileField(position, label, path, title, directory, extension, inAssets);
+        }
+
         public static string DrawSelectFileField(Rect position, GUIContent label, string path, string title, string directory, string extension, bool inAssets = true)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
@@ -29,6 +38,15 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             }
 
             return path;
+        }
+
+        public static string DrawSelectDirectoryField(GUIContent label, string path, string title, string directory, bool inAssets = true, params GUILayoutOption[] options)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            return DrawSelectDirectoryField(position, label, path, title, directory, inAssets);
         }
 
         public static string DrawSelectDirectoryField(Rect position, GUIContent label, string path, string title, string directory, bool inAssets = true)
