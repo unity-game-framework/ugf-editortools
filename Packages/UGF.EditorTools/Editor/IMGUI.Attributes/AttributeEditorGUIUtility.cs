@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using UGF.EditorTools.Editor.Assets;
 using UnityEditor;
 using UnityEngine;
@@ -9,6 +10,95 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 {
     public static class AttributeEditorGUIUtility
     {
+        internal static GUIContent ContentFolderIcon { get { return m_contentFolderIcon ??= new GUIContent(EditorGUIUtility.FindTexture("FolderOpened Icon")); } }
+
+        private static GUIContent m_contentFolderIcon;
+
+        public static void DrawSelectFileField(SerializedProperty serializedProperty, GUIContent label, string title, string defaultDirectory, string extension, bool relative = true, params GUILayoutOption[] options)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            DrawSelectFileField(position, serializedProperty, label, title, defaultDirectory, extension, relative);
+        }
+
+        public static void DrawSelectFileField(Rect position, SerializedProperty serializedProperty, GUIContent label, string title, string defaultDirectory, string extension, bool relative = true)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            float height = EditorGUIUtility.singleLineHeight;
+            float space = EditorGUIUtility.standardVerticalSpacing;
+
+            Rect rectField = EditorGUI.PrefixLabel(position, label);
+            var rectText = new Rect(rectField.x, rectField.y, rectField.width - height - space, rectField.height);
+            var rectButton = new Rect(rectText.xMax + space, rectField.y, height, rectField.height);
+
+            serializedProperty.stringValue = GUI.TextField(rectText, serializedProperty.stringValue);
+
+            if (GUI.Button(rectButton, ContentFolderIcon, EditorStyles.iconButton))
+            {
+                if (!string.IsNullOrEmpty(serializedProperty.stringValue))
+                {
+                    string fileDirectory = Path.GetDirectoryName(serializedProperty.stringValue);
+
+                    if (!string.IsNullOrEmpty(fileDirectory))
+                    {
+                        defaultDirectory = fileDirectory;
+                    }
+                }
+
+                if (AssetsEditorUtility.TrySelectFile(title, defaultDirectory, extension, relative, out string path))
+                {
+                    serializedProperty.stringValue = path;
+                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                }
+
+                GUIUtility.ExitGUI();
+            }
+        }
+
+        public static void DrawSelectDirectoryField(SerializedProperty serializedProperty, GUIContent label, string title, string defaultDirectory, bool relative = true, params GUILayoutOption[] options)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            DrawSelectDirectoryField(position, serializedProperty, label, title, defaultDirectory, relative);
+        }
+
+        public static void DrawSelectDirectoryField(Rect position, SerializedProperty serializedProperty, GUIContent label, string title, string defaultDirectory, bool relative = true)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            float height = EditorGUIUtility.singleLineHeight;
+            float space = EditorGUIUtility.standardVerticalSpacing;
+
+            Rect rectField = EditorGUI.PrefixLabel(position, label);
+            var rectText = new Rect(rectField.x, rectField.y, rectField.width - height - space, rectField.height);
+            var rectButton = new Rect(rectText.xMax + space, rectField.y, height, rectField.height);
+
+            serializedProperty.stringValue = GUI.TextField(rectText, serializedProperty.stringValue);
+
+            if (GUI.Button(rectButton, ContentFolderIcon, EditorStyles.iconButton))
+            {
+                if (!string.IsNullOrEmpty(serializedProperty.stringValue))
+                {
+                    defaultDirectory = serializedProperty.stringValue;
+                }
+
+                if (AssetsEditorUtility.TrySelectDirectory(title, defaultDirectory, relative, out string path))
+                {
+                    serializedProperty.stringValue = path;
+                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                }
+
+                GUIUtility.ExitGUI();
+            }
+        }
+
         public static void DrawAssetGuidField(SerializedProperty serializedProperty, GUIContent label, Type assetType, params GUILayoutOption[] options)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));

@@ -1,12 +1,77 @@
 ﻿using System;
 using System.IO;
 using UnityEditor;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.Assets
 {
     public static class AssetsEditorUtility
     {
+        public static bool TrySelectFile(string title, string directory, string extension, bool relative, out string path)
+        {
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Value cannot be null or empty.", nameof(title));
+            if (string.IsNullOrEmpty(directory)) throw new ArgumentException("Value cannot be null or empty.", nameof(directory));
+            if (string.IsNullOrEmpty(extension)) throw new ArgumentException("Value cannot be null or empty.", nameof(extension));
+
+            path = EditorUtility.OpenFilePanel(title, directory, extension);
+
+            if (!string.IsNullOrEmpty(path))
+            {
+                if (relative)
+                {
+                    path = GetProjectRelativePath(path);
+                }
+
+                return true;
+            }
+
+            path = string.Empty;
+            return false;
+        }
+
+        public static bool TrySelectDirectory(string title, string directory, bool relative, out string path)
+        {
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Value cannot be null or empty.", nameof(title));
+            if (string.IsNullOrEmpty(directory)) throw new ArgumentException("Value cannot be null or empty.", nameof(directory));
+
+            path = EditorUtility.OpenFolderPanel(title, directory, string.Empty);
+
+            if (!string.IsNullOrEmpty(path))
+            {
+                if (relative)
+                {
+                    path = GetProjectRelativePath(path);
+                }
+
+                return true;
+            }
+
+            path = string.Empty;
+            return false;
+        }
+
+        public static string GetAssetsPath(string path)
+        {
+            return TryGetAssetsPath(path, out string assetsPath) ? assetsPath : throw new ArgumentException($"Assets path not found for specified path: '{path}'.");
+        }
+
+        public static bool TryGetAssetsPath(string path, out string assetsPath)
+        {
+            if (string.IsNullOrEmpty(path)) throw new ArgumentException("Value cannot be null or empty.", nameof(path));
+
+            string dataDirectory = Application.dataPath;
+
+            if (path.StartsWith(dataDirectory))
+            {
+                assetsPath = GetProjectRelativePath(path);
+                return true;
+            }
+
+            assetsPath = string.Empty;
+            return false;
+        }
+
         public static string GetResourcesPath(Object asset)
         {
             if (asset == null) throw new ArgumentNullException(nameof(asset));
@@ -48,6 +113,24 @@ namespace UGF.EditorTools.Editor.Assets
 
             result = default;
             return false;
+        }
+
+        public static string GetProjectRelativePath(string path)
+        {
+            if (string.IsNullOrEmpty(path)) throw new ArgumentException("Value cannot be null or empty.", nameof(path));
+
+            string assetsPath = Application.dataPath;
+            string projectPath = Path.GetDirectoryName(assetsPath);
+
+            if (string.IsNullOrEmpty(projectPath))
+            {
+                projectPath = assetsPath;
+            }
+
+            path = Path.GetRelativePath(projectPath, path);
+            path = path.Replace('\\', '/');
+
+            return path;
         }
 
         private static bool TryGetResourcesSubDirectory(string path, out string result)
