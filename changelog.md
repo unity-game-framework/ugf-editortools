@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.2.0) - 2021-12-22  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/39?closed=1)  
+    
+
+### Added
+
+- Add assembly selection dropdown ([#200](https://github.com/unity-game-framework/ugf-editortools/pull/200))  
+    - Add `AssemblyDropdownDrawer` class to draw dropdown with assembly selection.
+    - Add `AssemblyReference` structure to handle assembly full name as reference.
+    - Add `AssemblyReferenceDropdownAttribute` attribute class to specify drawing of dropdown for properties of `AssemblyReference` type.
+    - Add `AssemblyUtility` class with static methods to work with assemblies.
+- Add handlers draw wire capsule ([#198](https://github.com/unity-game-framework/ugf-editortools/pull/198))  
+    - Add `HandleEditorUtility.DrawWireCapsule()` method to draw wire capsule using editor handles.
+
+### Fixed
+
+- Fix tool handler position scale issue ([#197](https://github.com/unity-game-framework/ugf-editortools/pull/197))  
+    - Fix `ToolComponentHandlePosition` class to properly draw position handler with scaled object.
+
 ## [2.1.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.1.0) - 2021-11-23  
 
 ### Release Notes
