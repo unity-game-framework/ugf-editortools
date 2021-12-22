@@ -7,7 +7,7 @@ namespace UGF.EditorTools.Runtime.IMGUI.Attributes
     public class SelectFileAttribute : PropertyAttribute
     {
         public string Title { get; }
-        public string Directory { get; }
+        public string DefaultDirectory { get; }
         public string Extension { get; }
         public bool InAssets { get; }
 
@@ -19,18 +19,18 @@ namespace UGF.EditorTools.Runtime.IMGUI.Attributes
         {
         }
 
-        public SelectFileAttribute(string directory, string extension, bool inAssets = true) : this("Select File", directory, extension, inAssets)
+        public SelectFileAttribute(string defaultDirectory, string extension, bool inAssets = true) : this("Select File", defaultDirectory, extension, inAssets)
         {
         }
 
-        public SelectFileAttribute(string title, string directory, string extension, bool inAssets = true)
+        public SelectFileAttribute(string title, string defaultDirectory, string extension, bool inAssets = true)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Value cannot be null or empty.", nameof(title));
-            if (string.IsNullOrEmpty(directory)) throw new ArgumentException("Value cannot be null or empty.", nameof(directory));
+            if (string.IsNullOrEmpty(defaultDirectory)) throw new ArgumentException("Value cannot be null or empty.", nameof(defaultDirectory));
             if (string.IsNullOrEmpty(extension)) throw new ArgumentException("Value cannot be null or empty.", nameof(extension));
 
             Title = title;
-            Directory = directory;
+            DefaultDirectory = defaultDirectory;
             Extension = extension;
             InAssets = inAssets;
         }

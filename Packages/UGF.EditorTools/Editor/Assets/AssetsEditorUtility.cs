@@ -8,45 +8,47 @@ namespace UGF.EditorTools.Editor.Assets
 {
     public static class AssetsEditorUtility
     {
-        public static string OpenFileSelection(string directory, string extension, bool inAssets = true)
-        {
-            return OpenFileSelection("Select File", directory, extension, inAssets);
-        }
-
-        public static string OpenFileSelection(string title, string directory, string extension, bool inAssets = true)
+        public static bool TrySelectFile(string title, string directory, string extension, bool relative, out string path)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Value cannot be null or empty.", nameof(title));
             if (string.IsNullOrEmpty(directory)) throw new ArgumentException("Value cannot be null or empty.", nameof(directory));
             if (string.IsNullOrEmpty(extension)) throw new ArgumentException("Value cannot be null or empty.", nameof(extension));
 
-            string path = EditorUtility.OpenFilePanel(title, directory, extension);
+            path = EditorUtility.OpenFilePanel(title, directory, extension);
 
-            if (inAssets && !string.IsNullOrEmpty(path))
+            if (!string.IsNullOrEmpty(path))
             {
-                path = GetAssetsPath(path);
+                if (relative)
+                {
+                    path = GetProjectRelativePath(path);
+                }
+
+                return true;
             }
 
-            return path;
+            path = string.Empty;
+            return false;
         }
 
-        public static string OpenDirectorySelection(string directory, bool inAssets = true)
-        {
-            return OpenDirectorySelection("Select Directory", directory, inAssets);
-        }
-
-        public static string OpenDirectorySelection(string title, string directory, bool inAssets = true)
+        public static bool TrySelectDirectory(string title, string directory, bool relative, out string path)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Value cannot be null or empty.", nameof(title));
             if (string.IsNullOrEmpty(directory)) throw new ArgumentException("Value cannot be null or empty.", nameof(directory));
 
-            string path = EditorUtility.OpenFolderPanel(title, directory, string.Empty);
+            path = EditorUtility.OpenFolderPanel(title, directory, string.Empty);
 
-            if (inAssets && !string.IsNullOrEmpty(path))
+            if (!string.IsNullOrEmpty(path))
             {
-                path = GetAssetsPath(path);
+                if (relative)
+                {
+                    path = GetProjectRelativePath(path);
+                }
+
+                return true;
             }
 
-            return path;
+            path = string.Empty;
+            return false;
         }
 
         public static string GetAssetsPath(string path)
@@ -58,17 +60,12 @@ namespace UGF.EditorTools.Editor.Assets
         {
             if (string.IsNullOrEmpty(path)) throw new ArgumentException("Value cannot be null or empty.", nameof(path));
 
-            string assetsDirectory = Path.GetDirectoryName(Application.dataPath);
+            string dataDirectory = Application.dataPath;
 
-            if (!string.IsNullOrEmpty(assetsDirectory))
+            if (path.StartsWith(dataDirectory))
             {
-                assetsDirectory = assetsDirectory.Replace('\\', '/');
-
-                if (path.StartsWith(assetsDirectory))
-                {
-                    assetsPath = path.Substring(assetsDirectory.Length + 1, path.Length - assetsDirectory.Length - 1);
-                    return true;
-                }
+                assetsPath = GetProjectRelativePath(path);
+                return true;
             }
 
             assetsPath = string.Empty;
@@ -116,6 +113,24 @@ namespace UGF.EditorTools.Editor.Assets
 
             result = default;
             return false;
+        }
+
+        public static string GetProjectRelativePath(string path)
+        {
+            if (string.IsNullOrEmpty(path)) throw new ArgumentException("Value cannot be null or empty.", nameof(path));
+
+            string assetsPath = Application.dataPath;
+            string projectPath = Path.GetDirectoryName(assetsPath);
+
+            if (string.IsNullOrEmpty(projectPath))
+            {
+                projectPath = assetsPath;
+            }
+
+            path = Path.GetRelativePath(projectPath, path);
+            path = path.Replace('\\', '/');
+
+            return path;
         }
 
         private static bool TryGetResourcesSubDirectory(string path, out string result)

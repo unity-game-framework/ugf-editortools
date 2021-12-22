@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 673b706f2a954fda8905c06a3bef884b, type: 3}
   m_Name: New Test Select Directory And Path Attributes Asset
   m_EditorClassIdentifier: 
-  m_directory: Assets/UGF.EditorTools.Runtime.Tests/Tools
-  m_file: Assets/UGF.EditorTools.Editor.Tests/Defines/TestDefinesEditorUtility.cs
+  m_directory: 
+  m_file: Assets/UGF.EditorTools.Runtime.Tests/UGF.EditorTools.Runtime.Tests.asmdef
