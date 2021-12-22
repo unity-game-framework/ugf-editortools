@@ -14,7 +14,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
         protected override void OnDrawProperty(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
-            serializedProperty.stringValue = AttributeEditorGUIUtility.DrawSelectDirectoryField(position, label, serializedProperty.stringValue, Attribute.Title, Attribute.Directory, Attribute.InAssets);
+            AttributeEditorGUIUtility.DrawSelectDirectoryField(position, serializedProperty, label, Attribute.Title, Attribute.Directory, Attribute.InAssets);
         }
     }
 }

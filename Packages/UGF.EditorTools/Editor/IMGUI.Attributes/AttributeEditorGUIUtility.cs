@@ -13,19 +13,19 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
         private static GUIContent m_contentFolderIcon;
 
-        public static string DrawSelectFileField(GUIContent label, string path, string title, string directory, string extension, bool inAssets = true, params GUILayoutOption[] options)
+        public static void DrawSelectFileField(SerializedProperty serializedProperty, GUIContent label, string title, string directory, string extension, bool inAssets = true, params GUILayoutOption[] options)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
 
             Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
 
-            return DrawSelectFileField(position, label, path, title, directory, extension, inAssets);
+            DrawSelectFileField(position, serializedProperty, label, title, directory, extension, inAssets);
         }
 
-        public static string DrawSelectFileField(Rect position, GUIContent label, string path, string title, string directory, string extension, bool inAssets = true)
+        public static void DrawSelectFileField(Rect position, SerializedProperty serializedProperty, GUIContent label, string title, string directory, string extension, bool inAssets = true)
         {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
             if (label == null) throw new ArgumentNullException(nameof(label));
-            if (path == null) throw new ArgumentNullException(nameof(path));
 
             float height = EditorGUIUtility.singleLineHeight;
             float space = EditorGUIUtility.standardVerticalSpacing;
@@ -34,29 +34,30 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             var rectText = new Rect(rectField.x, rectField.y, rectField.width - height - space, rectField.height);
             var rectButton = new Rect(rectText.xMax + space, rectField.y, height, rectField.height);
 
-            path = GUI.TextField(rectText, path);
+            serializedProperty.stringValue = GUI.TextField(rectText, serializedProperty.stringValue);
 
             if (GUI.Button(rectButton, ContentFolderIcon, EditorStyles.iconButton))
             {
-                path = AssetsEditorUtility.OpenFileSelection(title, directory, extension, inAssets);
-            }
+                serializedProperty.stringValue = AssetsEditorUtility.OpenFileSelection(title, directory, extension, inAssets);
+                serializedProperty.serializedObject.ApplyModifiedProperties();
 
-            return path;
+                GUIUtility.ExitGUI();
+            }
         }
 
-        public static string DrawSelectDirectoryField(GUIContent label, string path, string title, string directory, bool inAssets = true, params GUILayoutOption[] options)
+        public static void DrawSelectDirectoryField(SerializedProperty serializedProperty, GUIContent label, string title, string directory, bool inAssets = true, params GUILayoutOption[] options)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
 
             Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
 
-            return DrawSelectDirectoryField(position, label, path, title, directory, inAssets);
+            DrawSelectDirectoryField(position, serializedProperty, label, title, directory, inAssets);
         }
 
-        public static string DrawSelectDirectoryField(Rect position, GUIContent label, string path, string title, string directory, bool inAssets = true)
+        public static void DrawSelectDirectoryField(Rect position, SerializedProperty serializedProperty, GUIContent label, string title, string directory, bool inAssets = true)
         {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
             if (label == null) throw new ArgumentNullException(nameof(label));
-            if (path == null) throw new ArgumentNullException(nameof(path));
 
             float height = EditorGUIUtility.singleLineHeight;
             float space = EditorGUIUtility.standardVerticalSpacing;
@@ -65,14 +66,15 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             var rectText = new Rect(rectField.x, rectField.y, rectField.width - height - space, rectField.height);
             var rectButton = new Rect(rectText.xMax + space, rectField.y, height, rectField.height);
 
-            path = GUI.TextField(rectText, path);
+            serializedProperty.stringValue = GUI.TextField(rectText, serializedProperty.stringValue);
 
             if (GUI.Button(rectButton, ContentFolderIcon, EditorStyles.iconButton))
             {
-                path = AssetsEditorUtility.OpenDirectorySelection(title, directory, inAssets);
-            }
+                serializedProperty.stringValue = AssetsEditorUtility.OpenDirectorySelection(title, directory, inAssets);
+                serializedProperty.serializedObject.ApplyModifiedProperties();
 
-            return path;
+                GUIUtility.ExitGUI();
+            }
         }
 
         public static void DrawAssetGuidField(SerializedProperty serializedProperty, GUIContent label, Type assetType, params GUILayoutOption[] options)
