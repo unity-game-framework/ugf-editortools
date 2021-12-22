@@ -58,12 +58,17 @@ namespace UGF.EditorTools.Editor.Assets
         {
             if (string.IsNullOrEmpty(path)) throw new ArgumentException("Value cannot be null or empty.", nameof(path));
 
-            string assetsDirectory = Application.dataPath;
+            string assetsDirectory = Path.GetDirectoryName(Application.dataPath);
 
-            if (path.StartsWith(assetsDirectory))
+            if (!string.IsNullOrEmpty(assetsDirectory))
             {
-                assetsPath = path.Substring(assetsDirectory.Length + 1, path.Length - assetsDirectory.Length - 1);
-                return true;
+                assetsDirectory = assetsDirectory.Replace('\\', '/');
+
+                if (path.StartsWith(assetsDirectory))
+                {
+                    assetsPath = path.Substring(assetsDirectory.Length + 1, path.Length - assetsDirectory.Length - 1);
+                    return true;
+                }
             }
 
             assetsPath = string.Empty;
