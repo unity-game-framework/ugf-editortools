@@ -9,6 +9,10 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 {
     public static class AttributeEditorGUIUtility
     {
+        internal static GUIContent ContentFolderIcon { get { return m_contentFolderIcon ??= new GUIContent(EditorGUIUtility.FindTexture("FolderOpened Icon")); } }
+
+        private static GUIContent m_contentFolderIcon;
+
         public static string DrawSelectFileField(GUIContent label, string path, string title, string directory, string extension, bool inAssets = true, params GUILayoutOption[] options)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
@@ -32,7 +36,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
             path = GUI.TextField(rectText, path);
 
-            if (GUI.Button(rectButton, GUIContent.none, EditorStyles.iconButton))
+            if (GUI.Button(rectButton, ContentFolderIcon, EditorStyles.iconButton))
             {
                 path = AssetsEditorUtility.OpenFileSelection(title, directory, extension, inAssets);
             }
@@ -63,7 +67,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
             path = GUI.TextField(rectText, path);
 
-            if (GUI.Button(rectButton, GUIContent.none, EditorStyles.iconButton))
+            if (GUI.Button(rectButton, ContentFolderIcon, EditorStyles.iconButton))
             {
                 path = AssetsEditorUtility.OpenDirectorySelection(title, directory, inAssets);
             }

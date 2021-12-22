@@ -11,6 +11,10 @@ namespace UGF.EditorTools.Runtime.IMGUI.Attributes
         public string Extension { get; }
         public bool InAssets { get; }
 
+        public SelectFileAttribute() : this("*")
+        {
+        }
+
         public SelectFileAttribute(string extension) : this("Select File", "Assets", extension)
         {
         }

@@ -21,7 +21,7 @@ namespace UGF.EditorTools.Editor.Assets
 
             string path = EditorUtility.OpenFilePanel(title, directory, extension);
 
-            if (inAssets)
+            if (inAssets && !string.IsNullOrEmpty(path))
             {
                 path = GetAssetsPath(path);
             }
@@ -41,7 +41,7 @@ namespace UGF.EditorTools.Editor.Assets
 
             string path = EditorUtility.OpenFolderPanel(title, directory, string.Empty);
 
-            if (inAssets)
+            if (inAssets && !string.IsNullOrEmpty(path))
             {
                 path = GetAssetsPath(path);
             }
