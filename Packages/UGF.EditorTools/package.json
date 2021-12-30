@@ -3,7 +3,7 @@
   "displayName": "UGF.EditorTools",
   "version": "2.2.0",
   "unity": "2021.2",
-  "apiCompatibility": ".NET Standard 2.0",
+  "apiCompatibility": ".NET Standard 2.1",
   "description": "Provides tools for working with editor code.",
   "author": {
     "name": "Unity Game Framework",
