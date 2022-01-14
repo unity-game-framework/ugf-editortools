@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.3.0) - 2022-01-14  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/40?closed=1)  
+    
+
+### Added
+
+- Add text field with dropdown ([#203](https://github.com/unity-game-framework/ugf-editortools/issues/203))  
+    - Add `EditorElementsUtility.TextFieldWithDropdown()` method to draw text field with dropdown to select possible values.
+
 ## [2.2.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.2.0) - 2021-12-22  
 
 ### Release Notes
