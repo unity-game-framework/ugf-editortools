@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: New Test Editor Elements Utility Asset
   m_EditorClassIdentifier: 
   m_value: Value 8
-  m_value2: Item 5
+  m_value2: Item 0
+  m_value3: Item 5
