@@ -15,6 +15,24 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
             public GUIStyle TextFieldDropdownButtonStyle { get; } = new GUIStyle("TextFieldDropDown");
             public GUIStyle TextFieldDropdownFieldStyle { get; } = new GUIStyle("TextFieldDropDownText");
+            public GUIContent SignPlusContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("Toolbar Plus"), "Sign is plus.");
+            public GUIContent SignMinusContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("Toolbar Minus"), "Sign is minus.");
+
+            public GUIContent[] DateSegmentsContent { get; } = new[]
+            {
+                new GUIContent("Y", "Year of the date."),
+                new GUIContent("M", "Month of the year."),
+                new GUIContent("D", "Day of the month."),
+                new GUIContent("H", "Hour of the day."),
+                new GUIContent("M", "Minute of the hour."),
+                new GUIContent("S", "Second of the hour."),
+                new GUIContent("T", "Tick of the second.")
+            };
+        }
+
+        static EditorElementsUtility()
+        {
+            m_selection.Dropdown.RootName = "Select";
         }
 
         public static void TextFieldWithDropdown(SerializedProperty serializedProperty, Func<IEnumerable<DropdownItem<string>>> itemsHandler, params GUILayoutOption[] options)
@@ -67,6 +85,94 @@ namespace UGF.EditorTools.Editor.IMGUI
             if (DropdownEditorGUIUtility.Dropdown(rectButton, GUIContent.none, GUIContent.none, m_selection, itemsHandler, out DropdownItem<string> selected, FocusType.Keyboard, styles.TextFieldDropdownButtonStyle))
             {
                 value = selected.Value;
+            }
+
+            return value;
+        }
+
+        public static void TimeTicksField(SerializedProperty serializedProperty, params GUILayoutOption[] options)
+        {
+            GUIContent label = EditorGUIUtility.TrTempContent(serializedProperty.displayName);
+
+            TimeTicksField(label, serializedProperty, options);
+        }
+
+        public static void TimeTicksField(GUIContent label, SerializedProperty serializedProperty, params GUILayoutOption[] options)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            TimeTicksField(position, label, serializedProperty);
+        }
+
+        public static void TimeTicksField(Rect position, GUIContent label, SerializedProperty serializedProperty)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
+            serializedProperty.longValue = TimeTicksField(position, label, serializedProperty.longValue);
+        }
+
+        public static long TimeTicksField(GUIContent label, long value, params GUILayoutOption[] options)
+        {
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            return TimeTicksField(position, label, value);
+        }
+
+        public static long TimeTicksField(Rect position, GUIContent label, long value)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Styles styles = GetStyles();
+            float space = EditorGUIUtility.standardVerticalSpacing;
+
+            Rect rectField = EditorGUI.PrefixLabel(position, label);
+            var rectSign = new Rect(rectField.x, rectField.y + 1F, rectField.height, rectField.height);
+            var rectFields = new Rect(rectSign.xMax + space, rectField.y, rectField.width - rectField.height - space, rectField.height);
+
+            bool sign = value >= 0;
+
+            if (!sign)
+            {
+                value = -value;
+            }
+
+            var date = new DateTime(value);
+
+            int[] segments =
+            {
+                date.Year,
+                date.Month,
+                date.Day,
+                date.Hour,
+                date.Minute,
+                date.Second,
+                (int)(date.Ticks - new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second).Ticks)
+            };
+
+            if (GUI.Button(rectSign, sign ? styles.SignPlusContent : styles.SignMinusContent, EditorStyles.iconButton))
+            {
+                sign = !sign;
+            }
+
+            EditorGUI.MultiIntField(rectFields, styles.DateSegmentsContent, segments);
+
+            segments[0] = Mathf.Clamp(segments[0], 1, 9999);
+            segments[1] = Mathf.Clamp(segments[1], 1, 12);
+            segments[2] = Mathf.Clamp(segments[2], 1, DateTime.DaysInMonth(segments[0], segments[1]));
+            segments[3] = Mathf.Clamp(segments[3], 0, 23);
+            segments[4] = Mathf.Clamp(segments[4], 0, 59);
+            segments[5] = Mathf.Clamp(segments[5], 0, 59);
+            segments[6] = Mathf.Clamp(segments[6], 0, 9999999);
+
+            date = new DateTime(segments[0], segments[1], segments[2], segments[3], segments[4], segments[5]);
+            date = date.AddTicks(segments[6]);
+            value = date.Ticks;
+
+            if (!sign)
+            {
+                value = -value;
             }
 
             return value;
