@@ -2,6 +2,7 @@
 using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
+using UGF.EditorTools.Runtime.IMGUI.Attributes;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         [SerializeField] private string m_value;
         [SerializeField] private string m_value2;
         [SerializeField] private string m_value3;
+        [TimeTicks]
         [SerializeField] private long m_time;
 
         public string Value { get { return m_value; } set { m_value = value; } }
@@ -49,7 +51,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
                     EditorElementsUtility.TextFieldWithDropdown(m_propertyValue3, OnGetItems2);
                 }
 
-                EditorElementsUtility.TimeTicksField(m_propertyTime);
+                EditorGUILayout.PropertyField(m_propertyTime);
             }
         }
 
