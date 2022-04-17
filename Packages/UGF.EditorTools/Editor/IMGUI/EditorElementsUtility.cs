@@ -25,7 +25,7 @@ namespace UGF.EditorTools.Editor.IMGUI
                 new GUIContent("D", "Day of the month."),
                 new GUIContent("H", "Hour of the day."),
                 new GUIContent("M", "Minute of the hour."),
-                new GUIContent("S", "Second of the hour."),
+                new GUIContent("S", "Second of the minute."),
                 new GUIContent("T", "Tick of the second.")
             };
         }
