@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.4.1) - 2022-04-17  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/42?closed=1)  
+    
+
+### Fixed
+
+- Fix second label in time field display ([#207](https://github.com/unity-game-framework/ugf-editortools/issues/207))  
+    - Update package _Unity_ version to `2021.3`.
+    - Fix `EditorElementsUtility.TimeTicksField()` method to draw proper label for second component.
+
 ## [2.4.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.4.0) - 2022-04-03  
 
 ### Release Notes
