@@ -3,6 +3,7 @@ using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
@@ -64,6 +65,8 @@ namespace UGF.EditorTools.Editor.IMGUI
             label ??= new GUIContent(SerializedProperty.displayName);
 
             var foldoutPosition = new Rect(position.x, position.y, position.width, OnGetFoldoutHeight());
+
+            OnDragAndDrop(foldoutPosition);
 
             if (OnDrawFoldout(foldoutPosition, label))
             {
@@ -222,6 +225,70 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         protected virtual void OnSelectionUpdate()
         {
+        }
+
+        private bool OnDragAndDropValidate(Object target)
+        {
+            return false;
+        }
+
+        private void OnDragAndDrop(Rect position)
+        {
+            int id = EditorIMGUIUtility.GetLastControlId();
+            Event currentEvent = Event.current;
+
+            switch (currentEvent.type)
+            {
+                case EventType.DragExited:
+                {
+                    if (GUI.enabled)
+                    {
+                        HandleUtility.Repaint();
+                    }
+
+                    break;
+                }
+                case EventType.DragUpdated:
+                case EventType.DragPerform:
+                {
+                    if (position.Contains(currentEvent.mousePosition) && GUI.enabled)
+                    {
+                        Object[] references = DragAndDrop.objectReferences;
+                        bool accepted = false;
+
+                        foreach (Object target in references)
+                        {
+                            bool validated = OnDragAndDropValidate(target);
+
+                            if (validated)
+                            {
+                                DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+
+                                if (currentEvent.type == EventType.DragPerform)
+                                {
+                                    SerializedProperty.InsertArrayElementAtIndex(SerializedProperty.arraySize);
+
+                                    accepted = true;
+
+                                    DragAndDrop.activeControlID = 0;
+                                }
+                                else
+                                {
+                                    DragAndDrop.activeControlID = id;
+                                }
+                            }
+                        }
+
+                        if (accepted)
+                        {
+                            GUI.changed = true;
+                            DragAndDrop.AcceptDrag();
+                        }
+                    }
+
+                    break;
+                }
+            }
         }
 
         private void OnListAdd(ReorderableList list)
