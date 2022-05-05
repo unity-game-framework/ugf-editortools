@@ -15,6 +15,14 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         [SerializeField] private List<Data1> m_list2;
         [SerializeField] private List<Data2> m_list3;
         [SerializeReference, ManagedReference] private List<IData> m_list4;
+        [SerializeField] private List<Entry> m_list5;
+
+        [Serializable]
+        public class Entry
+        {
+            [SerializeField] private string m_key;
+            [SerializeField] private string m_value;
+        }
 
         public interface IData
         {
@@ -45,6 +53,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         private ReorderableListDrawer m_drawer3;
         private ReorderableListSelectionDrawerByPath m_drawer3Selection;
         private ReorderableListDrawer m_drawer4;
+        private ReorderableListKeyAndValueDrawer m_drawer5;
 
         private void OnEnable()
         {
@@ -55,14 +64,24 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             m_drawer3Selection = new ReorderableListSelectionDrawerByPath(m_drawer3, "m_object");
             m_drawer4 = new ReorderableListDrawer(serializedObject.FindProperty("m_list4"));
 
+            m_drawer5 = new ReorderableListKeyAndValueDrawer(serializedObject.FindProperty("m_list5"))
+            {
+                List =
+                {
+                    draggable = false
+                }
+            };
+
             m_drawer1.Enable();
             m_drawer3Selection.Enable();
+            m_drawer5.Enable();
         }
 
         private void OnDisable()
         {
             m_drawer1.Disable();
             m_drawer3Selection.Disable();
+            m_drawer5.Disable();
         }
 
         public override void OnInspectorGUI()
@@ -79,11 +98,13 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             using (new EditorGUI.IndentLevelScope(5))
             {
                 m_drawer3.DrawGUILayout();
+                m_drawer5.DrawGUILayout();
             }
 
             m_drawer3Selection.DrawGUILayout();
 
             m_drawer4.DrawGUILayout();
+            m_drawer5.DrawGUILayout();
 
             serializedObject.ApplyModifiedProperties();
 
