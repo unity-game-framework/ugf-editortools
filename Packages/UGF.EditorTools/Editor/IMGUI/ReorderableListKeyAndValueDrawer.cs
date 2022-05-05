@@ -9,7 +9,7 @@ namespace UGF.EditorTools.Editor.IMGUI
         public string PropertyKeyName { get; }
         public string PropertyValueName { get; }
 
-        public ReorderableListKeyAndValueDrawer(SerializedProperty serializedProperty, string propertyKeyName, string propertyValueName) : base(serializedProperty)
+        public ReorderableListKeyAndValueDrawer(SerializedProperty serializedProperty, string propertyKeyName = "m_key", string propertyValueName = "m_value") : base(serializedProperty)
         {
             if (string.IsNullOrEmpty(propertyKeyName)) throw new ArgumentException("Value cannot be null or empty.", nameof(propertyKeyName));
             if (string.IsNullOrEmpty(propertyValueName)) throw new ArgumentException("Value cannot be null or empty.", nameof(propertyValueName));
