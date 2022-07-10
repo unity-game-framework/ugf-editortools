@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.6.0) - 2022-07-10  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/44?closed=1)  
+    
+
+### Added
+
+- Add file id attribute ([#215](https://github.com/unity-game-framework/ugf-editortools/issues/215))  
+    - Add `FileIdAttribute` class used to draw field with selection of object file id.
+    - Add `AttributeEditorGUIUtility.DrawFileIdField()` method and overloads to draw file id object selection field.
+    - Add `FileIdEditorUtility.` method to get file id of the specified object.
+- Add component reference ([#213](https://github.com/unity-game-framework/ugf-editortools/issues/213))  
+    - Add `ComponentReference<T>` structure to store component reference with file id.
+    - Add `ComponentReferenceListDrawer` class to draw reorderable list of the `ComponentReference<T>` elements.
+
+### Changed
+
+- Update usage for EditorStyles.iconButton in Unity 2021.2 version ([#185](https://github.com/unity-game-framework/ugf-editortools/issues/185))  
+    - Update drawers to use latest editor styles.
+
+### Fixed
+
+- Fix asset reference checks ([#214](https://github.com/unity-game-framework/ugf-editortools/issues/214))  
+    - Fix `AssetReference<T>` structure does not check for empty data in constructor and implicit operators.
+
 ## [2.5.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.5.0) - 2022-05-07  
 
 ### Release Notes
