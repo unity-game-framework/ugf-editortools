@@ -18,8 +18,10 @@ namespace UGF.EditorTools.Runtime.IMGUI.AssetReferences
 
         public AssetReference(string guid, TAsset asset)
         {
+            if (string.IsNullOrEmpty(guid)) throw new ArgumentException("Value cannot be null or empty.", nameof(guid));
+
             m_guid = guid;
-            m_asset = asset;
+            m_asset = asset ? asset : throw new ArgumentNullException(nameof(asset));
         }
 
         public bool IsValid()
@@ -39,10 +41,7 @@ namespace UGF.EditorTools.Runtime.IMGUI.AssetReferences
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return ((m_guid != null ? m_guid.GetHashCode() : 0) * 397) ^ EqualityComparer<TAsset>.Default.GetHashCode(m_asset);
-            }
+            return HashCode.Combine(m_guid, m_asset);
         }
 
         public static bool operator ==(AssetReference<TAsset> first, AssetReference<TAsset> second)
@@ -57,17 +56,12 @@ namespace UGF.EditorTools.Runtime.IMGUI.AssetReferences
 
         public static implicit operator string(AssetReference<TAsset> reference)
         {
-            return reference.m_guid;
+            return reference.Guid;
         }
 
         public static implicit operator TAsset(AssetReference<TAsset> reference)
         {
-            return reference.m_asset;
-        }
-
-        public override string ToString()
-        {
-            return $"{m_asset} (Guid: '{m_guid}')";
+            return reference.Asset;
         }
     }
 }
