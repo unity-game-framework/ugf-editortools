@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using UGF.EditorTools.Editor.Assets;
+using UGF.EditorTools.Editor.FileIds;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,65 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
     {
         internal static GUIContent ContentFolderIcon { get { return m_contentFolderIcon ??= new GUIContent(EditorGUIUtility.FindTexture("FolderOpened Icon")); } }
 
+        private static readonly FileId m_fileIdContent;
         private static GUIContent m_contentFolderIcon;
+
+        static AttributeEditorGUIUtility()
+        {
+            m_fileIdContent = ScriptableObject.CreateInstance<FileId>();
+            m_fileIdContent.hideFlags = HideFlags.HideAndDontSave;
+        }
+
+        public static void DrawFileIdField(GUIContent label, SerializedProperty serializedProperty, Type assetType, params GUILayoutOption[] options)
+        {
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            DrawFileIdField(position, label, serializedProperty, assetType);
+        }
+
+        public static void DrawFileIdField(Rect position, GUIContent label, SerializedProperty serializedProperty, Type assetType)
+        {
+            serializedProperty.stringValue = DrawFileIdField(position, label, serializedProperty.stringValue, assetType);
+        }
+
+        public static string DrawFileIdField(GUIContent label, string value, Type assetType, params GUILayoutOption[] options)
+        {
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            return DrawFileIdField(position, label, value, assetType);
+        }
+
+        public static string DrawFileIdField(Rect position, GUIContent label, string value, Type assetType)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            if (assetType == null) throw new ArgumentNullException(nameof(assetType));
+            if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
+
+            try
+            {
+                Object content = null;
+
+                if (!string.IsNullOrEmpty(value))
+                {
+                    content = m_fileIdContent;
+                    content.name = ObjectNames.NicifyVariableName(assetType.Name);
+                }
+
+                Object selected = EditorGUI.ObjectField(position, label, content, assetType, true);
+
+                if (selected != content)
+                {
+                    value = selected != null ? FileIdEditorUtility.GetFileId(selected).ToString() : string.Empty;
+                }
+
+                return value;
+            }
+            finally
+            {
+                m_fileIdContent.name = "File Id";
+            }
+        }
 
         public static void DrawSelectFileField(SerializedProperty serializedProperty, GUIContent label, string title, string defaultDirectory, string extension, bool relative = true, params GUILayoutOption[] options)
         {
