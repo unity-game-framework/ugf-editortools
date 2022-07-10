@@ -2,7 +2,6 @@
 using UGF.EditorTools.Editor.IMGUI.Attributes;
 using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UGF.EditorTools.Runtime.Assets;
-using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using UnityEngine;
 

@@ -13,7 +13,6 @@ namespace UGF.EditorTools.Editor.IMGUI.References
         private class Styles
         {
             public GUIContent ButtonContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("_Menu"));
-            public GUIStyle ButtonStyle { get; } = new GUIStyle("IconButton");
         }
 
         public ManagedReferenceDropdownDrawer(Func<IEnumerable<DropdownItem<Type>>> itemsHandler, DropdownSelection<DropdownItem<Type>> selection = null) : base(itemsHandler, selection)
@@ -33,7 +32,7 @@ namespace UGF.EditorTools.Editor.IMGUI.References
             dropdownPosition.width = height;
             dropdownPosition.height = height;
 
-            bool result = GUI.Button(dropdownPosition, m_styles.ButtonContent, m_styles.ButtonStyle);
+            bool result = GUI.Button(dropdownPosition, m_styles.ButtonContent, EditorStyles.iconButton);
 
             if (result)
             {
