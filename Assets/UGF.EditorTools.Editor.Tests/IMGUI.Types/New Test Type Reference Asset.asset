@@ -18,3 +18,6 @@ MonoBehaviour:
   m_type2:
     m_value: UGF.EditorTools.Editor.Tests.Yaml.TestEditorYamlUtilityData, UGF.EditorTools.Editor.Tests,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_type3:
+    m_value: Unity.UI.Builder.BuilderHierarchyWindow, UnityEditor.UIBuilderModule,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
