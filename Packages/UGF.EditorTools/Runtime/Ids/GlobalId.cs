@@ -39,7 +39,7 @@ namespace UGF.EditorTools.Runtime.Ids
 
         public bool IsValid()
         {
-            return m_first > 0U && m_second > 0U;
+            return m_first > 0U || m_second > 0U;
         }
 
         public bool Equals(GlobalId other)
