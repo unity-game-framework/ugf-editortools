@@ -23,6 +23,12 @@ namespace UGF.EditorTools.Runtime.Ids
             [FieldOffset(0)] public GlobalId Id;
         }
 
+        public GlobalId(ulong value)
+        {
+            m_first = value;
+            m_second = 0U;
+        }
+
         public GlobalId(ulong first, ulong second)
         {
             m_first = first;
