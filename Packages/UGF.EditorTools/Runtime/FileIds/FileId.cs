@@ -17,7 +17,7 @@ namespace UGF.EditorTools.Runtime.FileIds
 
         public bool IsValid()
         {
-            return m_value > 0U;
+            return m_value > 0UL;
         }
 
         public bool Equals(FileId other)
