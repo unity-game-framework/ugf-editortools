@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.7.0) - 2022-07-11  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/45?closed=1)  
+    
+
+### Added
+
+- Add file id structure with editor meta data ([#222](https://github.com/unity-game-framework/ugf-editortools/issues/222))  
+    - Add `FileId` structure to store and select file id.
+    - Add `FileIdEditorGUIUtility` class to draw field for `FileId` in inspector.
+- Add non generic TypeReference ([#220](https://github.com/unity-game-framework/ugf-editortools/issues/220))  
+    - Add `TypeReference` structure without generic argument.
+
+### Changed
+
+- Add global id for object ([#221](https://github.com/unity-game-framework/ugf-editortools/issues/221))  
+    - Add `GlobalId.IsValid()` method to check global id data.
+    - Add `GlobalId` implicit conversion to string and vice versa.
+
 ## [2.6.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.6.0) - 2022-07-10  
 
 ### Release Notes
