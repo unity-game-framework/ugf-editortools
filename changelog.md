@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.8.0) - 2022-07-11  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/47?closed=1)  
+    
+
+### Added
+
+- Add component id reference ([#228](https://github.com/unity-game-framework/ugf-editortools/issues/228))  
+    - Add `ComponentIdReference<T>` structure to store reference to component using `FileId` structure as id.
+    - Add `ComponentIdReferenceListDrawer` class to draw reorderable collection of `ComponentIdReference<T>` structures.
+
 ## [2.7.1](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.7.1) - 2022-07-11  
 
 ### Release Notes
