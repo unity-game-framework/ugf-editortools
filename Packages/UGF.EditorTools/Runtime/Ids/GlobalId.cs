@@ -12,15 +12,21 @@ namespace UGF.EditorTools.Runtime.Ids
 
         public ulong First { get { return m_first; } set { m_first = value; } }
         public ulong Second { get { return m_second; } set { m_second = value; } }
-        public bool IsEmpty { get { return m_first == 0U && m_second == 0U; } }
+        public bool IsEmpty { get { return m_first == 0UL && m_second == 0UL; } }
 
-        public static GlobalId Empty { get; } = new GlobalId(0U, 0U);
+        public static GlobalId Empty { get; } = new GlobalId(0UL, 0UL);
 
         [StructLayout(LayoutKind.Explicit)]
         private struct Converter
         {
             [FieldOffset(0)] public Guid Guid;
             [FieldOffset(0)] public GlobalId Id;
+        }
+
+        public GlobalId(ulong value)
+        {
+            m_first = value;
+            m_second = 0UL;
         }
 
         public GlobalId(ulong first, ulong second)
@@ -39,7 +45,7 @@ namespace UGF.EditorTools.Runtime.Ids
 
         public bool IsValid()
         {
-            return m_first > 0U || m_second > 0U;
+            return m_first > 0UL || m_second > 0UL;
         }
 
         public bool Equals(GlobalId other)
