@@ -47,7 +47,7 @@ namespace UGF.EditorTools.Editor.FileIds
             {
                 Object content = null;
 
-                if (value > 0U)
+                if (value > 0UL)
                 {
                     content = m_fileIdContent;
                     content.name = ObjectNames.NicifyVariableName(assetType.Name);
@@ -57,7 +57,7 @@ namespace UGF.EditorTools.Editor.FileIds
 
                 if (selected != content)
                 {
-                    value = selected != null ? FileIdEditorUtility.GetFileId(selected) : 0U;
+                    value = selected != null ? FileIdEditorUtility.GetFileId(selected) : 0UL;
                 }
 
                 return value;
