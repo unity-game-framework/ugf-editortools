@@ -37,6 +37,11 @@ namespace UGF.EditorTools.Runtime.Ids
             m_second = id.m_second;
         }
 
+        public bool IsValid()
+        {
+            return !IsEmpty;
+        }
+
         public bool Equals(GlobalId other)
         {
             return m_first == other.m_first && m_second == other.m_second;
@@ -49,10 +54,7 @@ namespace UGF.EditorTools.Runtime.Ids
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return (m_first.GetHashCode() * 397) ^ m_second.GetHashCode();
-            }
+            return HashCode.Combine(m_first, m_second);
         }
 
         public int CompareTo(GlobalId other)
