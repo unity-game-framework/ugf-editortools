@@ -396,6 +396,10 @@ MonoBehaviour:
   m_reference1:
     m_fileId: 1228364692
     m_component: {fileID: 1228364692}
+  m_reference2:
+    m_fileId:
+      m_value: 963194227
+    m_component: {fileID: 963194227}
   m_list:
   - m_fileId: 1228364691
     m_component: {fileID: 1228364691}
@@ -405,6 +409,13 @@ MonoBehaviour:
   - m_fileId: 963194227
     m_component: {fileID: 963194227}
   - m_fileId: 
+    m_component: {fileID: 0}
+  m_list3:
+  - m_fileId:
+      m_value: 963194227
+    m_component: {fileID: 963194227}
+  - m_fileId:
+      m_value: 0
     m_component: {fileID: 0}
 --- !u!1 &1771916356
 GameObject:
