@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace UGF.EditorTools.Runtime.Ids
+namespace UGF.EditorTools.Runtime.FileIds
 {
     [Serializable]
     public struct FileId : IEquatable<FileId>, IComparable<FileId>
