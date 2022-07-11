@@ -19,13 +19,15 @@ namespace UGF.EditorTools.Runtime.Assets
 
         public AssetIdReference(GlobalId guid, TAsset asset)
         {
+            if (!guid.IsValid()) throw new ArgumentException("Value should be valid.", nameof(guid));
+
             m_guid = guid;
-            m_asset = asset;
+            m_asset = asset ? asset : throw new ArgumentNullException(nameof(asset));
         }
 
         public bool IsValid()
         {
-            return !m_guid.IsEmpty && m_asset != null;
+            return m_guid.IsValid() && m_asset != null;
         }
 
         public bool Equals(AssetIdReference<TAsset> other)
@@ -40,10 +42,7 @@ namespace UGF.EditorTools.Runtime.Assets
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return (m_guid.GetHashCode() * 397) ^ EqualityComparer<TAsset>.Default.GetHashCode(m_asset);
-            }
+            return HashCode.Combine(m_guid, m_asset);
         }
 
         public static bool operator ==(AssetIdReference<TAsset> first, AssetIdReference<TAsset> second)
@@ -58,12 +57,12 @@ namespace UGF.EditorTools.Runtime.Assets
 
         public static implicit operator GlobalId(AssetIdReference<TAsset> reference)
         {
-            return reference.m_guid;
+            return reference.Guid;
         }
 
         public static implicit operator TAsset(AssetIdReference<TAsset> reference)
         {
-            return reference.m_asset;
+            return reference.Asset;
         }
 
         public override string ToString()
