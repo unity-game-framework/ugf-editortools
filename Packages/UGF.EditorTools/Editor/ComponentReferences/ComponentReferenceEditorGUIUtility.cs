@@ -34,5 +34,34 @@ namespace UGF.EditorTools.Editor.ComponentReferences
                 propertyFileId.stringValue = string.Empty;
             }
         }
+
+        public static void DrawIdReferenceField(Rect position, GUIContent label, SerializedProperty serializedProperty)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
+            SerializedProperty propertyFileIdValue = serializedProperty.FindPropertyRelative("m_fileId.m_value");
+            SerializedProperty propertyComponent = serializedProperty.FindPropertyRelative("m_component");
+
+            Object previous = propertyComponent.objectReferenceValue;
+
+            EditorGUI.ObjectField(position, propertyComponent, label);
+
+            Object component = propertyComponent.objectReferenceValue;
+
+            if (component != null)
+            {
+                ulong value = (ulong)propertyFileIdValue.longValue;
+
+                if (value == 0UL || previous != component)
+                {
+                    propertyFileIdValue.longValue = (long)FileIdEditorUtility.GetFileId(component);
+                }
+            }
+            else
+            {
+                propertyFileIdValue.longValue = 0L;
+            }
+        }
     }
 }
