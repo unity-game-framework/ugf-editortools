@@ -13,10 +13,12 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.AssetReferences
         [SerializeField] private AssetReference<ScriptableObject> m_scriptable;
         [SerializeField] private AssetReference<Material> m_material;
         [SerializeField] private List<AssetReference<Material>> m_list = new List<AssetReference<Material>>();
+        [SerializeField] private List<AssetReference<Material>> m_list2 = new List<AssetReference<Material>>();
 
         public AssetReference<ScriptableObject> Scriptable { get { return m_scriptable; } set { m_scriptable = value; } }
         public AssetReference<Material> Material { get { return m_material; } set { m_material = value; } }
         public List<AssetReference<Material>> List { get { return m_list; } }
+        public List<AssetReference<Material>> List2 { get { return m_list2; } }
     }
 
     [CustomEditor(typeof(TestAssetReferenceAsset), true)]
@@ -25,6 +27,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.AssetReferences
         private SerializedProperty m_propertyScriptable;
         private SerializedProperty m_propertyMaterial;
         private AssetReferenceListDrawer m_list;
+        private ReorderableListDrawer m_list2;
         private ReorderableListSelectionDrawerByPath m_listSelection;
 
         private void OnEnable()
@@ -34,6 +37,13 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.AssetReferences
 
             m_list = new AssetReferenceListDrawer(serializedObject.FindProperty("m_list"));
             m_list.Enable();
+
+            m_list2 = new ReorderableListDrawer(serializedObject.FindProperty("m_list2"))
+            {
+                DisplayAsSingleLine = true
+            };
+
+            m_list2.Enable();
 
             m_listSelection = new ReorderableListSelectionDrawerByPath(m_list, "m_asset")
             {
@@ -49,6 +59,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.AssetReferences
         private void OnDisable()
         {
             m_list.Disable();
+            m_list2.Disable();
             m_listSelection.Disable();
         }
 
@@ -60,6 +71,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.AssetReferences
             EditorGUILayout.PropertyField(m_propertyMaterial);
 
             m_list.DrawGUILayout();
+            m_list2.DrawGUILayout();
             m_listSelection.DrawGUILayout();
 
             serializedObject.ApplyModifiedProperties();
