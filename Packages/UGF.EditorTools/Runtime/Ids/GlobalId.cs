@@ -130,16 +130,6 @@ namespace UGF.EditorTools.Runtime.Ids
             return FromGuid(guid);
         }
 
-        public static implicit operator string(GlobalId id)
-        {
-            return id.ToString();
-        }
-
-        public static implicit operator GlobalId(string value)
-        {
-            return new GlobalId(value);
-        }
-
         public string ToString(string format)
         {
             if (string.IsNullOrEmpty(format)) throw new ArgumentException("Value cannot be null or empty.", nameof(format));
