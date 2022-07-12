@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI;
+using UGF.EditorTools.Runtime.Assets;
+using UGF.EditorTools.Runtime.Ids;
 using UGF.EditorTools.Runtime.IMGUI.References;
 using UnityEditor;
 using UnityEngine;
@@ -16,6 +18,8 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         [SerializeField] private List<Data2> m_list3;
         [SerializeReference, ManagedReference] private List<IData> m_list4;
         [SerializeField] private List<Entry> m_list5;
+        [AssetId]
+        [SerializeField] private List<GlobalId> m_list6;
 
         [Serializable]
         public class Entry
@@ -54,6 +58,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         private ReorderableListSelectionDrawerByPath m_drawer3Selection;
         private ReorderableListDrawer m_drawer4;
         private ReorderableListKeyAndValueDrawer m_drawer5;
+        private ReorderableListDrawer m_drawer6;
 
         private void OnEnable()
         {
@@ -72,9 +77,15 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
                 }
             };
 
+            m_drawer6 = new ReorderableListDrawer(serializedObject.FindProperty("m_list6"))
+            {
+                DisplayAsSingleLine = true
+            };
+
             m_drawer1.Enable();
             m_drawer3Selection.Enable();
             m_drawer5.Enable();
+            m_drawer6.Enable();
         }
 
         private void OnDisable()
@@ -82,6 +93,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             m_drawer1.Disable();
             m_drawer3Selection.Disable();
             m_drawer5.Disable();
+            m_drawer6.Disable();
         }
 
         public override void OnInspectorGUI()
@@ -105,6 +117,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
 
             m_drawer4.DrawGUILayout();
             m_drawer5.DrawGUILayout();
+            m_drawer6.DrawGUILayout();
 
             serializedObject.ApplyModifiedProperties();
 

@@ -42,6 +42,11 @@ MonoBehaviour:
     m_value: 
   - m_key: 
     m_value: 
+  m_list6:
+  - m_first: 0
+    m_second: 0
+  - m_first: 0
+    m_second: 0
   references:
     version: 2
     RefIds:

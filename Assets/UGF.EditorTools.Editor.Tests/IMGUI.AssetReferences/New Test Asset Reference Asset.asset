@@ -23,3 +23,6 @@ MonoBehaviour:
     m_asset: {fileID: 2100000, guid: 47116866a1433e246b7c21b4e84e0140, type: 2}
   - m_guid: 15e9cf0b86764e54b88028f7a271007c
     m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
+  m_list2:
+  - m_guid: 15e9cf0b86764e54b88028f7a271007c
+    m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
