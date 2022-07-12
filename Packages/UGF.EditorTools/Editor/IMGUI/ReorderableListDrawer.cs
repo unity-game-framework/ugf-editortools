@@ -11,6 +11,7 @@ namespace UGF.EditorTools.Editor.IMGUI
         public SerializedProperty SerializedProperty { get; }
         public SerializedProperty PropertySize { get; }
         public ReorderableList List { get; }
+        public bool DisplayAsSingleLine { get; set; }
 
         public event Action Added;
         public event Action Removed;
@@ -184,7 +185,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         protected virtual bool OnElementHasVisibleChildren(SerializedProperty serializedProperty)
         {
-            return serializedProperty.hasVisibleChildren;
+            return !DisplayAsSingleLine && serializedProperty.hasVisibleChildren;
         }
 
         protected virtual void OnAdd()
