@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.3](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.8.3) - 2022-07-21  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/50?closed=1)  
+    
+
+### Fixed
+
+- Fix file id with prefab ([#237](https://github.com/unity-game-framework/ugf-editortools/issues/237))  
+    - Fix `FileId` structure to get proper id from object inside of the prefab.
+
 ## [2.8.2](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.8.2) - 2022-07-20  
 
 ### Release Notes
