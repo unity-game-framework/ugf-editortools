@@ -19,7 +19,7 @@ namespace UGF.EditorTools.Editor.FileIds
         {
             if (target == null) throw new ArgumentNullException(nameof(target));
 
-            var serializedObject = new SerializedObject(target);
+            using var serializedObject = new SerializedObject(target);
 
             m_inspectorMode.SetValue(serializedObject, InspectorMode.DebugInternal);
 
@@ -27,9 +27,14 @@ namespace UGF.EditorTools.Editor.FileIds
 
             long id = propertyFileId.longValue;
 
-            serializedObject.Dispose();
+            if (id != 0)
+            {
+                return (ulong)id;
+            }
 
-            return (ulong)id;
+            var globalObjectId = GlobalObjectId.GetGlobalObjectIdSlow(target);
+
+            return globalObjectId.targetObjectId > 0 ? globalObjectId.targetObjectId : globalObjectId.targetPrefabId;
         }
     }
 }
