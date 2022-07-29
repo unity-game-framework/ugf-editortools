@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.9.0) - 2022-07-29  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/52?closed=1)  
+    
+
+### Added
+
+- Add AssetIdReferenceListDrawer DisplayAsReplace option ([#244](https://github.com/unity-game-framework/ugf-editortools/issues/244))  
+    - Add `SerializedPropertyEditorUtility.GetFieldInfoAndType()` method to get field info and type from specified serialized property.
+    - Add `AssetIdReferenceListDrawer.DisplayAsReplace` property to display each element with replacement for id.
+    - Add `AssetIdReferenceListDrawer.DrawReplaceControlsLayout()` method to draw controls with _Replace_ button.
+
 ## [2.8.4](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.8.4) - 2022-07-26  
 
 ### Release Notes
