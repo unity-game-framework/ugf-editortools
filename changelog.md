@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.10.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.10.0) - 2022-07-30  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/53?closed=1)  
+    
+
+### Added
+
+- Add PropertyDrawerBase option to define custom context menu ([#247](https://github.com/unity-game-framework/ugf-editortools/issues/247))  
+    - Add `PropertyDrawerBase.EnableContextMenu` property to enable setup of custom context menu for current property drawer.
+    - Add `PropertyDrawerBase.OnContextMenu()` overridable method to define custom additional context menu for the property drawer.
+    - Add `SerializedPropertyGUIScope` structure used as scope to wrap property around `EditorGUI.BeginProperty()` methods.
+    - Add `SerializedPropertyContextMenuScope` structure scope used to define temporary context menu around specified scope.
+
+### Fixed
+
+- Fix DrawAssetPathField shows missing with asset guid of different type ([#246](https://github.com/unity-game-framework/ugf-editortools/issues/246))  
+    - Fix `AttributeEditorGUIUtility.DrawAssetPathField()` method to show object when type mismatch with selected path.
+
 ## [2.9.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.9.0) - 2022-07-29  
 
 ### Release Notes
