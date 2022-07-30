@@ -228,7 +228,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (assetType == null) throw new ArgumentNullException(nameof(assetType));
             if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
 
-            Object asset = AssetDatabase.LoadAssetAtPath(path, assetType);
+            var asset = AssetDatabase.LoadAssetAtPath<Object>(path);
 
             if (!string.IsNullOrEmpty(path) && asset == null)
             {
