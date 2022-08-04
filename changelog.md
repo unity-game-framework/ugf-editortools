@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.11.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.11.0) - 2022-08-04  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/54?closed=1)  
+    
+
+### Added
+
+- Add get children from serialized object ([#250](https://github.com/unity-game-framework/ugf-editortools/issues/250))  
+    - Add `SerializedPropertyEditorUtility.GetChildrenVisible()` and `GetChildren()` method overloads which accept _SerializedObject_ as argument.
+
 ## [2.10.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.10.0) - 2022-07-30  
 
 ### Release Notes
