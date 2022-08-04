@@ -35,6 +35,18 @@ namespace UGF.EditorTools.Editor.Serialized
             return m_getFieldInfoFromProperty.Invoke(serializedProperty, out type);
         }
 
+        public static IEnumerable<SerializedProperty> GetChildrenVisible(SerializedObject serializedObject)
+        {
+            if (serializedObject == null) throw new ArgumentNullException(nameof(serializedObject));
+
+            SerializedProperty iterator = serializedObject.GetIterator();
+
+            for (bool enterChildren = true; iterator.NextVisible(enterChildren); enterChildren = false)
+            {
+                yield return iterator;
+            }
+        }
+
         public static IEnumerable<SerializedProperty> GetChildrenVisible(SerializedProperty serializedProperty)
         {
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
@@ -51,6 +63,18 @@ namespace UGF.EditorTools.Editor.Serialized
                 {
                     yield return serializedProperty;
                 }
+            }
+        }
+
+        public static IEnumerable<SerializedProperty> GetChildren(SerializedObject serializedObject)
+        {
+            if (serializedObject == null) throw new ArgumentNullException(nameof(serializedObject));
+
+            SerializedProperty iterator = serializedObject.GetIterator();
+
+            for (bool enterChildren = true; iterator.Next(enterChildren); enterChildren = false)
+            {
+                yield return iterator;
             }
         }
 
