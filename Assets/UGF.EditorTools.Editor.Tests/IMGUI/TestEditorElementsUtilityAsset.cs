@@ -16,11 +16,14 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         [SerializeField] private string m_value3;
         [TimeTicks]
         [SerializeField] private long m_time;
+        [TimeSpanTicks]
+        [SerializeField] private long m_time2;
 
         public string Value { get { return m_value; } set { m_value = value; } }
         public string Value2 { get { return m_value2; } set { m_value2 = value; } }
         public string Value3 { get { return m_value3; } set { m_value3 = value; } }
         public long Time { get { return m_time; } set { m_time = value; } }
+        public long Time2 { get { return m_time2; } set { m_time2 = value; } }
     }
 
     [CustomEditor(typeof(TestEditorElementsUtilityAsset), true)]
@@ -30,6 +33,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         private SerializedProperty m_propertyValue2;
         private SerializedProperty m_propertyValue3;
         private SerializedProperty m_propertyTime;
+        private SerializedProperty m_propertyTime2;
 
         private void OnEnable()
         {
@@ -37,6 +41,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             m_propertyValue2 = serializedObject.FindProperty("m_value2");
             m_propertyValue3 = serializedObject.FindProperty("m_value3");
             m_propertyTime = serializedObject.FindProperty("m_time");
+            m_propertyTime2 = serializedObject.FindProperty("m_time2");
         }
 
         public override void OnInspectorGUI()
@@ -52,6 +57,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
                 }
 
                 EditorGUILayout.PropertyField(m_propertyTime);
+                EditorGUILayout.PropertyField(m_propertyTime2);
             }
         }
 
