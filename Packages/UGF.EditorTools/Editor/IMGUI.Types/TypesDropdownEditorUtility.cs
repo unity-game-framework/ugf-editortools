@@ -40,6 +40,21 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             }
         }
 
+        public static void GetTypeItems(ICollection<DropdownItem<Type>> collection, Type targetType, Type attributeType, bool useFullPath, bool displayAssemblyName)
+        {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+            if (targetType == null) throw new ArgumentNullException(nameof(targetType));
+
+            TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom(targetType);
+
+            foreach (Type type in types)
+            {
+                DropdownItem<Type> item = CreateItem(type, useFullPath, displayAssemblyName);
+
+                collection.Add(item);
+            }
+        }
+
         public static DropdownItem<Type> CreateItem(Type type, bool useFullPath, bool displayAssemblyName)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
