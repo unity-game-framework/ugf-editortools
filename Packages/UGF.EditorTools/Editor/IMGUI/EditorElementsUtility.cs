@@ -28,6 +28,16 @@ namespace UGF.EditorTools.Editor.IMGUI
                 new GUIContent("S", "Second of the minute."),
                 new GUIContent("T", "Tick of the second.")
             };
+
+            public GUIContent[] SpanSegmentsContent { get; } = new[]
+            {
+                new GUIContent("D", "Days."),
+                new GUIContent("H", "Hours"),
+                new GUIContent("M", "Minutes."),
+                new GUIContent("S", "Seconds."),
+                new GUIContent("M", "Milliseconds."),
+                new GUIContent("T", "Ticks.")
+            };
         }
 
         static EditorElementsUtility()
@@ -169,6 +179,85 @@ namespace UGF.EditorTools.Editor.IMGUI
             date = new DateTime(segments[0], segments[1], segments[2], segments[3], segments[4], segments[5]);
             date = date.AddTicks(segments[6]);
             value = date.Ticks;
+
+            if (!sign)
+            {
+                value = -value;
+            }
+
+            return value;
+        }
+
+        public static void TimeSpanTicksField(SerializedProperty serializedProperty, params GUILayoutOption[] options)
+        {
+            GUIContent label = EditorGUIUtility.TrTempContent(serializedProperty.displayName);
+
+            TimeSpanTicksField(label, serializedProperty, options);
+        }
+
+        public static void TimeSpanTicksField(GUIContent label, SerializedProperty serializedProperty, params GUILayoutOption[] options)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            TimeSpanTicksField(position, label, serializedProperty);
+        }
+
+        public static void TimeSpanTicksField(Rect position, GUIContent label, SerializedProperty serializedProperty)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
+            serializedProperty.longValue = TimeSpanTicksField(position, label, serializedProperty.longValue);
+        }
+
+        public static long TimeSpanTicksField(GUIContent label, long value, params GUILayoutOption[] options)
+        {
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            return TimeSpanTicksField(position, label, value);
+        }
+
+        public static long TimeSpanTicksField(Rect position, GUIContent label, long value)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Styles styles = GetStyles();
+            float space = EditorGUIUtility.standardVerticalSpacing;
+
+            Rect rectField = EditorGUI.PrefixLabel(position, label);
+            var rectSign = new Rect(rectField.x, rectField.y + 1F, rectField.height, rectField.height);
+            var rectFields = new Rect(rectSign.xMax + space, rectField.y, rectField.width - rectField.height - space, rectField.height);
+
+            bool sign = value >= 0;
+
+            if (!sign)
+            {
+                value = -value;
+            }
+
+            var span = new TimeSpan(value);
+
+            int[] segments =
+            {
+                span.Days,
+                span.Hours,
+                span.Minutes,
+                span.Seconds,
+                span.Milliseconds,
+                (int)(span.Ticks - new TimeSpan(span.Days, span.Hours, span.Minutes, span.Seconds, span.Milliseconds).Ticks)
+            };
+
+            if (GUI.Button(rectSign, sign ? styles.SignPlusContent : styles.SignMinusContent, EditorStyles.iconButton))
+            {
+                sign = !sign;
+            }
+
+            EditorGUI.MultiIntField(rectFields, styles.SpanSegmentsContent, segments);
+
+            span = new TimeSpan(segments[0], segments[1], segments[2], segments[3], segments[4]);
+            span += new TimeSpan(segments[5]);
+            value = span.Ticks;
 
             if (!sign)
             {
