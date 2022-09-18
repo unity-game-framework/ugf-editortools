@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.12.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.12.0) - 2022-09-18  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/55?closed=1)  
+    
+
+### Added
+
+- Add time ticks attribute non-date support ([#253](https://github.com/unity-game-framework/ugf-editortools/issues/253))  
+    - Add `TimeSpanTicksAttribute` attribute to draw value as _TimeSpan_ selection.
+    - Add `EditorElementsUtility.TimeSpanTicksField()` method and overloads to draw field with _TimeSpan_ selection.
+
 ## [2.11.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.11.0) - 2022-08-04  
 
 ### Release Notes
