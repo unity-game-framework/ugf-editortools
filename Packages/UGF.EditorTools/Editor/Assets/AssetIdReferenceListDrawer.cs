@@ -2,39 +2,47 @@
 using UGF.EditorTools.Editor.Ids;
 using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Editor.IMGUI.Attributes;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.EditorTools.Editor.Serialized;
 using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace UGF.EditorTools.Editor.Assets
 {
-    public class AssetIdReferenceListDrawer : ReorderableListKeyAndValueDrawer
+    public partial class AssetIdReferenceListDrawer : ReorderableListKeyAndValueDrawer
     {
         public bool DisplayAsReplace { get; set; }
+        public bool DisplayReplaceControls { get; set; } = true;
 
         private Type m_assetType;
+        private Styles m_styles;
+
+        private class Styles
+        {
+            public GUIContent ReplaceButtonDisabledContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("preAudioLoopOff"), "Enable replacement editing");
+            public GUIContent ReplaceButtonEnabledContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("preAudioLoopOff"), "Disable replacement editing");
+            public Color ReplaceButtonEnableColor { get; } = new GUIStyle("PR PrefabLabel").normal.textColor;
+        }
 
         public AssetIdReferenceListDrawer(SerializedProperty serializedProperty) : base(serializedProperty, "m_guid", "m_asset")
         {
             DisplayAsSingleLine = true;
         }
 
-        public void DrawReplaceControlsLayout()
+        protected override void OnEnable()
         {
-            EditorGUILayout.Space();
+            base.OnEnable();
 
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                GUILayout.FlexibleSpace();
-
-                DrawReplaceButtonLayout();
-            }
+            List.drawFooterCallback += OnDrawFooter;
         }
 
-        public void DrawReplaceButtonLayout()
+        protected override void OnDisable()
         {
-            DisplayAsReplace = GUILayout.Toggle(DisplayAsReplace, "Replace", EditorStyles.miniButton);
+            base.OnDisable();
+
+            List.drawFooterCallback -= OnDrawFooter;
         }
 
         protected override void OnDrawElementContent(Rect position, SerializedProperty serializedProperty, int index, bool isActive, bool isFocused)
@@ -65,6 +73,57 @@ namespace UGF.EditorTools.Editor.Assets
             guid = AttributeEditorGUIUtility.DrawAssetGuidField(position, guid, GUIContent.none, m_assetType);
 
             GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
+        }
+
+        private void OnDrawFooter(Rect rect)
+        {
+            if (DisplayReplaceControls)
+            {
+                m_styles ??= new Styles();
+
+                float rightEdge = rect.xMax - 10F;
+                float leftEdge = rightEdge - 33F;
+
+                if (List.displayAdd)
+                {
+                    leftEdge -= 25F;
+                }
+
+                if (List.displayRemove)
+                {
+                    leftEdge -= 25F;
+                }
+
+                var rectBackground = new Rect(leftEdge, rect.y, rightEdge - leftEdge, rect.height);
+                var rectReplace = new Rect(leftEdge + 4F, rect.y, 25F, 16F);
+
+                if (Event.current.type == EventType.Repaint)
+                {
+                    ReorderableList.defaultBehaviours.footerBackground.Draw(rectBackground, false, false, false, false);
+                }
+
+                try
+                {
+                    ReorderableList.defaultBehaviours.footerBackground.fixedHeight = float.Epsilon;
+                    ReorderableList.defaultBehaviours.DrawFooter(rect, List);
+                }
+                finally
+                {
+                    ReorderableList.defaultBehaviours.footerBackground.fixedHeight = 0F;
+                }
+
+                GUIContent content = DisplayAsReplace ? m_styles.ReplaceButtonEnabledContent : m_styles.ReplaceButtonDisabledContent;
+                Color color = DisplayAsReplace ? m_styles.ReplaceButtonEnableColor : Color.white;
+
+                using (new GUIContentColorScope(color))
+                {
+                    DisplayAsReplace = GUI.Toggle(rectReplace, DisplayAsReplace, content, ReorderableList.defaultBehaviours.preButton);
+                }
+            }
+            else
+            {
+                ReorderableList.defaultBehaviours.DrawFooter(rect, List);
+            }
         }
     }
 }
