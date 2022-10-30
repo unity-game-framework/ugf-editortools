@@ -14,7 +14,7 @@ namespace UGF.EditorTools.Editor.Assets
     public partial class AssetIdReferenceListDrawer : ReorderableListKeyAndValueDrawer
     {
         public bool DisplayAsReplace { get; set; }
-        public bool DisplayReplaceControls { get; set; } = true;
+        public bool DisplayReplaceButton { get; set; } = true;
 
         private Type m_assetType;
         private Styles m_styles;
@@ -77,7 +77,7 @@ namespace UGF.EditorTools.Editor.Assets
 
         private void OnDrawFooter(Rect rect)
         {
-            if (DisplayReplaceControls)
+            if (DisplayReplaceButton)
             {
                 m_styles ??= new Styles();
 
