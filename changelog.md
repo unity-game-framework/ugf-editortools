@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.13.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.13.0) - 2022-10-30  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/56?closed=1)  
+    
+
+### Changed
+
+- Change asset id reference list replacement controls ([#256](https://github.com/unity-game-framework/ugf-editortools/issues/256))  
+    - Add `AssetIdReferenceListDrawer.DisplayReplaceButton` property used to determines whether to display _Replace_ button alongside _Add_ and _Remove_ list buttons, `True` by default.
+    - Add `GUIContentColorScope` structure as scope to change content color.
+    - Deprecate `AssetIdReferenceListDrawer.DrawReplaceControlsLayout()` and `DrawReplaceButtonLayout()` methods, use `DisplayReplaceButton` property instead.
+
 ## [2.12.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.12.0) - 2022-09-18  
 
 ### Release Notes
