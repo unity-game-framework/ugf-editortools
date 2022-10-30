@@ -6,7 +6,7 @@ namespace UGF.EditorTools.Editor.Assets
 {
     public partial class AssetIdReferenceListDrawer
     {
-        [Obsolete("DrawReplaceControlsLayout has been deprecated. Use DisplayReplaceControls property to control whether to display replace controls or not.")]
+        [Obsolete("DrawReplaceControlsLayout has been deprecated. Use 'DisplayReplaceButton' property to control whether to display replace controls or not.")]
         public void DrawReplaceControlsLayout()
         {
             EditorGUILayout.Space();
@@ -19,7 +19,7 @@ namespace UGF.EditorTools.Editor.Assets
             }
         }
 
-        [Obsolete("DrawReplaceButtonLayout has been deprecated. Use DisplayReplaceControls property to control whether to display replace controls or not.")]
+        [Obsolete("DrawReplaceButtonLayout has been deprecated. Use 'DisplayReplaceButton' property to control whether to display replace controls or not.")]
         public void DrawReplaceButtonLayout()
         {
             DisplayAsReplace = GUILayout.Toggle(DisplayAsReplace, "Replace", EditorStyles.miniButton);
