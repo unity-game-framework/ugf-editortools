@@ -47,7 +47,6 @@ namespace UGF.EditorTools.Editor.Tests.Assets
             EditorGUILayout.PropertyField(m_propertyMaterial);
 
             m_list.DrawGUILayout();
-            m_list.DrawReplaceControlsLayout();
 
             serializedObject.ApplyModifiedProperties();
         }
