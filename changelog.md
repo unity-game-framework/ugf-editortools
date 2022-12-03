@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.14.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.14.0) - 2022-12-03  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/57?closed=1)  
+    
+
+### Added
+
+- Add reorderable list selection for global id ([#258](https://github.com/unity-game-framework/ugf-editortools/issues/258))  
+    - Add `ReorderableListSelectionDrawer.OnTryGetTarget()` virtual method used to override target selection from the property.
+    - Add `ReorderableListSelectionDrawerByElementGlobalId` and `ReorderableListSelectionDrawerByPathGlobalId` classes as implementation of `ReorderableListSelectionDrawer` which works with `GlobalId` collections.
+
 ## [2.13.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.13.0) - 2022-10-30  
 
 ### Release Notes
