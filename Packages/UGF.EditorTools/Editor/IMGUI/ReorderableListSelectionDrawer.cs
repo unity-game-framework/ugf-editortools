@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEditor;
+using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
@@ -29,11 +30,17 @@ namespace UGF.EditorTools.Editor.IMGUI
             Drawer.Disable();
         }
 
-        protected abstract SerializedProperty OnGetObjectReferenceProperty(SerializedProperty propertyElement);
-
         public void DrawGUILayout()
         {
             Drawer.DrawGUILayout();
+        }
+
+        protected abstract SerializedProperty OnGetObjectReferenceProperty(SerializedProperty propertyElement);
+
+        protected virtual bool OnTryGetTarget(SerializedProperty serializedProperty, out Object target)
+        {
+            target = serializedProperty.objectReferenceValue;
+            return target != null;
         }
 
         private void OnSelectionUpdated()
@@ -43,9 +50,9 @@ namespace UGF.EditorTools.Editor.IMGUI
                 SerializedProperty propertyElement = ListDrawer.SerializedProperty.GetArrayElementAtIndex(ListDrawer.List.index);
                 SerializedProperty serializedProperty = OnGetObjectReferenceProperty(propertyElement);
 
-                if (serializedProperty.objectReferenceValue != null)
+                if (OnTryGetTarget(serializedProperty, out Object target))
                 {
-                    Drawer.Set(serializedProperty.objectReferenceValue);
+                    Drawer.Set(target);
                 }
                 else
                 {
