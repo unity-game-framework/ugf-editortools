@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.15.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.15.0) - 2022-12-19  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/58?closed=1)  
+    
+
+### Added
+
+- Add ReorderableListKeyAndValueDrawer label display ([#261](https://github.com/unity-game-framework/ugf-editortools/issues/261))  
+    - Add `ReorderableListKeyAndValueDrawer.DisplayLabels` property to enable labels display for key and value property.
+    - Add `ReorderableListKeyAndValueDrawer.KeyLabel` and `ValueLabel` properties to setup custom labels for key and value properties.
+
 ## [2.14.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.14.0) - 2022-12-03  
 
 ### Release Notes
