@@ -94,7 +94,6 @@ jobs:
       run: |
         git config user.name ${{ secrets.userName }}
         git config user.email ${{ secrets.userEmail }}
-        git add ${{ env.packagePath }}
-        git add readme.md
+        git add *
         git commit -m "Setup project"
         git push
