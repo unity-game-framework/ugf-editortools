@@ -1,4 +1,5 @@
 ﻿using System;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ namespace UGF.EditorTools.Editor.IMGUI
     {
         public string PropertyKeyName { get; }
         public string PropertyValueName { get; }
+        public bool DisplayLabels { get; set; }
+        public GUIContent KeyLabel { get; set; }
+        public GUIContent ValueLabel { get; set; }
 
         public ReorderableListKeyAndValueDrawer(SerializedProperty serializedProperty, string propertyKeyName = "m_key", string propertyValueName = "m_value") : base(serializedProperty)
         {
@@ -16,6 +20,8 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             PropertyKeyName = propertyKeyName;
             PropertyValueName = propertyValueName;
+            KeyLabel = new GUIContent(ObjectNames.NicifyVariableName(propertyKeyName));
+            ValueLabel = new GUIContent(ObjectNames.NicifyVariableName(propertyValueName));
         }
 
         protected override void OnDrawElementContent(Rect position, SerializedProperty serializedProperty, int index, bool isActive, bool isFocused)
@@ -45,12 +51,36 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         protected virtual void OnDrawKey(Rect position, SerializedProperty serializedProperty)
         {
-            EditorGUI.PropertyField(position, serializedProperty, GUIContent.none);
+            if (DisplayLabels)
+            {
+                float with = EditorStyles.label.CalcSize(KeyLabel).x + EditorGUIUtility.standardVerticalSpacing;
+
+                using (new LabelWidthScope(with))
+                {
+                    EditorGUI.PropertyField(position, serializedProperty, KeyLabel);
+                }
+            }
+            else
+            {
+                EditorGUI.PropertyField(position, serializedProperty, GUIContent.none);
+            }
         }
 
         protected virtual void OnDrawValue(Rect position, SerializedProperty serializedProperty)
         {
-            EditorGUI.PropertyField(position, serializedProperty, GUIContent.none);
+            if (DisplayLabels)
+            {
+                float with = EditorStyles.label.CalcSize(ValueLabel).x + EditorGUIUtility.standardVerticalSpacing;
+
+                using (new LabelWidthScope(with))
+                {
+                    EditorGUI.PropertyField(position, serializedProperty, ValueLabel);
+                }
+            }
+            else
+            {
+                EditorGUI.PropertyField(position, serializedProperty, GUIContent.none);
+            }
         }
     }
 }
