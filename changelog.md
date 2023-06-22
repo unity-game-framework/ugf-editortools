@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.16.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.16.0) - 2023-06-22  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/59?closed=1)  
+    
+
+### Added
+
+- Add reorderable list add by drop on label ([#266](https://github.com/unity-game-framework/ugf-editortools/issues/266))  
+    - Add `AssetIdEditorUtility` class to with methods to work with `AssetIdAttribute` attribute and `AssetIdReference<T>` structure in editor.
+    - Add `AssetIdReferenceListDrawer` and `ReorderableListDrawer` classes support for adding selected elements by drag and drop on collection header.
+    - Add `GlobalIdEditorUtility.SetAssetToProperty()` method to set id value based on guid from specified asset.
+    - Add `SerializedPropertyEditorUtility.TryValidateObjectFieldAssignment()` method used to validate assignment of object to specified property.
+
 ## [2.15.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.15.0) - 2022-12-19  
 
 ### Release Notes
