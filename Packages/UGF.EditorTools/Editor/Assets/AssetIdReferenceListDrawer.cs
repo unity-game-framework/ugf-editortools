@@ -8,6 +8,7 @@ using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.Assets
 {
@@ -73,6 +74,27 @@ namespace UGF.EditorTools.Editor.Assets
             guid = AttributeEditorGUIUtility.DrawAssetGuidField(position, guid, GUIContent.none, m_assetType);
 
             GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
+        }
+
+        protected override bool OnDragAndDropValidate(Object target, out Object result)
+        {
+            if (AssetIdEditorUtility.TryGetAssetIdReferenceTypeFromCollection(SerializedProperty, out Type type) && type.IsInstanceOfType(target))
+            {
+                result = target;
+                return true;
+            }
+
+            result = default;
+            return false;
+        }
+
+        protected override void OnDragAndDropAccept(Object target)
+        {
+            SerializedProperty.InsertArrayElementAtIndex(SerializedProperty.arraySize);
+
+            SerializedProperty propertyElement = SerializedProperty.GetArrayElementAtIndex(SerializedProperty.arraySize - 1);
+
+            AssetIdEditorUtility.SetAssetToAssetIdReference(propertyElement, target);
         }
 
         private void OnDrawFooter(Rect rect)

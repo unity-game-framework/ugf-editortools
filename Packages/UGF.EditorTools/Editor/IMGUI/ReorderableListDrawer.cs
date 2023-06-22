@@ -1,8 +1,13 @@
 ﻿using System;
+using UGF.EditorTools.Editor.Assets;
+using UGF.EditorTools.Editor.Ids;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
+using UGF.EditorTools.Editor.Serialized;
+using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
@@ -102,6 +107,8 @@ namespace UGF.EditorTools.Editor.IMGUI
         protected virtual bool OnDrawFoldout(Rect position, GUIContent label)
         {
             SerializedProperty.isExpanded = EditorGUI.Foldout(position, SerializedProperty.isExpanded, label, true);
+
+            OnDragAndDrop(position);
 
             return SerializedProperty.isExpanded;
         }
@@ -225,6 +232,39 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
         }
 
+        protected virtual bool OnDragAndDropValidate(Object target, out Object result)
+        {
+            if (SerializedProperty.arrayElementType == nameof(GlobalId))
+            {
+                if (AssetIdEditorUtility.CheckAssetIdAttributeType(SerializedProperty, target))
+                {
+                    result = target;
+                    return true;
+                }
+
+                result = default;
+                return false;
+            }
+
+            return SerializedPropertyEditorUtility.TryValidateObjectFieldAssignment(SerializedProperty, target, out result);
+        }
+
+        protected virtual void OnDragAndDropAccept(Object target)
+        {
+            SerializedProperty.InsertArrayElementAtIndex(SerializedProperty.arraySize);
+
+            SerializedProperty propertyElement = SerializedProperty.GetArrayElementAtIndex(SerializedProperty.arraySize - 1);
+
+            if (SerializedProperty.arrayElementType == nameof(GlobalId))
+            {
+                GlobalIdEditorUtility.SetAssetToProperty(propertyElement, target);
+            }
+            else
+            {
+                propertyElement.objectReferenceValue = target;
+            }
+        }
+
         private void OnListAdd(ReorderableList list)
         {
             OnAdd();
@@ -256,6 +296,63 @@ namespace UGF.EditorTools.Editor.IMGUI
             OnSelectionUpdate();
 
             SelectionUpdated?.Invoke();
+        }
+
+        private void OnDragAndDrop(Rect position)
+        {
+            int id = EditorIMGUIUtility.GetLastControlId();
+            Event currentEvent = Event.current;
+
+            switch (currentEvent.type)
+            {
+                case EventType.DragExited:
+                {
+                    if (GUI.enabled)
+                    {
+                        HandleUtility.Repaint();
+                    }
+
+                    break;
+                }
+                case EventType.DragUpdated:
+                case EventType.DragPerform:
+                {
+                    if (position.Contains(currentEvent.mousePosition) && GUI.enabled)
+                    {
+                        Object[] references = DragAndDrop.objectReferences;
+                        bool accepted = false;
+
+                        foreach (Object target in references)
+                        {
+                            if (target != null && OnDragAndDropValidate(target, out Object result))
+                            {
+                                DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+
+                                if (currentEvent.type == EventType.DragPerform)
+                                {
+                                    OnDragAndDropAccept(result);
+
+                                    DragAndDrop.activeControlID = 0;
+
+                                    accepted = true;
+                                }
+                                else
+                                {
+                                    DragAndDrop.activeControlID = id;
+                                }
+                            }
+                        }
+
+                        if (accepted)
+                        {
+                            GUI.changed = true;
+                            DragAndDrop.AcceptDrag();
+                        }
+                    }
+
+                    break;
+                }
+            }
         }
     }
 }

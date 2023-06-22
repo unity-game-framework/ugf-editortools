@@ -1,11 +1,23 @@
 ﻿using System;
 using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
+using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.Ids
 {
     public static class GlobalIdEditorUtility
     {
+        public static void SetAssetToProperty(SerializedProperty serializedProperty, Object asset)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+            if (asset == null) throw new ArgumentNullException(nameof(asset));
+
+            string path = AssetDatabase.GetAssetPath(asset);
+            string guid = AssetDatabase.AssetPathToGUID(path);
+
+            SetGuidToProperty(serializedProperty, guid);
+        }
+
         public static string GetGuidFromProperty(SerializedProperty serializedProperty)
         {
             GlobalId id = GetGlobalIdFromProperty(serializedProperty);
