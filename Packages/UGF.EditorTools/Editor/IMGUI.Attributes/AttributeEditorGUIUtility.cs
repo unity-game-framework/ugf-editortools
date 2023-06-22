@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using UGF.EditorTools.Editor.Assets;
 using UGF.EditorTools.Editor.FileIds;
+using UGF.EditorTools.Editor.Serialized;
+using UGF.EditorTools.Runtime.Assets;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,6 +23,17 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
         {
             m_fileIdContent = ScriptableObject.CreateInstance<FileId>();
             m_fileIdContent.hideFlags = HideFlags.HideAndDontSave;
+        }
+
+        public static bool CheckAssetIdAttributeType(SerializedProperty serializedProperty, Object asset)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+            if (asset == null) throw new ArgumentNullException(nameof(asset));
+
+            FieldInfo field = SerializedPropertyEditorUtility.GetFieldInfoAndType(serializedProperty, out _);
+            var attribute = field.GetCustomAttribute<AssetIdAttribute>();
+
+            return attribute != null && attribute.AssetType.IsInstanceOfType(asset);
         }
 
         public static void DrawFileIdField(GUIContent label, SerializedProperty serializedProperty, Type assetType, params GUILayoutOption[] options)

@@ -1,6 +1,9 @@
 ﻿using System;
+using UGF.EditorTools.Editor.Ids;
+using UGF.EditorTools.Editor.IMGUI.Attributes;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.EditorTools.Editor.Serialized;
+using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -231,6 +234,18 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         protected virtual bool OnDragAndDropValidate(Object target, out Object result)
         {
+            if (SerializedProperty.arrayElementType == nameof(GlobalId))
+            {
+                if (AttributeEditorGUIUtility.CheckAssetIdAttributeType(SerializedProperty, target))
+                {
+                    result = target;
+                    return true;
+                }
+
+                result = default;
+                return false;
+            }
+
             return SerializedPropertyEditorUtility.TryValidateObjectFieldAssignment(SerializedProperty, target, out result);
         }
 
@@ -239,6 +254,17 @@ namespace UGF.EditorTools.Editor.IMGUI
             SerializedProperty.InsertArrayElementAtIndex(SerializedProperty.arraySize);
 
             SerializedProperty propertyElement = SerializedProperty.GetArrayElementAtIndex(SerializedProperty.arraySize - 1);
+
+            if (SerializedProperty.arrayElementType == nameof(GlobalId))
+            {
+                if (AttributeEditorGUIUtility.CheckAssetIdAttributeType(SerializedProperty, target))
+                {
+                    GlobalIdEditorUtility.SetAssetToProperty(propertyElement, target);
+                    return true;
+                }
+
+                return false;
+            }
 
             propertyElement.objectReferenceValue = target;
 
