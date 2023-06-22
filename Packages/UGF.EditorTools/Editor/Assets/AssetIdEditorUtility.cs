@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using UGF.EditorTools.Editor.Ids;
 using UGF.EditorTools.Editor.Serialized;
@@ -32,6 +33,37 @@ namespace UGF.EditorTools.Editor.Assets
             GlobalIdEditorUtility.SetAssetToProperty(propertyGuid, asset);
 
             propertyAsset.objectReferenceValue = asset;
+        }
+
+        public static bool TryGetAssetIdReferenceTypeFromCollection(SerializedProperty serializedProperty, out Type type)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
+            Type fieldType = SerializedPropertyEditorUtility.GetFieldType(serializedProperty);
+            Type assetIdReferenceType = null;
+
+            if (fieldType.IsArray)
+            {
+                assetIdReferenceType = fieldType.GetElementType();
+            }
+            else if (fieldType.IsGenericType)
+            {
+                Type definition = fieldType.GetGenericTypeDefinition();
+
+                if (definition == typeof(List<>))
+                {
+                    assetIdReferenceType = fieldType.GetGenericArguments()[0];
+                }
+            }
+
+            if (assetIdReferenceType != null)
+            {
+                type = assetIdReferenceType.GetGenericArguments()[0];
+                return true;
+            }
+
+            type = default;
+            return false;
         }
     }
 }
