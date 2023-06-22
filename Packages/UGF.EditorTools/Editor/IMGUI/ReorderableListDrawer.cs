@@ -1,6 +1,6 @@
 ﻿using System;
+using UGF.EditorTools.Editor.Assets;
 using UGF.EditorTools.Editor.Ids;
-using UGF.EditorTools.Editor.IMGUI.Attributes;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.EditorTools.Editor.Serialized;
 using UGF.EditorTools.Runtime.Ids;
@@ -236,7 +236,7 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
             if (SerializedProperty.arrayElementType == nameof(GlobalId))
             {
-                if (AttributeEditorGUIUtility.CheckAssetIdAttributeType(SerializedProperty, target))
+                if (AssetIdEditorUtility.CheckAssetIdAttributeType(SerializedProperty, target))
                 {
                     result = target;
                     return true;
@@ -249,7 +249,7 @@ namespace UGF.EditorTools.Editor.IMGUI
             return SerializedPropertyEditorUtility.TryValidateObjectFieldAssignment(SerializedProperty, target, out result);
         }
 
-        protected virtual bool OnDragAndDropAccept(Object target)
+        protected virtual void OnDragAndDropAccept(Object target)
         {
             SerializedProperty.InsertArrayElementAtIndex(SerializedProperty.arraySize);
 
@@ -257,18 +257,12 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             if (SerializedProperty.arrayElementType == nameof(GlobalId))
             {
-                if (AttributeEditorGUIUtility.CheckAssetIdAttributeType(SerializedProperty, target))
-                {
-                    GlobalIdEditorUtility.SetAssetToProperty(propertyElement, target);
-                    return true;
-                }
-
-                return false;
+                GlobalIdEditorUtility.SetAssetToProperty(propertyElement, target);
             }
-
-            propertyElement.objectReferenceValue = target;
-
-            return true;
+            else
+            {
+                propertyElement.objectReferenceValue = target;
+            }
         }
 
         private void OnListAdd(ReorderableList list)
@@ -336,9 +330,11 @@ namespace UGF.EditorTools.Editor.IMGUI
 
                                 if (currentEvent.type == EventType.DragPerform)
                                 {
-                                    accepted = OnDragAndDropAccept(result);
+                                    OnDragAndDropAccept(result);
 
                                     DragAndDrop.activeControlID = 0;
+
+                                    accepted = true;
                                 }
                                 else
                                 {
