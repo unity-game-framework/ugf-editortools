@@ -56,7 +56,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             if (EnableDragAndDropAdding)
             {
-                OnDragAndDrop(position);
+                OnDragAndDrop(foldoutPosition);
             }
 
             if (foldout)
