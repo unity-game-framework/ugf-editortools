@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.17.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.17.0) - 2023-06-25  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/60?closed=1)  
+    
+
+### Added
+
+- Add collection drawer drop on header adding ([#272](https://github.com/unity-game-framework/ugf-editortools/issues/272))  
+    - Add `CollectionDrawer` class to handle drag and drop adding on collection header.
+    - Add `CollectionDrawer.EnableDragAndDropAdding` property used to enable drag and drop adding feature.
+- Add option to disable drop on header adding ([#271](https://github.com/unity-game-framework/ugf-editortools/issues/271))  
+    - Add `ReorderableListDrawer.EnableDragAndDropAdding` property used to enable drag and drop adding of project selected asset to the list. (Enabled by default)
+- Add reorderable list skip element foldout ([#270](https://github.com/unity-game-framework/ugf-editortools/issues/270))  
+    - Add `ReorderableListDrawer.DisplayElementFoldout` property to determines whether to draw foldout for each element.
+    - Add `EditorIMGUIUtility.DrawPropertyChildrenVisible()` and `GetHeightPropertyChildrenVisible()` methods to draw children of serialized property.
+
 ## [2.16.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.16.0) - 2023-06-22  
 
 ### Release Notes
