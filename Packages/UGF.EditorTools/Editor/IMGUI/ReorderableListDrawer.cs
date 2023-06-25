@@ -17,6 +17,7 @@ namespace UGF.EditorTools.Editor.IMGUI
         public SerializedProperty PropertySize { get; }
         public ReorderableList List { get; }
         public bool DisplayAsSingleLine { get; set; }
+        public bool DisplayElementFoldout { get; set; } = true;
         public bool EnableDragAndDropAdding { get; set; } = true;
 
         public event Action Added;
@@ -152,7 +153,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             SerializedProperty propertyElement = SerializedProperty.GetArrayElementAtIndex(index);
 
-            if (OnElementHasVisibleChildren(propertyElement))
+            if (OnElementHasVisibleChildren(propertyElement) && DisplayElementFoldout)
             {
                 position.xMin += height - space;
             }
@@ -164,7 +165,14 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
             if (OnElementHasVisibleChildren(serializedProperty))
             {
-                EditorGUI.PropertyField(position, serializedProperty, true);
+                if (DisplayElementFoldout)
+                {
+                    EditorGUI.PropertyField(position, serializedProperty, true);
+                }
+                else
+                {
+                    EditorIMGUIUtility.DrawPropertyChildrenVisible(position, serializedProperty);
+                }
             }
             else
             {
@@ -192,7 +200,9 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         protected virtual float OnElementHeightContent(SerializedProperty serializedProperty, int index)
         {
-            return EditorGUI.GetPropertyHeight(serializedProperty, true);
+            return !DisplayElementFoldout && OnElementHasVisibleChildren(serializedProperty)
+                ? EditorIMGUIUtility.GetHeightPropertyChildrenVisible(serializedProperty)
+                : EditorGUI.GetPropertyHeight(serializedProperty, true);
         }
 
         protected virtual bool OnElementHasVisibleChildren(SerializedProperty serializedProperty)
