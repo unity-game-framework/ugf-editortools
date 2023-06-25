@@ -19,6 +19,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     {
         private SerializedProperty m_propertyList;
         private ReorderableListDrawer m_listDrawer;
+        private CollectionDrawer m_collectionDrawer;
 
         private void OnEnable()
         {
@@ -26,15 +27,19 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
 
             m_listDrawer = new ReorderableListDrawer(m_propertyList)
             {
-                EnableDragAndDropAdding = false
+                EnableDragAndDropAdding = true
             };
 
+            m_collectionDrawer = new CollectionDrawer(m_propertyList);
+
             m_listDrawer.Enable();
+            m_collectionDrawer.Enable();
         }
 
         private void OnDisable()
         {
             m_listDrawer.Disable();
+            m_collectionDrawer.Disable();
         }
 
         public override void OnInspectorGUI()
@@ -44,6 +49,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
                 EditorGUILayout.PropertyField(m_propertyList);
 
                 m_listDrawer.DrawGUILayout();
+                m_collectionDrawer.DrawGUILayout();
             }
         }
     }
