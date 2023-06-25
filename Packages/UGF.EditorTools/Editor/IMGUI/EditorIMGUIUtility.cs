@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using UGF.EditorTools.Editor.Serialized;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -73,6 +74,30 @@ namespace UGF.EditorTools.Editor.IMGUI
             }
         }
 
+        public static void DrawPropertyChildrenVisible(Rect position, SerializedProperty serializedProperty)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
+            position.height = EditorGUIUtility.singleLineHeight;
+
+            foreach (SerializedProperty property in SerializedPropertyEditorUtility.GetChildrenVisible(serializedProperty))
+            {
+                EditorGUI.PropertyField(position, property);
+
+                position.y += EditorGUI.GetPropertyHeight(property) + EditorGUIUtility.standardVerticalSpacing;
+            }
+        }
+
+        public static void DrawPropertyChildrenVisible(SerializedProperty serializedProperty)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
+            foreach (SerializedProperty property in SerializedPropertyEditorUtility.GetChildrenVisible(serializedProperty))
+            {
+                EditorGUILayout.PropertyField(property);
+            }
+        }
+
         public static bool DrawDefaultInspector(SerializedObject serializedObject)
         {
             if (serializedObject == null) throw new ArgumentNullException(nameof(serializedObject));
@@ -121,6 +146,26 @@ namespace UGF.EditorTools.Editor.IMGUI
                     EditorGUILayout.PropertyField(serializedProperty, true);
                 }
             }
+        }
+
+        public static float GetHeightPropertyChildrenVisible(SerializedProperty serializedProperty)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
+            float height = 0F;
+            int count = serializedProperty.Copy().CountInProperty() - 1;
+
+            foreach (SerializedProperty property in SerializedPropertyEditorUtility.GetChildrenVisible(serializedProperty))
+            {
+                height += EditorGUI.GetPropertyHeight(property);
+
+                if (--count > 0)
+                {
+                    height += EditorGUIUtility.standardVerticalSpacing;
+                }
+            }
+
+            return height;
         }
     }
 }
