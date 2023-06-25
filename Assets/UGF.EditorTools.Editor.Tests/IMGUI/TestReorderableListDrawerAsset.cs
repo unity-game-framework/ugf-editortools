@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
@@ -10,8 +11,20 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     public class TestReorderableListDrawerAsset : ScriptableObject
     {
         [SerializeField] private List<Material> m_list = new List<Material>();
+        [SerializeField] private List<Entry> m_entries = new List<Entry>();
 
         public List<Material> List { get { return m_list; } }
+        public List<Entry> Entries { get { return m_entries; } }
+
+        [Serializable]
+        public struct Entry
+        {
+            [SerializeField] private int m_value;
+            [SerializeField] private string m_text;
+
+            public int Value { get { return m_value; } set { m_value = value; } }
+            public string Text { get { return m_text; } set { m_text = value; } }
+        }
     }
 
     [CustomEditor(typeof(TestReorderableListDrawerAsset))]
@@ -20,6 +33,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         private SerializedProperty m_propertyList;
         private ReorderableListDrawer m_listDrawer;
         private CollectionDrawer m_collectionDrawer;
+        private ReorderableListDrawer m_listEntries;
 
         private void OnEnable()
         {
@@ -32,14 +46,21 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
 
             m_collectionDrawer = new CollectionDrawer(m_propertyList);
 
+            m_listEntries = new ReorderableListDrawer(serializedObject.FindProperty("m_entries"))
+            {
+                DisplayElementFoldout = false
+            };
+
             m_listDrawer.Enable();
             m_collectionDrawer.Enable();
+            m_listEntries.Disable();
         }
 
         private void OnDisable()
         {
             m_listDrawer.Disable();
             m_collectionDrawer.Disable();
+            m_listEntries.Disable();
         }
 
         public override void OnInspectorGUI()
@@ -50,6 +71,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
 
                 m_listDrawer.DrawGUILayout();
                 m_collectionDrawer.DrawGUILayout();
+                m_listEntries.DrawGUILayout();
             }
         }
     }
