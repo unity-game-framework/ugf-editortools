@@ -23,7 +23,12 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         private void OnEnable()
         {
             m_propertyList = serializedObject.FindProperty("m_list");
-            m_listDrawer = new ReorderableListDrawer(m_propertyList);
+
+            m_listDrawer = new ReorderableListDrawer(m_propertyList)
+            {
+                EnableDragAndDropAdding = false
+            };
+
             m_listDrawer.Enable();
         }
 

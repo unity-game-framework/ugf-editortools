@@ -17,6 +17,7 @@ namespace UGF.EditorTools.Editor.IMGUI
         public SerializedProperty PropertySize { get; }
         public ReorderableList List { get; }
         public bool DisplayAsSingleLine { get; set; }
+        public bool EnableDragAndDropAdding { get; set; } = true;
 
         public event Action Added;
         public event Action Removed;
@@ -70,8 +71,14 @@ namespace UGF.EditorTools.Editor.IMGUI
             label ??= new GUIContent(SerializedProperty.displayName);
 
             var foldoutPosition = new Rect(position.x, position.y, position.width, OnGetFoldoutHeight());
+            bool foldout = OnDrawFoldout(foldoutPosition, label);
 
-            if (OnDrawFoldout(foldoutPosition, label))
+            if (EnableDragAndDropAdding)
+            {
+                OnDragAndDrop(position);
+            }
+
+            if (foldout)
             {
                 float space = EditorGUIUtility.standardVerticalSpacing;
                 var sizePosition = new Rect(position.x, foldoutPosition.y + foldoutPosition.height + space, position.width, OnGetSizeHeight());
@@ -107,8 +114,6 @@ namespace UGF.EditorTools.Editor.IMGUI
         protected virtual bool OnDrawFoldout(Rect position, GUIContent label)
         {
             SerializedProperty.isExpanded = EditorGUI.Foldout(position, SerializedProperty.isExpanded, label, true);
-
-            OnDragAndDrop(position);
 
             return SerializedProperty.isExpanded;
         }
