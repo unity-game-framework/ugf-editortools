@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.18.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.18.0) - 2023-11-16  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/61?closed=1)  
+    
+
+### Added
+
+- Add attribute to select object with filter ([#276](https://github.com/unity-game-framework/ugf-editortools/issues/276))  
+    - Add `ObjectPickerAttribute` attribute class which can be used to determine object picker filter for specific object field.
+    - Add `AttributeEditorGUIUtility.DrawObjectPickerField()` methods and overloads to draw object field with object picker filter.
+
 ## [2.17.0](https://github.com/unity-game-framework/ugf-editortools/releases/tag/2.17.0) - 2023-06-25  
 
 ### Release Notes
