@@ -14,12 +14,66 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
         internal static GUIContent ContentFolderIcon { get { return m_contentFolderIcon ??= new GUIContent(EditorGUIUtility.FindTexture("FolderOpened Icon")); } }
 
         private static readonly FileId m_fileIdContent;
+        private static readonly int m_objectPickerFieldControlIdHint = nameof(m_objectPickerFieldControlIdHint).GetHashCode();
         private static GUIContent m_contentFolderIcon;
 
         static AttributeEditorGUIUtility()
         {
             m_fileIdContent = ScriptableObject.CreateInstance<FileId>();
             m_fileIdContent.hideFlags = HideFlags.HideAndDontSave;
+        }
+
+        public static void DrawObjectPickerField(GUIContent label, SerializedProperty serializedProperty, Type targetType, string filter = "")
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none);
+
+            DrawObjectPickerField(position, label, serializedProperty, targetType, filter);
+        }
+
+        public static void DrawObjectPickerField(Rect position, GUIContent label, SerializedProperty serializedProperty, Type targetType, string filter = "")
+        {
+            bool allowSceneObjects = !EditorUtility.IsPersistent(serializedProperty.serializedObject.targetObject);
+
+            serializedProperty.objectReferenceValue = DrawObjectPickerField(position, label, serializedProperty.objectReferenceValue, targetType, filter, allowSceneObjects);
+        }
+
+        public static Object DrawObjectPickerField(GUIContent label, Object target, Type targetType, string filter = "", bool allowSceneObjects = false)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none);
+
+            return DrawObjectPickerField(position, label, target, targetType, filter, allowSceneObjects);
+        }
+
+        public static Object DrawObjectPickerField(Rect position, GUIContent label, Object target, Type targetType, string filter = "", bool allowSceneObjects = false)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+            if (target == null) throw new ArgumentNullException(nameof(target));
+            if (targetType == null) throw new ArgumentNullException(nameof(targetType));
+            if (filter == null) throw new ArgumentNullException(nameof(filter));
+
+            int controlId = GUIUtility.GetControlID(m_objectPickerFieldControlIdHint, FocusType.Keyboard, position);
+            var rectButton = new Rect(position.xMax - 20F, position.y + 1F, 19F, position.height - 2F);
+
+            if (GUI.Button(rectButton, GUIContent.none, GUIStyle.none))
+            {
+                EditorGUIUtility.ShowObjectPicker<Object>(target, allowSceneObjects, filter, controlId);
+                GUIUtility.ExitGUI();
+            }
+
+            EditorGUI.ObjectField(position, label, target, targetType, allowSceneObjects);
+
+            if (Event.current.type == EventType.ExecuteCommand && EditorGUIUtility.GetObjectPickerControlID() == controlId)
+            {
+                target = EditorGUIUtility.GetObjectPickerObject();
+
+                Event.current.Use();
+            }
+
+            return target;
         }
 
         public static void DrawFileIdField(GUIContent label, SerializedProperty serializedProperty, Type assetType, params GUILayoutOption[] options)
