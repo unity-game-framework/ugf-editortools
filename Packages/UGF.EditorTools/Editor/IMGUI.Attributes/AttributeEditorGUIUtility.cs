@@ -51,26 +51,54 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
         public static Object DrawObjectPickerField(Rect position, GUIContent label, Object target, Type targetType, string filter = "", bool allowSceneObjects = false)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
-            if (target == null) throw new ArgumentNullException(nameof(target));
             if (targetType == null) throw new ArgumentNullException(nameof(targetType));
             if (filter == null) throw new ArgumentNullException(nameof(filter));
 
+            Event currentEvent = Event.current;
             int controlId = GUIUtility.GetControlID(m_objectPickerFieldControlIdHint, FocusType.Keyboard, position);
-            var rectButton = new Rect(position.xMax - 20F, position.y + 1F, 19F, position.height - 2F);
+            var rectButton = new Rect(position.xMax - 19F, position.y, 19F, position.height);
 
-            if (GUI.Button(rectButton, GUIContent.none, GUIStyle.none))
+            switch (currentEvent.type)
             {
-                EditorGUIUtility.ShowObjectPicker<Object>(target, allowSceneObjects, filter, controlId);
-                GUIUtility.ExitGUI();
+                case EventType.MouseDown:
+                {
+                    if (rectButton.Contains(currentEvent.mousePosition) && GUI.enabled)
+                    {
+                        GUIUtility.keyboardControl = controlId;
+
+                        EditorGUIUtility.ShowObjectPicker<Object>(target, allowSceneObjects, filter, controlId);
+
+                        currentEvent.Use();
+
+                        GUIUtility.ExitGUI();
+                    }
+
+                    break;
+                }
+                case EventType.KeyDown:
+                {
+                    if (EditorIMGUIUtility.IsControlHasMainActionEvent(controlId, currentEvent))
+                    {
+                        EditorGUIUtility.ShowObjectPicker<Object>(target, allowSceneObjects, filter, controlId);
+
+                        currentEvent.Use();
+
+                        GUIUtility.ExitGUI();
+                    }
+
+                    break;
+                }
             }
 
-            EditorGUI.ObjectField(position, label, target, targetType, allowSceneObjects);
+            target = EditorIMGUIUtility.DrawObjectField(position, controlId, label, target, targetType, allowSceneObjects);
 
-            if (Event.current.type == EventType.ExecuteCommand && EditorGUIUtility.GetObjectPickerControlID() == controlId)
+            if (currentEvent.type == EventType.ExecuteCommand
+                && EditorGUIUtility.GetObjectPickerControlID() == controlId
+                && currentEvent.commandName is "ObjectSelectorUpdated" or "ObjectSelectorClosed")
             {
                 target = EditorGUIUtility.GetObjectPickerObject();
 
-                Event.current.Use();
+                currentEvent.Use();
             }
 
             return target;
