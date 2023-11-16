@@ -16,7 +16,7 @@
   "changelogUrl": "https://github.com/unity-game-framework/ugf-editortools/blob/master/changelog.md",
   "licensesUrl": "https://github.com/unity-game-framework/ugf-editortools/blob/master/license",
   "publishConfig": {
-    "registry": "https://unitygameframework.jfrog.io/artifactory/api/npm/default"
+    "registry": "https://api.upmhub.org/registries/unity-game-framework"
   },
   "dependencies": {}
 }

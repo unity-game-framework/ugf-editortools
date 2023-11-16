@@ -55,6 +55,14 @@ namespace UGF.EditorTools.Editor.IMGUI
             return IndentPerLevel * level;
         }
 
+        public static bool IsControlHasMainActionEvent(int controlId, Event controlEvent)
+        {
+            return GUIUtility.keyboardControl == controlId
+                   && controlEvent.type == EventType.KeyDown
+                   && controlEvent.keyCode is KeyCode.Space or KeyCode.Return or KeyCode.KeypadEnter
+                   && !(controlEvent.alt || controlEvent.shift || controlEvent.command || controlEvent.control);
+        }
+
         public static SerializedProperty GetScriptProperty(SerializedObject serializedObject)
         {
             if (serializedObject == null) throw new ArgumentNullException(nameof(serializedObject));
