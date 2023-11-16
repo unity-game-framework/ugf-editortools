@@ -90,7 +90,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
                 }
             }
 
-            target = EditorIMGUIUtility.DrawObjectField(position, controlId, label, target, targetType, allowSceneObjects);
+            target = EditorGUI.ObjectField(position, label, target, targetType, allowSceneObjects);
 
             if (currentEvent.type == EventType.ExecuteCommand
                 && EditorGUIUtility.GetObjectPickerControlID() == controlId
