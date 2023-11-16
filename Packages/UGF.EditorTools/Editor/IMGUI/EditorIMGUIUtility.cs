@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using UGF.EditorTools.Editor.Serialized;
 using UnityEditor;
@@ -15,10 +14,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         private static readonly FieldInfo m_lastControlID;
         private static readonly PropertyInfo m_indent;
-        private static readonly ObjectFieldHandler m_objectFieldMethod;
         private const string PROPERTY_SCRIPT_NAME = "m_Script";
-
-        private delegate Object ObjectFieldHandler(Rect position, Rect dropPosition, int controlId, Object target, Object targetBeingEdited, Type targetType, object validator, bool allowSceneObjects, GUIStyle style = null);
 
         static EditorIMGUIUtility()
         {
@@ -37,15 +33,6 @@ namespace UGF.EditorTools.Editor.IMGUI
                                         ?? throw new ArgumentException("Field not found by the specified name: 'kIndentPerLevel'.");
 
             IndentPerLevel = (float)kIndentPerLevel.GetValue(null);
-
-            Type[] objectFieldParameters = typeof(ObjectFieldHandler).GetMethod("Invoke")!.GetParameters().Select(x => x.ParameterType).ToArray();
-
-            objectFieldParameters[6] = typeof(EditorGUI).GetNestedType("ObjectFieldValidator", BindingFlags.NonPublic);
-
-            MethodInfo objectFieldMethod = typeof(EditorGUI).GetMethod("DoObjectField", BindingFlags.NonPublic | BindingFlags.Static, null, objectFieldParameters, null)
-                                           ?? throw new ArgumentException("Method not found by the specified name: 'DoObjectField'.");
-
-            m_objectFieldMethod = (ObjectFieldHandler)objectFieldMethod.CreateDelegate(typeof(ObjectFieldHandler));
         }
 
         public static bool IsMissingObject(Object target)
@@ -187,29 +174,6 @@ namespace UGF.EditorTools.Editor.IMGUI
             }
 
             return height;
-        }
-
-        public static Object DrawObjectField(Rect position, int controlId, GUIContent label, Object target, Type targetType, bool allowSceneObjects)
-        {
-            if (label == null) throw new ArgumentNullException(nameof(label));
-
-            position = EditorGUI.PrefixLabel(position, controlId, label);
-            position = GetObjectFieldThumbnailRect(position, targetType);
-
-            return m_objectFieldMethod.Invoke(position, position, controlId, target, null, targetType, null, allowSceneObjects);
-        }
-
-        private static Rect GetObjectFieldThumbnailRect(Rect position, Type targetType)
-        {
-            if (EditorGUIUtility.HasObjectThumbnail(targetType) && position.height > 18F)
-            {
-                float min = Mathf.Min(position.width, position.height);
-
-                position.height = min;
-                position.xMin = position.xMax - min;
-            }
-
-            return position;
         }
     }
 }
