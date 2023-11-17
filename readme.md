@@ -4,8 +4,8 @@ UGF.EditorTools
 
 ## Information
 
-- **Version**: `2.18.0`
-- **Unity**: `2021.3`
+- **Version**: `3.0.0-preview`
+- **Unity**: `2023.2`
 - **API Compatibility Level**: `.NET Standard 2.1`
 
 ### Dependencies
