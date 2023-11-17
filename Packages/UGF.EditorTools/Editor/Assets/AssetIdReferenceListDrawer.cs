@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.Assets
 {
-    public partial class AssetIdReferenceListDrawer : ReorderableListKeyAndValueDrawer
+    public class AssetIdReferenceListDrawer : ReorderableListKeyAndValueDrawer
     {
         public bool DisplayAsReplace { get; set; }
         public bool DisplayReplaceButton { get; set; } = true;
