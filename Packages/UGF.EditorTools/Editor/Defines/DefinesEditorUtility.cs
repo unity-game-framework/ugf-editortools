@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
+using UnityEditor.Build;
 
 namespace UGF.EditorTools.Editor.Defines
 {
     public static class DefinesEditorUtility
     {
-        private static readonly char[] m_separator = { ';' };
-
         public static bool HasDefine(string define, BuildTargetGroup buildTargetGroup)
         {
             if (string.IsNullOrEmpty(define)) throw new ArgumentException("Value cannot be null or empty.", nameof(define));
@@ -23,11 +23,14 @@ namespace UGF.EditorTools.Editor.Defines
         {
             if (defines == null) throw new ArgumentNullException(nameof(defines));
 
-            string symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
-            string[] values = symbols.Split(m_separator, StringSplitOptions.RemoveEmptyEntries);
+            var namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup);
 
-            foreach (string value in values)
+            PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget, out string[] values);
+
+            for (int i = 0; i < values.Length; i++)
             {
+                string value = values[i];
+
                 defines.Add(value);
             }
         }
@@ -66,9 +69,9 @@ namespace UGF.EditorTools.Editor.Defines
         {
             if (defines == null) throw new ArgumentNullException(nameof(defines));
 
-            string symbols = string.Join(";", defines);
+            var namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup);
 
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, symbols);
+            PlayerSettings.SetScriptingDefineSymbols(namedBuildTarget, defines.ToArray());
         }
     }
 }
