@@ -15,7 +15,7 @@ namespace UGF.EditorTools.Editor.Yaml
     /// This is the same as the requirement for MonoBehaviour classes and files naming.
     /// </para>
     /// </summary>
-    public static partial class EditorYamlUtility
+    public static class EditorYamlUtility
     {
         public static string ToYaml(Object target, bool validate = true)
         {
