@@ -48,7 +48,11 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
 
             m_listEntries = new ReorderableListDrawer(serializedObject.FindProperty("m_entries"))
             {
-                DisplayElementFoldout = false
+                DisplayElementFoldout = false,
+                List =
+                {
+                    draggable = true
+                }
             };
 
             m_listDrawer.Enable();
