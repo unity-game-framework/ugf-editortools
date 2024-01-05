@@ -93,6 +93,11 @@ namespace UGF.EditorTools.Editor.IMGUI
 
                     float padding = List.draggable ? ReorderableList.Defaults.dragHandleWidth : ReorderableList.Defaults.padding;
 
+                    if (!DisplayElementFoldout)
+                    {
+                        padding -= EditorIMGUIUtility.IndentPerLevel;
+                    }
+                    
                     using (new LabelWidthChangeScope(-padding, true))
                     using (new IndentLevelScope(0))
                     {
