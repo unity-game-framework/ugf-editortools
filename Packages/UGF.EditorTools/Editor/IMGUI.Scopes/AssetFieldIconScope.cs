@@ -6,11 +6,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Scopes
 {
     public readonly struct AssetFieldIconScope : IDisposable
     {
-        public bool Result { get; }
+        public bool Clicked { get; }
 
         public AssetFieldIconScope(Rect position, string tooltip)
         {
-            Result = AttributeEditorGUIUtility.BeginAssetFieldIcon(position, tooltip);
+            Clicked = AttributeEditorGUIUtility.BeginAssetFieldIcon(position, tooltip);
         }
 
         public void Dispose()

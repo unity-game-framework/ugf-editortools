@@ -24,7 +24,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
         private class Styles
         {
             public GUIStyle FieldIconButton { get; } = new GUIStyle(EditorStyles.iconButton);
-            public GUIContent FieldIconContent { get; } = EditorGUIUtility.IconContent("Linked");
+            public GUIContent FieldIconContent { get; } = EditorGUIUtility.IconContent("UnityEditor.FindDependencies");
         }
 
         static AttributeEditorGUIUtility()
@@ -142,6 +142,10 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
             try
             {
+                string tooltip = !string.IsNullOrEmpty(value) ? $"File Id: {value}" : "File Id: None";
+
+                using var scope = new AssetFieldIconScope(position, tooltip);
+
                 Object content = null;
 
                 if (!string.IsNullOrEmpty(value))
@@ -155,6 +159,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
                 if (selected != content)
                 {
                     value = selected != null ? FileIdEditorUtility.GetFileId(selected).ToString() : string.Empty;
+                }
+
+                if (scope.Clicked)
+                {
+                    EditorGUIUtility.systemCopyBuffer = value;
                 }
 
                 return value;
@@ -299,7 +308,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
             guid = AssetDatabase.AssetPathToGUID(path);
 
-            if (scope.Result)
+            if (scope.Clicked)
             {
                 EditorGUIUtility.systemCopyBuffer = guid;
             }
@@ -358,7 +367,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
                 path = AssetDatabase.GetAssetPath(asset);
             }
 
-            if (scope.Result)
+            if (scope.Clicked)
             {
                 EditorGUIUtility.systemCopyBuffer = path;
             }
@@ -417,7 +426,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
                 path = asset != null && AssetsEditorUtility.TryGetResourcesPath(asset, out string result) ? result : string.Empty;
             }
 
-            if (scope.Result)
+            if (scope.Clicked)
             {
                 EditorGUIUtility.systemCopyBuffer = path;
             }
@@ -457,7 +466,19 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             {
                 m_styles.FieldIconContent.tooltip = m_assetFieldIconTooltip;
 
-                GUI.Button(m_assetFieldIconPosition.Value, m_styles.FieldIconContent, m_styles.FieldIconButton);
+                Rect position = m_assetFieldIconPosition.Value;
+
+                if (position.Contains(Event.current.mousePosition))
+                {
+                    GUI.Button(position, m_styles.FieldIconContent, m_styles.FieldIconButton);
+                }
+                else
+                {
+                    using (new GUIContentColorScope(new Color(1F, 1F, 1F, 0.25F)))
+                    {
+                        GUI.Button(position, m_styles.FieldIconContent, m_styles.FieldIconButton);
+                    }
+                }
             }
 
             m_assetFieldIconPosition = default;
