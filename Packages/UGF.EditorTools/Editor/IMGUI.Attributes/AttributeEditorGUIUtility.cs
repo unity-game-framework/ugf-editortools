@@ -432,7 +432,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (string.IsNullOrEmpty(label)) throw new ArgumentException("Value cannot be null or empty.", nameof(label));
 
             m_styles ??= new Styles();
-            m_assetFieldIconReferenceContent ??= m_styles.FieldIconReferenceContent;
+            m_assetFieldIconReferenceContent ??= new GUIContent(m_styles.FieldIconReferenceContent);
             m_assetFieldIconReferenceContent.tooltip = !string.IsNullOrEmpty(value) ? $"{label}: {value}" : $"{label}: None";
 
             return BeginAssetFieldIcon(position, m_assetFieldIconReferenceContent);
