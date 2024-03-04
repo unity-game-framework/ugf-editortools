@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.3](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.3) - 2024-03-04  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/65?closed=1)  
+    
+
+### Added
+
+- Add asset id field icon display ([#284](https://github.com/unity-game-framework/ugf-editortools/issues/284))  
+    - Add `AttributeEditorGUIUtility.BeginAssetFieldIcon()` and `EndAssetFieldIcon()` methods to draw icon button inside of object field.
+    - Add `AttributeEditorGUIUtility.BeginAssetFieldIconReference()` and `EndAssetFieldIconReference()` methods to draw reference icon button inside of object field, used to provide additional information for field implemented as reference value.
+    - Add `AssetFieldIconScope` and `AssetFieldIconReferenceScope` structures as disposable scopes to draw field icon buttons.
+    - Add _Reference_ information and copy button for _File Id_, _Asset Id_, _Asset Guid_ and _Resource Path_ attributed object select fields.
+
 ## [3.0.0-preview.2](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.2) - 2024-01-05  
 
 ### Release Notes
