@@ -18,13 +18,14 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
         private static readonly int m_objectPickerFieldControlIdHint = nameof(m_objectPickerFieldControlIdHint).GetHashCode();
         private static GUIContent m_contentFolderIcon;
         private static Rect? m_assetFieldIconPosition;
-        private static string m_assetFieldIconTooltip;
+        private static GUIContent m_assetFieldIconContent;
+        private static GUIContent m_assetFieldIconReferenceContent;
         private static Styles m_styles;
 
         private class Styles
         {
             public GUIStyle FieldIconButton { get; } = new GUIStyle(EditorStyles.iconButton);
-            public GUIContent FieldIconContent { get; } = EditorGUIUtility.IconContent("UnityEditor.FindDependencies");
+            public GUIContent FieldIconReferenceContent { get; } = EditorGUIUtility.IconContent("UnityEditor.FindDependencies");
         }
 
         static AttributeEditorGUIUtility()
@@ -142,9 +143,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
             try
             {
-                string tooltip = !string.IsNullOrEmpty(value) ? $"File Id: {value}" : "File Id: None";
-
-                using var scope = new AssetFieldIconScope(position, tooltip);
+                using var scope = new AssetFieldIconReferenceScope(position, "Filed Id", value);
 
                 Object content = null;
 
@@ -287,9 +286,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
         public static string DrawAssetGuidField(Rect position, string guid, GUIContent label, Type assetType)
         {
-            string tooltip = !string.IsNullOrEmpty(guid) ? $"GUID: {guid}" : "GUID: None";
-
-            using var scope = new AssetFieldIconScope(position, tooltip);
+            using var scope = new AssetFieldIconReferenceScope(position, "Guid", guid);
 
             string path = AssetDatabase.GUIDToAssetPath(guid);
             var asset = AssetDatabase.LoadAssetAtPath<Object>(path);
@@ -349,9 +346,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (assetType == null) throw new ArgumentNullException(nameof(assetType));
             if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
 
-            string tooltip = !string.IsNullOrEmpty(path) ? $"Asset Path: {path}" : "Asset Path: None";
-
-            using var scope = new AssetFieldIconScope(position, tooltip);
+            using var scope = new AssetFieldIconReferenceScope(position, "Asset Path", path);
 
             var asset = AssetDatabase.LoadAssetAtPath<Object>(path);
 
@@ -408,9 +403,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (assetType == null) throw new ArgumentNullException(nameof(assetType));
             if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
 
-            string tooltip = !string.IsNullOrEmpty(path) ? $"Resource Path: {path}" : "Resource Path: None";
-
-            using var scope = new AssetFieldIconScope(position, tooltip);
+            using var scope = new AssetFieldIconReferenceScope(position, "Resource Path", path);
 
             Object asset = Resources.Load(path, assetType);
 
@@ -434,9 +427,27 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             return path;
         }
 
-        public static bool BeginAssetFieldIcon(Rect position, string tooltip)
+        public static bool BeginAssetFieldIconReference(Rect position, string label, string value)
         {
-            if (string.IsNullOrEmpty(tooltip)) throw new ArgumentException("Value cannot be null or empty.", nameof(tooltip));
+            if (string.IsNullOrEmpty(label)) throw new ArgumentException("Value cannot be null or empty.", nameof(label));
+
+            m_styles ??= new Styles();
+            m_assetFieldIconReferenceContent ??= m_styles.FieldIconReferenceContent;
+            m_assetFieldIconReferenceContent.tooltip = !string.IsNullOrEmpty(value) ? $"{label}: {value}" : $"{label}: None";
+
+            return BeginAssetFieldIcon(position, m_assetFieldIconReferenceContent);
+        }
+
+        public static void EndAssetFieldIconReference()
+        {
+            EndAssetFieldIcon();
+
+            m_assetFieldIconReferenceContent.tooltip = string.Empty;
+        }
+
+        public static bool BeginAssetFieldIcon(Rect position, GUIContent content)
+        {
+            if (content == null) throw new ArgumentNullException(nameof(content));
 
             if (m_assetFieldIconPosition.HasValue)
             {
@@ -450,9 +461,9 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             position = new Rect(position.xMax - height * 2F, position.y + 1F, height, height);
 
             m_assetFieldIconPosition = position;
-            m_assetFieldIconTooltip = tooltip;
+            m_assetFieldIconContent = content;
 
-            return Event.current.type != EventType.Repaint && GUI.Button(position, m_styles.FieldIconContent, m_styles.FieldIconButton);
+            return Event.current.type != EventType.Repaint && GUI.Button(position, m_styles.FieldIconReferenceContent, m_styles.FieldIconButton);
         }
 
         public static void EndAssetFieldIcon()
@@ -464,25 +475,23 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
             if (Event.current.type == EventType.Repaint)
             {
-                m_styles.FieldIconContent.tooltip = m_assetFieldIconTooltip;
-
                 Rect position = m_assetFieldIconPosition.Value;
 
                 if (position.Contains(Event.current.mousePosition))
                 {
-                    GUI.Button(position, m_styles.FieldIconContent, m_styles.FieldIconButton);
+                    GUI.Button(position, m_assetFieldIconContent, m_styles.FieldIconButton);
                 }
                 else
                 {
                     using (new GUIContentColorScope(new Color(1F, 1F, 1F, 0.25F)))
                     {
-                        GUI.Button(position, m_styles.FieldIconContent, m_styles.FieldIconButton);
+                        GUI.Button(position, m_assetFieldIconContent, m_styles.FieldIconButton);
                     }
                 }
             }
 
             m_assetFieldIconPosition = default;
-            m_assetFieldIconTooltip = string.Empty;
+            m_assetFieldIconContent = default;
         }
     }
 }

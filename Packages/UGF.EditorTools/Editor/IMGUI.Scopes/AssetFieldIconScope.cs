@@ -8,9 +8,9 @@ namespace UGF.EditorTools.Editor.IMGUI.Scopes
     {
         public bool Clicked { get; }
 
-        public AssetFieldIconScope(Rect position, string tooltip)
+        public AssetFieldIconScope(Rect position, GUIContent content)
         {
-            Clicked = AttributeEditorGUIUtility.BeginAssetFieldIcon(position, tooltip);
+            Clicked = AttributeEditorGUIUtility.BeginAssetFieldIcon(position, content);
         }
 
         public void Dispose()

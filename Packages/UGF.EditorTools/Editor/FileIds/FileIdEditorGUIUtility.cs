@@ -46,9 +46,7 @@ namespace UGF.EditorTools.Editor.FileIds
 
             try
             {
-                string tooltip = value > 0L ? $"File Id: {value}" : "File Id: None";
-
-                using var scope = new AssetFieldIconScope(position, tooltip);
+                using var scope = new AssetFieldIconReferenceScope(position, "Filed Id", value > 0L ? value.ToString() : string.Empty);
 
                 Object content = null;
 
