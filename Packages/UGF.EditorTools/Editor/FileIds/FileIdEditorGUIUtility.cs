@@ -1,4 +1,5 @@
 ﻿using System;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,7 +27,7 @@ namespace UGF.EditorTools.Editor.FileIds
         public static void DrawFileIdField(Rect position, GUIContent label, SerializedProperty serializedProperty, Type assetType)
         {
             SerializedProperty propertyValue = serializedProperty.FindPropertyRelative("m_value");
-            
+
             propertyValue.longValue = (long)DrawFileIdField(position, label, (ulong)propertyValue.longValue, assetType);
         }
 
@@ -45,6 +46,8 @@ namespace UGF.EditorTools.Editor.FileIds
 
             try
             {
+                using var scope = new AssetFieldIconReferenceScope(position, "Filed Id", value > 0L ? value.ToString() : string.Empty);
+
                 Object content = null;
 
                 if (value > 0UL)
@@ -58,6 +61,11 @@ namespace UGF.EditorTools.Editor.FileIds
                 if (selected != content)
                 {
                     value = selected != null ? FileIdEditorUtility.GetFileId(selected) : 0UL;
+                }
+
+                if (scope.Clicked)
+                {
+                    EditorGUIUtility.systemCopyBuffer = value.ToString();
                 }
 
                 return value;

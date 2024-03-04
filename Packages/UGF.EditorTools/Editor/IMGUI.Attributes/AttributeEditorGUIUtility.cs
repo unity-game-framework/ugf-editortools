@@ -2,6 +2,7 @@
 using System.IO;
 using UGF.EditorTools.Editor.Assets;
 using UGF.EditorTools.Editor.FileIds;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,16 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
         private static readonly FileId m_fileIdContent;
         private static readonly int m_objectPickerFieldControlIdHint = nameof(m_objectPickerFieldControlIdHint).GetHashCode();
         private static GUIContent m_contentFolderIcon;
+        private static Rect? m_assetFieldIconPosition;
+        private static GUIContent m_assetFieldIconContent;
+        private static GUIContent m_assetFieldIconReferenceContent;
+        private static Styles m_styles;
+
+        private class Styles
+        {
+            public GUIStyle FieldIconButton { get; } = new GUIStyle(EditorStyles.iconButton);
+            public GUIContent FieldIconReferenceContent { get; } = EditorGUIUtility.IconContent("UnityEditor.FindDependencies");
+        }
 
         static AttributeEditorGUIUtility()
         {
@@ -132,6 +143,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
             try
             {
+                using var scope = new AssetFieldIconReferenceScope(position, "Filed Id", value);
+
                 Object content = null;
 
                 if (!string.IsNullOrEmpty(value))
@@ -145,6 +158,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
                 if (selected != content)
                 {
                     value = selected != null ? FileIdEditorUtility.GetFileId(selected).ToString() : string.Empty;
+                }
+
+                if (scope.Clicked)
+                {
+                    EditorGUIUtility.systemCopyBuffer = value;
                 }
 
                 return value;
@@ -268,11 +286,29 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
         public static string DrawAssetGuidField(Rect position, string guid, GUIContent label, Type assetType)
         {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
+            using var scope = new AssetFieldIconReferenceScope(position, "Guid", guid);
 
-            path = DrawAssetPathField(position, path, label, assetType);
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            var asset = AssetDatabase.LoadAssetAtPath<Object>(path);
+
+            if (!string.IsNullOrEmpty(path) && asset == null)
+            {
+                asset = EditorIMGUIUtility.MissingObject;
+            }
+
+            asset = EditorGUI.ObjectField(position, label, asset, assetType, false);
+
+            if (!EditorIMGUIUtility.IsMissingObject(asset))
+            {
+                path = AssetDatabase.GetAssetPath(asset);
+            }
 
             guid = AssetDatabase.AssetPathToGUID(path);
+
+            if (scope.Clicked)
+            {
+                EditorGUIUtility.systemCopyBuffer = guid;
+            }
 
             return guid;
         }
@@ -310,6 +346,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (assetType == null) throw new ArgumentNullException(nameof(assetType));
             if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
 
+            using var scope = new AssetFieldIconReferenceScope(position, "Asset Path", path);
+
             var asset = AssetDatabase.LoadAssetAtPath<Object>(path);
 
             if (!string.IsNullOrEmpty(path) && asset == null)
@@ -322,6 +360,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (!EditorIMGUIUtility.IsMissingObject(asset))
             {
                 path = AssetDatabase.GetAssetPath(asset);
+            }
+
+            if (scope.Clicked)
+            {
+                EditorGUIUtility.systemCopyBuffer = path;
             }
 
             return path;
@@ -360,6 +403,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (assetType == null) throw new ArgumentNullException(nameof(assetType));
             if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
 
+            using var scope = new AssetFieldIconReferenceScope(position, "Resource Path", path);
+
             Object asset = Resources.Load(path, assetType);
 
             if (!string.IsNullOrEmpty(path) && asset == null)
@@ -374,7 +419,79 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
                 path = asset != null && AssetsEditorUtility.TryGetResourcesPath(asset, out string result) ? result : string.Empty;
             }
 
+            if (scope.Clicked)
+            {
+                EditorGUIUtility.systemCopyBuffer = path;
+            }
+
             return path;
+        }
+
+        public static bool BeginAssetFieldIconReference(Rect position, string label, string value)
+        {
+            if (string.IsNullOrEmpty(label)) throw new ArgumentException("Value cannot be null or empty.", nameof(label));
+
+            m_styles ??= new Styles();
+            m_assetFieldIconReferenceContent ??= new GUIContent(m_styles.FieldIconReferenceContent);
+            m_assetFieldIconReferenceContent.tooltip = !string.IsNullOrEmpty(value) ? $"{label}: {value}" : $"{label}: None";
+
+            return BeginAssetFieldIcon(position, m_assetFieldIconReferenceContent);
+        }
+
+        public static void EndAssetFieldIconReference()
+        {
+            EndAssetFieldIcon();
+
+            m_assetFieldIconReferenceContent.tooltip = string.Empty;
+        }
+
+        public static bool BeginAssetFieldIcon(Rect position, GUIContent content)
+        {
+            if (content == null) throw new ArgumentNullException(nameof(content));
+
+            if (m_assetFieldIconPosition.HasValue)
+            {
+                throw new InvalidOperationException("BeginAssetFieldIcon method must be paired with calling of EndAssetFieldIcon.");
+            }
+
+            m_styles ??= new Styles();
+
+            float height = EditorGUIUtility.singleLineHeight;
+
+            position = new Rect(position.xMax - height * 2F, position.y + 1F, height, height);
+
+            m_assetFieldIconPosition = position;
+            m_assetFieldIconContent = content;
+
+            return Event.current.type != EventType.Repaint && GUI.Button(position, m_styles.FieldIconReferenceContent, m_styles.FieldIconButton);
+        }
+
+        public static void EndAssetFieldIcon()
+        {
+            if (!m_assetFieldIconPosition.HasValue)
+            {
+                throw new InvalidOperationException("BeginAssetFieldIcon method must be paired with calling of EndAssetFieldIcon.");
+            }
+
+            if (Event.current.type == EventType.Repaint)
+            {
+                Rect position = m_assetFieldIconPosition.Value;
+
+                if (position.Contains(Event.current.mousePosition))
+                {
+                    GUI.Button(position, m_assetFieldIconContent, m_styles.FieldIconButton);
+                }
+                else
+                {
+                    using (new GUIContentColorScope(new Color(1F, 1F, 1F, 0.25F)))
+                    {
+                        GUI.Button(position, m_assetFieldIconContent, m_styles.FieldIconButton);
+                    }
+                }
+            }
+
+            m_assetFieldIconPosition = default;
+            m_assetFieldIconContent = default;
         }
     }
 }
