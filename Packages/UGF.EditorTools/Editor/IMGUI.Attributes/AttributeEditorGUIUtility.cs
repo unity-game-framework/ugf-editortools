@@ -286,6 +286,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
         public static string DrawAssetGuidField(Rect position, string guid, GUIContent label, Type assetType)
         {
+            if (guid == null) throw new ArgumentNullException(nameof(guid));
+            if (label == null) throw new ArgumentNullException(nameof(label));
+            if (assetType == null) throw new ArgumentNullException(nameof(assetType));
+            if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
+
             using var scope = new AssetFieldIconReferenceScope(position, "Guid", guid);
 
             string path = AssetDatabase.GUIDToAssetPath(guid);
