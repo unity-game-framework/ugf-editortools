@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be4eb50a55044b508ae19a04395a6613, type: 3}
-  m_Name: New Test Asset Reference Asset
+  m_Name: New Test Asset Reference Asset 1
   m_EditorClassIdentifier: 
   m_scriptable:
-    m_guid: 5dc13e162c7547e4ca67706f3d1b8a69
-    m_asset: {fileID: 11400000}
+    m_guid: 49cb3ca7d412bbd4390309f4facd4a53
+    m_asset: {fileID: 11400000, guid: 49cb3ca7d412bbd4390309f4facd4a53, type: 2}
   m_material:
-    m_guid: 
-    m_asset: {fileID: 0}
+    m_guid: 479dfb93c5c968f4b8bd22a14a00e45e
+    m_asset: {fileID: 2100000, guid: 479dfb93c5c968f4b8bd22a14a00e45e, type: 2}
   m_list:
   - m_guid: 47116866a1433e246b7c21b4e84e0140
     m_asset: {fileID: 2100000, guid: 47116866a1433e246b7c21b4e84e0140, type: 2}
-  - m_guid: 15e9cf0b86764e54b88028f7a271007c
-    m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
+  - m_guid: 479dfb93c5c968f4b8bd22a14a00e45e
+    m_asset: {fileID: 2100000, guid: 479dfb93c5c968f4b8bd22a14a00e45e, type: 2}
   m_list2:
   - m_guid: 15e9cf0b86764e54b88028f7a271007c
     m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}

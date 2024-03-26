@@ -58,6 +58,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     {
     }
 
+    [CanEditMultipleObjects]
     [CustomEditor(typeof(TestTypesDropdownGUI), true)]
     public class TestTypesDropdownGUIEditor : UnityEditor.Editor
     {

@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce1bacf9137d4aaea61261328a39a33f, type: 3}
-  m_Name: New Dropdown Test Asset
+  m_Name: New Dropdown Test Asset 1
   m_EditorClassIdentifier: 
-  m_value: Value 0
-  m_value2: <PrivateImplementationDetails>+__StaticArrayInitTypeSize=10, UnityEditor.QuickSearchModule,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_value: Value 2
+  m_value2: <PrivateImplementationDetails>, UGF.EditorTools.Runtime, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
   m_items:
   - m_value: Value 2
     m_value2: AssemblyValidation+<>c, UnityEditor, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     m_bool: 1
-  - m_value: Value 0
+  - m_value: Value 2
     m_value2: 
     m_bool: 0
   - m_value: 

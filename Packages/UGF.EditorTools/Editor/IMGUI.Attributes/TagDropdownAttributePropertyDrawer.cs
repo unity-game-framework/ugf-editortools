@@ -1,4 +1,5 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.EditorTools.Runtime.IMGUI.Attributes;
 using UnityEditor;
 using UnityEngine;
@@ -16,7 +17,14 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
         {
             EditorGUI.BeginProperty(position, label, serializedProperty);
 
-            serializedProperty.stringValue = EditorGUI.TagField(position, label, serializedProperty.stringValue);
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
+            string value = EditorGUI.TagField(position, label, serializedProperty.stringValue);
+
+            if (scope.Changed)
+            {
+                serializedProperty.stringValue = value;
+            }
 
             EditorGUI.EndProperty();
         }

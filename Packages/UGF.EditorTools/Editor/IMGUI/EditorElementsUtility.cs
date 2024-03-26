@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
 
@@ -63,7 +64,14 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         public static void TextFieldWithDropdown(Rect position, GUIContent label, SerializedProperty serializedProperty, Func<IEnumerable<DropdownItem<string>>> itemsHandler)
         {
-            serializedProperty.stringValue = TextFieldWithDropdown(position, label, serializedProperty.stringValue, itemsHandler);
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
+            string value = TextFieldWithDropdown(position, label, serializedProperty.stringValue, itemsHandler);
+
+            if (scope.Changed)
+            {
+                serializedProperty.stringValue = value;
+            }
         }
 
         public static string TextFieldWithDropdown(string value, Func<IEnumerable<DropdownItem<string>>> itemsHandler, params GUILayoutOption[] options)
@@ -120,7 +128,14 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
 
-            serializedProperty.longValue = TimeTicksField(position, label, serializedProperty.longValue);
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
+            long value = TimeTicksField(position, label, serializedProperty.longValue);
+
+            if (scope.Changed)
+            {
+                serializedProperty.longValue = value;
+            }
         }
 
         public static long TimeTicksField(GUIContent label, long value, params GUILayoutOption[] options)
@@ -208,7 +223,14 @@ namespace UGF.EditorTools.Editor.IMGUI
         {
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
 
-            serializedProperty.longValue = TimeSpanTicksField(position, label, serializedProperty.longValue);
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
+            long value = TimeSpanTicksField(position, label, serializedProperty.longValue);
+
+            if (scope.Changed)
+            {
+                serializedProperty.longValue = value;
+            }
         }
 
         public static long TimeSpanTicksField(GUIContent label, long value, params GUILayoutOption[] options)

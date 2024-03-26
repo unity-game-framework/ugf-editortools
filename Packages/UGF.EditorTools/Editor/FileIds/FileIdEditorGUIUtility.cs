@@ -26,9 +26,16 @@ namespace UGF.EditorTools.Editor.FileIds
 
         public static void DrawFileIdField(Rect position, GUIContent label, SerializedProperty serializedProperty, Type assetType)
         {
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
             SerializedProperty propertyValue = serializedProperty.FindPropertyRelative("m_value");
 
-            propertyValue.longValue = (long)DrawFileIdField(position, label, (ulong)propertyValue.longValue, assetType);
+            long value = (long)DrawFileIdField(position, label, (ulong)propertyValue.longValue, assetType);
+
+            if (scope.Changed)
+            {
+                propertyValue.longValue = value;
+            }
         }
 
         public static ulong DrawFileIdField(GUIContent label, ulong value, Type assetType, params GUILayoutOption[] options)

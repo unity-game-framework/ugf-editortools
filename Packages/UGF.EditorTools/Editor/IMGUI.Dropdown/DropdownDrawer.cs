@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
         protected DropdownDrawer(Func<IEnumerable<TItem>> itemsHandler, DropdownSelection<TItem> selection = null)
         {
             ItemsHandler = itemsHandler ?? throw new ArgumentNullException(nameof(itemsHandler));
+
             Selection = selection ?? new DropdownSelection<TItem>(new Dropdown<TItem>
             {
                 MinimumHeight = 250F
@@ -40,6 +42,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
         protected virtual void OnDrawDropdown(Rect position, GUIContent label, SerializedProperty serializedProperty, FocusType focusType = FocusType.Keyboard)
         {
             GUIContent content = OnGetContentLabel(serializedProperty);
+
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
 
             if (DropdownEditorGUIUtility.Dropdown(position, label, content, Selection, ItemsHandler, out TItem selected, focusType))
             {

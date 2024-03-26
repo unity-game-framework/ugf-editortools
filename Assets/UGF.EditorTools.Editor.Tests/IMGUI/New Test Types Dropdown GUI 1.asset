@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e46c14cd645744f9948cb785525ba1, type: 3}
+  m_Name: New Test Types Dropdown GUI 1
+  m_EditorClassIdentifier: 
+  m_typeName: UGF.EditorTools.Editor.Tests.IMGUI.Dropdown.DropdownTestEditor, UGF.EditorTools.Editor.Tests,
+    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_typeNameValue: UnityEditor.ShaderKeywordFilter.ApplyRulesIfNotGraphicsAPIAttribute,
+    UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_typeNameValue2: TreeEditor.TreeEditor, UnityEditor, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  m_assetGuid: 60e46c14cd645744f9948cb785525ba1
+  m_assetGuid2: 15e9cf0b86764e54b88028f7a271007c
+  m_assetScene: 9fc0d4010bbf28b4594072e72b8655ab
+  m_assetType1: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
+  m_assetType2: {fileID: 11400000}
+  m_indent1:
+    m_indent2:
+      m_assetGuid: 
+      m_type: 
+  m_invalidAssetGuidField: 0
+  m_invalidTypeField: 0

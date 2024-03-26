@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0bb1a6905e2a4908b78f5d9293ab0718, type: 3}
-  m_Name: New Test Attributes Asset
+  m_Name: New Test Attributes Asset 1
   m_EditorClassIdentifier: 
   m_disabled: Text
-  m_assetGuid: 61a63319726a22d4aa137963ae11e4e0
+  m_assetGuid: 1d265be8c6987774999381432ebe1afc
   m_guidMaterial: 
   m_guidScene: 
   m_typeObject: {fileID: 11400000}
   m_typeInterface: {fileID: 11400000, guid: 1787034966e3b4b449a2702b85c8cd8a, type: 2}
   m_pathMaterial: Assets/UGF.EditorTools.Editor.Tests/IMGUI.Attributes/New Scene.unity
   m_pathScene: Assets/UGF.EditorTools.Editor.Tests/IMGUI.Attributes/New Material.mat
-  m_resourcesMaterial: ResourcesMaterial
+  m_resourcesMaterial: Folder/Folder2/ResourcesMaterial2
   m_resourcesMaterial2: Folder/Folder2/ResourcesMaterial2
-  m_resourcesMaterial3: ResourcesMaterial3
-  m_resourcesScene: ResourcesScene
+  m_resourcesMaterial3: ResourcesMaterial
+  m_resourcesScene: 
