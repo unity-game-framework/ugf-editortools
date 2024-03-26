@@ -33,7 +33,6 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
             SerializedProperty propertyValue = serializedProperty.FindPropertyRelative("m_value");
 
             float line = EditorGUIUtility.singleLineHeight;
-            float valuePadding = line;
             int valueIndent = hasVisibleChildren ? 1 : 0;
 
             position = EditorGUI.IndentedRect(position);
@@ -41,11 +40,20 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
             var enabledPosition = new Rect(position.x, position.y, line, line);
             var valuePosition = new Rect(position.x, position.y, position.width, position.height);
 
-            valuePosition.xMin += valuePadding;
+            valuePosition.xMin += line;
 
-            propertyEnabled.boolValue = GUI.Toggle(enabledPosition, propertyEnabled.boolValue, GUIContent.none);
+            using (new IndentLevelScope(0))
+            using (var scope = new MixedValueChangedScope(propertyEnabled.hasMultipleDifferentValues))
+            {
+                bool value = EditorGUI.ToggleLeft(enabledPosition, GUIContent.none, propertyEnabled.boolValue);
 
-            using (new LabelWidthChangeScope(-valuePadding, true))
+                if (scope.Changed)
+                {
+                    propertyEnabled.boolValue = value;
+                }
+            }
+
+            using (new LabelWidthChangeScope(-line, true))
             using (new IndentLevelScope(valueIndent))
             using (new EditorGUI.DisabledScope(!propertyEnabled.boolValue))
             {

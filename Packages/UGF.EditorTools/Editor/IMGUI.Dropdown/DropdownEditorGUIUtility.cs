@@ -81,7 +81,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
             if (content == null) throw new ArgumentNullException(nameof(content));
-            if (style == null) style = EditorStyles.miniPullDown;
+
+            style ??= EditorStyles.miniPullDown;
 
             if (label != GUIContent.none)
             {

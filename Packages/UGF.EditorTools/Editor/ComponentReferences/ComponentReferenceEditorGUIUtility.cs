@@ -1,5 +1,6 @@
 ﻿using System;
 using UGF.EditorTools.Editor.FileIds;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -13,6 +14,8 @@ namespace UGF.EditorTools.Editor.ComponentReferences
             if (label == null) throw new ArgumentNullException(nameof(label));
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
 
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
             SerializedProperty propertyFileId = serializedProperty.FindPropertyRelative("m_fileId");
             SerializedProperty propertyComponent = serializedProperty.FindPropertyRelative("m_component");
 
@@ -22,16 +25,19 @@ namespace UGF.EditorTools.Editor.ComponentReferences
 
             Object component = propertyComponent.objectReferenceValue;
 
-            if (component != null)
+            if (scope.Changed)
             {
-                if (string.IsNullOrEmpty(propertyFileId.stringValue) || previous != component)
+                if (component != null)
                 {
-                    propertyFileId.stringValue = FileIdEditorUtility.GetFileId(component).ToString();
+                    if (string.IsNullOrEmpty(propertyFileId.stringValue) || previous != component)
+                    {
+                        propertyFileId.stringValue = FileIdEditorUtility.GetFileId(component).ToString();
+                    }
                 }
-            }
-            else
-            {
-                propertyFileId.stringValue = string.Empty;
+                else
+                {
+                    propertyFileId.stringValue = string.Empty;
+                }
             }
         }
 
@@ -40,6 +46,8 @@ namespace UGF.EditorTools.Editor.ComponentReferences
             if (label == null) throw new ArgumentNullException(nameof(label));
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
 
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
             SerializedProperty propertyFileIdValue = serializedProperty.FindPropertyRelative("m_fileId.m_value");
             SerializedProperty propertyComponent = serializedProperty.FindPropertyRelative("m_component");
 
@@ -47,20 +55,23 @@ namespace UGF.EditorTools.Editor.ComponentReferences
 
             EditorGUI.ObjectField(position, propertyComponent, label);
 
-            Object component = propertyComponent.objectReferenceValue;
-
-            if (component != null)
+            if (scope.Changed)
             {
-                ulong value = (ulong)propertyFileIdValue.longValue;
+                Object component = propertyComponent.objectReferenceValue;
 
-                if (value == 0UL || previous != component)
+                if (component != null)
                 {
-                    propertyFileIdValue.longValue = (long)FileIdEditorUtility.GetFileId(component);
+                    ulong value = (ulong)propertyFileIdValue.longValue;
+
+                    if (value == 0UL || previous != component)
+                    {
+                        propertyFileIdValue.longValue = (long)FileIdEditorUtility.GetFileId(component);
+                    }
                 }
-            }
-            else
-            {
-                propertyFileIdValue.longValue = 0L;
+                else
+                {
+                    propertyFileIdValue.longValue = 0L;
+                }
             }
         }
     }

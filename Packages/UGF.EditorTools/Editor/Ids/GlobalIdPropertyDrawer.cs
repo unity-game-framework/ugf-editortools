@@ -1,4 +1,5 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using UnityEngine;
@@ -10,11 +11,16 @@ namespace UGF.EditorTools.Editor.Ids
     {
         protected override void OnDrawProperty(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
             string guid = GlobalIdEditorUtility.GetGuidFromProperty(serializedProperty);
 
-            guid = EditorGUI.TextField(position, label, guid);
+            if (scope.Changed)
+            {
+                guid = EditorGUI.TextField(position, label, guid);
 
-            GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
+                GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
+            }
         }
 
         public override float GetPropertyHeight(SerializedProperty serializedProperty, GUIContent label)

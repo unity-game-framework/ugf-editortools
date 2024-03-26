@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,7 +33,15 @@ namespace UGF.EditorTools.Editor.IMGUI.References
             dropdownPosition.width = height;
             dropdownPosition.height = height;
 
-            bool result = GUI.Button(dropdownPosition, m_styles.ButtonContent, EditorStyles.iconButton);
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
+            bool value = GUI.Button(dropdownPosition, m_styles.ButtonContent, EditorStyles.iconButton);
+            bool result = false;
+
+            if (scope.Changed)
+            {
+                result = value;
+            }
 
             if (result)
             {

@@ -69,11 +69,16 @@ namespace UGF.EditorTools.Editor.Assets
 
         protected override void OnDrawKey(Rect position, SerializedProperty serializedProperty)
         {
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
             string guid = GlobalIdEditorUtility.GetGuidFromProperty(serializedProperty);
 
             guid = AttributeEditorGUIUtility.DrawAssetGuidField(position, guid, GUIContent.none, m_assetType);
 
-            GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
+            if (scope.Changed)
+            {
+                GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
+            }
         }
 
         protected override bool OnDragAndDropValidate(Object target, out Object result)

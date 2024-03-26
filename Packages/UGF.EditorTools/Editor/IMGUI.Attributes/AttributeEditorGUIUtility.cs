@@ -47,23 +47,32 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
         {
             bool allowSceneObjects = !EditorUtility.IsPersistent(serializedProperty.serializedObject.targetObject);
 
-            serializedProperty.objectReferenceValue = DrawObjectPickerField(position, label, serializedProperty.objectReferenceValue, targetType, filter, allowSceneObjects);
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
+            Object value = DrawObjectPickerField(position, label, serializedProperty.objectReferenceValue, targetType, out bool selected, filter, allowSceneObjects);
+
+            if (scope.Changed || selected)
+            {
+                serializedProperty.objectReferenceValue = value;
+            }
         }
 
-        public static Object DrawObjectPickerField(GUIContent label, Object target, Type targetType, string filter = "", bool allowSceneObjects = false)
+        public static Object DrawObjectPickerField(GUIContent label, Object target, Type targetType, out bool selected, string filter = "", bool allowSceneObjects = false)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
 
             Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none);
 
-            return DrawObjectPickerField(position, label, target, targetType, filter, allowSceneObjects);
+            return DrawObjectPickerField(position, label, target, targetType, out selected, filter, allowSceneObjects);
         }
 
-        public static Object DrawObjectPickerField(Rect position, GUIContent label, Object target, Type targetType, string filter = "", bool allowSceneObjects = false)
+        public static Object DrawObjectPickerField(Rect position, GUIContent label, Object target, Type targetType, out bool selected, string filter = "", bool allowSceneObjects = false)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
             if (targetType == null) throw new ArgumentNullException(nameof(targetType));
             if (filter == null) throw new ArgumentNullException(nameof(filter));
+
+            selected = false;
 
             Event currentEvent = Event.current;
             int controlId = GUIUtility.GetControlID(m_objectPickerFieldControlIdHint, FocusType.Keyboard, position);
@@ -108,6 +117,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
                 && currentEvent.commandName is "ObjectSelectorUpdated" or "ObjectSelectorClosed")
             {
                 target = EditorGUIUtility.GetObjectPickerObject();
+                selected = true;
 
                 currentEvent.Use();
             }
@@ -124,7 +134,14 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
         public static void DrawFileIdField(Rect position, GUIContent label, SerializedProperty serializedProperty, Type assetType)
         {
-            serializedProperty.stringValue = DrawFileIdField(position, label, serializedProperty.stringValue, assetType);
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
+            string value = DrawFileIdField(position, label, serializedProperty.stringValue, assetType);
+
+            if (scope.Changed)
+            {
+                serializedProperty.stringValue = value;
+            }
         }
 
         public static string DrawFileIdField(GUIContent label, string value, Type assetType, params GUILayoutOption[] options)
@@ -194,7 +211,15 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             var rectText = new Rect(rectField.x, rectField.y, rectField.width - height - space, rectField.height);
             var rectButton = new Rect(rectText.xMax + space, rectField.y, height, rectField.height);
 
-            serializedProperty.stringValue = GUI.TextField(rectText, serializedProperty.stringValue);
+            using (var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues))
+            {
+                string value = GUI.TextField(rectText, serializedProperty.stringValue);
+
+                if (scope.Changed)
+                {
+                    serializedProperty.stringValue = value;
+                }
+            }
 
             if (GUI.Button(rectButton, ContentFolderIcon, EditorStyles.iconButton))
             {
@@ -235,11 +260,18 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             float height = EditorGUIUtility.singleLineHeight;
             float space = EditorGUIUtility.standardVerticalSpacing;
 
-            Rect rectField = EditorGUI.PrefixLabel(position, label);
-            var rectText = new Rect(rectField.x, rectField.y, rectField.width - height - space, rectField.height);
-            var rectButton = new Rect(rectText.xMax + space, rectField.y, height, rectField.height);
+            var rectText = new Rect(position.x, position.y, position.width - height - space, position.height);
+            var rectButton = new Rect(rectText.xMax + space, position.y, height, position.height);
 
-            serializedProperty.stringValue = GUI.TextField(rectText, serializedProperty.stringValue);
+            using (var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues))
+            {
+                string value = EditorGUI.TextField(rectText, label, serializedProperty.stringValue);
+
+                if (scope.Changed)
+                {
+                    serializedProperty.stringValue = value;
+                }
+            }
 
             if (GUI.Button(rectButton, ContentFolderIcon, EditorStyles.iconButton))
             {
@@ -272,7 +304,14 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
             if (serializedProperty.propertyType != SerializedPropertyType.String) throw new ArgumentException("Serialized property type must be 'String'.");
 
-            serializedProperty.stringValue = DrawAssetGuidField(position, serializedProperty.stringValue, label, assetType);
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
+            string value = DrawAssetGuidField(position, serializedProperty.stringValue, label, assetType);
+
+            if (scope.Changed)
+            {
+                serializedProperty.stringValue = value;
+            }
         }
 
         public static string DrawAssetGuidField(string guid, GUIContent label, Type assetType, params GUILayoutOption[] options)
@@ -332,7 +371,14 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
             if (serializedProperty.propertyType != SerializedPropertyType.String) throw new ArgumentException("Serialized property type must be 'String'.");
 
-            serializedProperty.stringValue = DrawAssetPathField(position, serializedProperty.stringValue, label, assetType);
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
+            string value = DrawAssetPathField(position, serializedProperty.stringValue, label, assetType);
+
+            if (scope.Changed)
+            {
+                serializedProperty.stringValue = value;
+            }
         }
 
         public static string DrawAssetPathField(string path, GUIContent label, Type assetType, params GUILayoutOption[] options)
@@ -389,7 +435,14 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
             if (serializedProperty.propertyType != SerializedPropertyType.String) throw new ArgumentException("Serialized property type must be 'String'.");
 
-            serializedProperty.stringValue = DrawResourcesPathField(position, serializedProperty.stringValue, label, assetType);
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
+            string value = DrawResourcesPathField(position, serializedProperty.stringValue, label, assetType);
+
+            if (scope.Changed)
+            {
+                serializedProperty.stringValue = value;
+            }
         }
 
         public static string DrawResourcesPathField(string path, GUIContent label, Type assetType, params GUILayoutOption[] options)
