@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 704c0b16568d4d10995e84195e3d8a7d, type: 3}
-  m_Name: New Test Object Picker Attribute Asset
+  m_Name: New Test Object Picker Attribute Asset 1
   m_EditorClassIdentifier: 
   m_target1: {fileID: 102900000, guid: 1571e7ddbfc544088d6e3979d4b5ebdc, type: 3}
   m_target2: {fileID: 1172356530072092309, guid: 35f5a05338a0a8f48b6a88db661b91ad, type: 3}

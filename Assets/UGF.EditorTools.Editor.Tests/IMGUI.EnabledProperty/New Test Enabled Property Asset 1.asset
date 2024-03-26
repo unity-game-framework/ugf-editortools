@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fdaeee6ab7149079ac1739ba1f1dfff, type: 3}
-  m_Name: New Test Enabled Property Asset
+  m_Name: New Test Enabled Property Asset 1
   m_EditorClassIdentifier: 
   m_bool:
     m_enabled: 1
-    m_value: 1
+    m_value: 0
   m_float:
     m_enabled: 0
     m_value: 3.31

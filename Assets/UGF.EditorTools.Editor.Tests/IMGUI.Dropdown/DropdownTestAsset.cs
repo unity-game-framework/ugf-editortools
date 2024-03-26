@@ -8,8 +8,12 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
     [CreateAssetMenu(menuName = "Tests/DropdownTestAsset")]
     public class DropdownTestAsset : ScriptableObject
     {
+        [SerializeField, DropdownTest] private string m_value;
+        [SerializeField, TypesDropdown] private string m_value2;
         [SerializeField] private List<DataItem> m_items = new List<DataItem>();
 
+        public string Value { get { return m_value; } set { m_value = value; } }
+        public string Value2 { get { return m_value2; } set { m_value2 = value; } }
         public List<DataItem> Items { get { return m_items; } }
 
         [Serializable]

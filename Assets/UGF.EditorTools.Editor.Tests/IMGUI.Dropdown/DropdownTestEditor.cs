@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.Tests.IMGUI.Dropdown
 {
+    [CanEditMultipleObjects]
     [CustomEditor(typeof(DropdownTestAsset), true)]
     public class DropdownTestEditor : UnityEditor.Editor
     {

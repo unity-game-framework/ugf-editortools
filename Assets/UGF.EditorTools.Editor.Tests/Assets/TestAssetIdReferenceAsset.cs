@@ -18,6 +18,7 @@ namespace UGF.EditorTools.Editor.Tests.Assets
         public List<AssetIdReference<Material>> List { get { return m_list; } }
     }
 
+    [CanEditMultipleObjects]
     [CustomEditor(typeof(TestAssetIdReferenceAsset), true)]
     public class TestAssetIdReferenceAssetEditor : UnityEditor.Editor
     {

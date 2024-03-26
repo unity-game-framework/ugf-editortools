@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c238c45ea3f44cd0814ee32584576b32, type: 3}
-  m_Name: New Test Asset Id Reference Asset
+  m_Name: New Test Asset Id Reference Asset 1
   m_EditorClassIdentifier: 
   m_scriptable:
     m_guid:
@@ -24,18 +24,18 @@ MonoBehaviour:
     m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
   m_list:
   - m_guid:
-      m_first: 5644284074733981451
-      m_second: 8935266605448331448
-    m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
-  - m_guid:
       m_first: 4477881239840319590
       m_second: 4612054254765571179
-    m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
+    m_asset: {fileID: 2100000, guid: 47116866a1433e246b7c21b4e84e0140, type: 2}
   - m_guid:
-      m_first: 4477881239840319590
-      m_second: 4612054254765571179
-    m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
+      m_first: 7562887142542539667
+      m_second: 6837590454786244024
+    m_asset: {fileID: 2100000, guid: 05a5ebc916625674499c0f2c3f800d6e, type: 2}
   - m_guid:
-      m_first: 4477881239840319590
-      m_second: 4612054254765571179
-    m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
+      m_first: 7562887142542539667
+      m_second: 6837590454786244024
+    m_asset: {fileID: 2100000, guid: 05a5ebc916625674499c0f2c3f800d6e, type: 2}
+  - m_guid:
+      m_first: 7562887142542539667
+      m_second: 6837590454786244024
+    m_asset: {fileID: 2100000, guid: 05a5ebc916625674499c0f2c3f800d6e, type: 2}
