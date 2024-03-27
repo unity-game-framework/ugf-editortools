@@ -15,10 +15,10 @@ namespace UGF.EditorTools.Editor.Ids
 
             string guid = GlobalIdEditorUtility.GetGuidFromProperty(serializedProperty);
 
+            guid = EditorGUI.TextField(position, label, guid);
+
             if (scope.Changed)
             {
-                guid = EditorGUI.TextField(position, label, guid);
-
                 GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
             }
         }
