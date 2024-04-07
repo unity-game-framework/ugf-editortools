@@ -37,8 +37,6 @@ namespace UGF.EditorTools.Editor.IMGUI
                                         ?? throw new ArgumentException("Field not found by the specified name: 'kIndentPerLevel'.");
 
             IndentPerLevel = (float)kIndentPerLevel.GetValue(null);
-
-            CreateWindow(typeof(EditorWindow));
         }
 
         public static bool IsMissingObject(Object target)
