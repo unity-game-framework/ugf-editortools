@@ -14,6 +14,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         private static readonly FieldInfo m_lastControlID;
         private static readonly PropertyInfo m_indent;
+        private static readonly MethodInfo m_createWindowMethod;
         private const string PROPERTY_SCRIPT_NAME = "m_Script";
 
         static EditorIMGUIUtility()
@@ -28,6 +29,9 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             m_indent = typeof(EditorGUI).GetProperty("indent", BindingFlags.NonPublic | BindingFlags.Static)
                        ?? throw new ArgumentException("Property not found by the specified name: 'indent'.");
+
+            m_createWindowMethod = typeof(EditorWindow).GetMethod(nameof(EditorWindow.CreateWindow), BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(Type[]) }, null)
+                                   ?? throw new ArgumentException($"Method not found by the specified name: '{nameof(EditorWindow.CreateWindow)}'.");
 
             FieldInfo kIndentPerLevel = typeof(EditorGUI).GetField("kIndentPerLevel", BindingFlags.NonPublic | BindingFlags.Static)
                                         ?? throw new ArgumentException("Field not found by the specified name: 'kIndentPerLevel'.");
@@ -61,6 +65,16 @@ namespace UGF.EditorTools.Editor.IMGUI
                    && controlEvent.type == EventType.KeyDown
                    && controlEvent.keyCode is KeyCode.Space or KeyCode.Return or KeyCode.KeypadEnter
                    && !(controlEvent.alt || controlEvent.shift || controlEvent.command || controlEvent.control);
+        }
+
+        public static EditorWindow CreateWindow(Type type, params Type[] desiredDockNextTo)
+        {
+            if (type == null) throw new ArgumentNullException(nameof(type));
+            if (desiredDockNextTo == null) throw new ArgumentNullException(nameof(desiredDockNextTo));
+
+            MethodInfo method = m_createWindowMethod.MakeGenericMethod(type);
+
+            return (EditorWindow)method.Invoke(null, new object[] { desiredDockNextTo });
         }
 
         public static SerializedProperty GetScriptProperty(SerializedObject serializedObject)
