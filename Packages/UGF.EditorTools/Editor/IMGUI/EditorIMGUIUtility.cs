@@ -30,7 +30,7 @@ namespace UGF.EditorTools.Editor.IMGUI
             m_indent = typeof(EditorGUI).GetProperty("indent", BindingFlags.NonPublic | BindingFlags.Static)
                        ?? throw new ArgumentException("Property not found by the specified name: 'indent'.");
 
-            m_createWindowMethod = typeof(EditorWindow).GetMethod(nameof(EditorWindow.CreateWindow), BindingFlags.Static | BindingFlags.Public, null, new[] { typeof(Type[]) }, null)
+            m_createWindowMethod = typeof(EditorWindow).GetMethod(nameof(EditorWindow.CreateWindow), BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(Type[]) }, null)
                                    ?? throw new ArgumentException($"Method not found by the specified name: '{nameof(EditorWindow.CreateWindow)}'.");
 
             FieldInfo kIndentPerLevel = typeof(EditorGUI).GetField("kIndentPerLevel", BindingFlags.NonPublic | BindingFlags.Static)
