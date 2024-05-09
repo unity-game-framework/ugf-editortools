@@ -18,13 +18,13 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
             var span = new TimeSpan(Argument);
 
-            int day = EditorGUILayout.IntSlider("Days", span.Days, TimeSpan.MinValue.Days, TimeSpan.MaxValue.Days);
-            int hour = EditorGUILayout.IntSlider("Hours", span.Hours, -23, 23);
-            int minute = EditorGUILayout.IntSlider("Minutes", span.Minutes, -59, 59);
-            int second = EditorGUILayout.IntSlider("Seconds", span.Seconds, -59, 59);
+            int days = EditorGUILayout.IntSlider("Days", span.Days, TimeSpan.MinValue.Days + 1, TimeSpan.MaxValue.Days - 1);
+            int hours = EditorGUILayout.IntSlider("Hours", span.Hours, -23, 23);
+            int minutes = EditorGUILayout.IntSlider("Minutes", span.Minutes, -59, 59);
+            int seconds = EditorGUILayout.IntSlider("Seconds", span.Seconds, -59, 59);
             int milliseconds = EditorGUILayout.IntSlider("Milliseconds", span.Milliseconds, -999, 999);
 
-            span = new TimeSpan(day, hour, minute, second, milliseconds);
+            span = new TimeSpan(days, hours, minutes, seconds, milliseconds);
 
             Argument = span.Ticks;
         }

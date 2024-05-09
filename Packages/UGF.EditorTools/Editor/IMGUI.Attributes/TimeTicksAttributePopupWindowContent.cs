@@ -26,6 +26,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             int second = EditorGUILayout.IntSlider("Second", date.Second, 0, 59);
             int millisecond = EditorGUILayout.IntSlider("Millisecond", date.Millisecond, 0, 999);
 
+            day = Mathf.Clamp(day, 1, DateTime.DaysInMonth(year, month));
+
             date = new DateTime(year, month, day, hour, minute, second, millisecond);
 
             Argument = date.Ticks;

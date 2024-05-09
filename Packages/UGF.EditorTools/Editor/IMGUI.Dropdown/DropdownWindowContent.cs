@@ -6,6 +6,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
     public abstract class DropdownWindowContent : PopupWindowContent
     {
         public Rect DropdownPosition { get; }
+        public float Padding { get; set; } = EditorGUIUtility.standardVerticalSpacing * 3F;
         public float MinHeight { get; set; } = EditorGUIUtility.singleLineHeight;
         public float MaxHeight { get; set; } = 200F;
 
@@ -25,12 +26,10 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 
         public override void OnGUI(Rect rect)
         {
-            float spacing = EditorGUIUtility.standardVerticalSpacing;
-
-            rect.xMin += spacing;
-            rect.yMin += spacing;
-            rect.xMax -= spacing;
-            rect.yMax -= spacing;
+            rect.xMin += Padding;
+            rect.yMin += Padding;
+            rect.xMax -= Padding;
+            rect.yMax -= Padding;
 
             GUILayout.BeginArea(rect);
 
@@ -50,7 +49,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 
         public override Vector2 GetWindowSize()
         {
-            return new Vector2(DropdownPosition.width, OnGetHeight() + EditorGUIUtility.standardVerticalSpacing * 2F);
+            return new Vector2(DropdownPosition.width, OnGetHeight() + Padding * 2F);
         }
     }
 }

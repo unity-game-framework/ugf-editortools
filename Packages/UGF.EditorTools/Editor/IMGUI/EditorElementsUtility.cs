@@ -8,38 +8,21 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
-    public static partial class EditorElementsUtility
+    public static class EditorElementsUtility
     {
         private static readonly DropdownSelection<DropdownItem<string>> m_selection = new DropdownSelection<DropdownItem<string>>();
+        private static readonly int m_timeTicksFieldHint = nameof(TimeTicksField).GetHashCode();
+        private static readonly int m_timeSpanTicksFieldHint = nameof(TimeTicksField).GetHashCode();
+        private static int? m_timeTicksFieldLastControlId;
+        private static long? m_timeTicksFieldLastValue;
+        private static int? m_timeSpanTicksFieldLastControlId;
+        private static long? m_timeSpanTicksFieldLastValue;
         private static Styles m_styles;
 
         private class Styles
         {
             public GUIStyle TextFieldDropdownButtonStyle { get; } = new GUIStyle("TextFieldDropDown");
             public GUIStyle TextFieldDropdownFieldStyle { get; } = new GUIStyle("TextFieldDropDownText");
-            public GUIContent SignPlusContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("Toolbar Plus"), "Sign is plus.");
-            public GUIContent SignMinusContent { get; } = new GUIContent(EditorGUIUtility.FindTexture("Toolbar Minus"), "Sign is minus.");
-
-            public GUIContent[] DateSegmentsContent { get; } = new[]
-            {
-                new GUIContent("Y", "Year of the date."),
-                new GUIContent("M", "Month of the year."),
-                new GUIContent("D", "Day of the month."),
-                new GUIContent("H", "Hour of the day."),
-                new GUIContent("M", "Minute of the hour."),
-                new GUIContent("S", "Second of the minute."),
-                new GUIContent("T", "Tick of the second.")
-            };
-
-            public GUIContent[] SpanSegmentsContent { get; } = new[]
-            {
-                new GUIContent("D", "Days."),
-                new GUIContent("H", "Hours"),
-                new GUIContent("M", "Minutes."),
-                new GUIContent("S", "Seconds."),
-                new GUIContent("M", "Milliseconds."),
-                new GUIContent("T", "Ticks.")
-            };
         }
 
         static EditorElementsUtility()
@@ -131,18 +114,44 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
 
-            TimeTicksField(position, label, serializedProperty.longValue, serializedProperty, arguments =>
+            long value = TimeTicksField(position, label, serializedProperty.longValue);
+
+            if (scope.Changed)
             {
-                try
-                {
-                    arguments.Arguments.longValue = arguments.Value;
-                    arguments.Arguments.serializedObject.ApplyModifiedProperties();
-                }
-                catch
-                {
-                    // ignored
-                }
+                serializedProperty.longValue = value;
+            }
+        }
+
+        public static long TimeTicksField(GUIContent label, long value, params GUILayoutOption[] options)
+        {
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            return TimeTicksField(position, label, value);
+        }
+
+        public static long TimeTicksField(Rect position, GUIContent label, long value)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            int controlId = GUIUtility.GetControlID(m_timeTicksFieldHint, FocusType.Keyboard, position);
+
+            TimeTicksField(position, label, value, controlId, argument =>
+            {
+                m_timeTicksFieldLastControlId = argument.Arguments;
+                m_timeTicksFieldLastValue = argument.Value;
             });
+
+            if (m_timeTicksFieldLastControlId == controlId && m_timeTicksFieldLastValue.HasValue)
+            {
+                value = m_timeTicksFieldLastValue.Value;
+
+                m_timeTicksFieldLastControlId = default;
+                m_timeTicksFieldLastValue = default;
+
+                GUI.changed = true;
+            }
+
+            return value;
         }
 
         public static void TimeTicksField(Rect position, GUIContent label, long value, DropdownWindowContentArgumentHandler<long> resultHandler)
@@ -157,14 +166,11 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             value = Math.Clamp(value, DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks);
 
-            var date = new DateTime(value);
-            string valueText = value.ToString();
+            string valueText = new DateTime(value).ToString("yyyy-MM-dd HH:mm:ss.fff");
 
-            using var iconScope = new AssetFieldIconReferenceScope(position, "Ticks", valueText);
+            using var iconScope = new AssetFieldIconReferenceScope(position, "Date", valueText);
 
-            var content = new GUIContent(date.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-
-            if (DropdownEditorGUIUtility.DropdownButton(position, label, content, out Rect dropdownPosition))
+            if (DropdownEditorGUIUtility.DropdownButton(position, label, new GUIContent(valueText), out Rect dropdownPosition))
             {
                 PopupWindow.Show(dropdownPosition, new TimeTicksAttributePopupWindowContent(dropdownPosition, resultValue => { resultHandler.Invoke((arguments, resultValue)); }, value));
             }
@@ -197,11 +203,44 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
 
-            TimeSpanTicksField(position, label, serializedProperty.longValue, serializedProperty, arguments =>
+            long value = TimeSpanTicksField(position, label, serializedProperty.longValue);
+
+            if (scope.Changed)
             {
-                arguments.Arguments.longValue = arguments.Value;
-                arguments.Arguments.serializedObject.ApplyModifiedProperties();
+                serializedProperty.longValue = value;
+            }
+        }
+
+        public static long TimeSpanTicksField(GUIContent label, long value, params GUILayoutOption[] options)
+        {
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            return TimeSpanTicksField(position, label, value);
+        }
+
+        public static long TimeSpanTicksField(Rect position, GUIContent label, long value)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            int controlId = GUIUtility.GetControlID(m_timeSpanTicksFieldHint, FocusType.Keyboard, position);
+
+            TimeSpanTicksField(position, label, value, controlId, argument =>
+            {
+                m_timeSpanTicksFieldLastControlId = argument.Arguments;
+                m_timeSpanTicksFieldLastValue = argument.Value;
             });
+
+            if (m_timeSpanTicksFieldLastControlId == controlId && m_timeSpanTicksFieldLastValue.HasValue)
+            {
+                value = m_timeSpanTicksFieldLastValue.Value;
+
+                m_timeSpanTicksFieldLastControlId = default;
+                m_timeSpanTicksFieldLastValue = default;
+
+                GUI.changed = true;
+            }
+
+            return value;
         }
 
         public static void TimeSpanTicksField(Rect position, GUIContent label, long value, DropdownWindowContentArgumentHandler<long> resultHandler)
@@ -214,16 +253,13 @@ namespace UGF.EditorTools.Editor.IMGUI
             if (label == null) throw new ArgumentNullException(nameof(label));
             if (resultHandler == null) throw new ArgumentNullException(nameof(resultHandler));
 
-            value = Math.Clamp(value, DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks);
+            value = Math.Clamp(value, TimeSpan.MinValue.Ticks, TimeSpan.MaxValue.Ticks);
 
-            var span = new TimeSpan(value);
-            string valueText = value.ToString();
+            string valueText = $@"{(value < 0 ? "-" : "")}{new TimeSpan(value):d\:hh\:mm\:ss\.fff}";
 
-            using var iconScope = new AssetFieldIconReferenceScope(position, "Ticks", valueText);
+            using var iconScope = new AssetFieldIconReferenceScope(position, "Time", valueText);
 
-            var content = new GUIContent(span.ToString("G"));
-
-            if (DropdownEditorGUIUtility.DropdownButton(position, label, content, out Rect dropdownPosition))
+            if (DropdownEditorGUIUtility.DropdownButton(position, label, new GUIContent(valueText), out Rect dropdownPosition))
             {
                 PopupWindow.Show(dropdownPosition, new TimeSpanTicksAttributePopupWindowContent(dropdownPosition, resultValue => { resultHandler.Invoke((arguments, resultValue)); }, value));
             }
