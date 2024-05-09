@@ -1,7 +1,7 @@
 {
   "name": "com.ugf.editortools",
   "displayName": "UGF.EditorTools",
-  "version": "3.0.0-preview.7",
+  "version": "3.0.0-preview.8",
   "unity": "2023.2",
   "apiCompatibility": ".NET Standard 2.1",
   "description": "Provides tools for working with editor code.",

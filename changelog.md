@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.8](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.8) - 2024-05-09  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/70?closed=1)  
+    
+
+### Changed
+
+- Change time attributes ([#295](https://github.com/unity-game-framework/ugf-editortools/issues/295))  
+    - Add `DropdownWindowContent` and `DropdownWindowContent<T>` classes as basic implementation for custom popup windows.
+    - Add `EditorElementsUtility.TimeTicksField()` and `TimeSpanTicksField()` method overloads with popup handlers.
+    - Change `EditorElementsUtility.TimeTicksField()` and `TimeSpanTicksField()` methods to display as dropdown and popup menu with fields to setup desired time value.
+
 ## [3.0.0-preview.7](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.7) - 2024-04-07  
 
 ### Release Notes
