@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UGF.EditorTools.Editor.IMGUI.Attributes;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI
 {
-    public static class EditorElementsUtility
+    public static partial class EditorElementsUtility
     {
         private static readonly DropdownSelection<DropdownItem<string>> m_selection = new DropdownSelection<DropdownItem<string>>();
         private static Styles m_styles;
@@ -93,14 +94,14 @@ namespace UGF.EditorTools.Editor.IMGUI
             if (label == null) throw new ArgumentNullException(nameof(label));
             if (itemsHandler == null) throw new ArgumentNullException(nameof(itemsHandler));
 
-            Styles styles = GetStyles();
+            m_styles ??= new Styles();
 
             var rectField = new Rect(position.x, position.y, position.width - position.height, position.height);
             var rectButton = new Rect(rectField.xMax, position.y, position.height, position.height);
 
-            value = EditorGUI.TextField(rectField, label, value, styles.TextFieldDropdownFieldStyle);
+            value = EditorGUI.TextField(rectField, label, value, m_styles.TextFieldDropdownFieldStyle);
 
-            if (DropdownEditorGUIUtility.Dropdown(rectButton, GUIContent.none, GUIContent.none, m_selection, itemsHandler, out DropdownItem<string> selected, FocusType.Keyboard, styles.TextFieldDropdownButtonStyle))
+            if (DropdownEditorGUIUtility.Dropdown(rectButton, GUIContent.none, GUIContent.none, m_selection, itemsHandler, out DropdownItem<string> selected, FocusType.Keyboard, m_styles.TextFieldDropdownButtonStyle))
             {
                 value = selected.Value;
             }
@@ -130,77 +131,48 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
 
-            long value = TimeTicksField(position, label, serializedProperty.longValue);
-
-            if (scope.Changed)
+            TimeTicksField(position, label, serializedProperty.longValue, serializedProperty, arguments =>
             {
-                serializedProperty.longValue = value;
-            }
+                try
+                {
+                    arguments.Arguments.longValue = arguments.Value;
+                    arguments.Arguments.serializedObject.ApplyModifiedProperties();
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
         }
 
-        public static long TimeTicksField(GUIContent label, long value, params GUILayoutOption[] options)
+        public static void TimeTicksField(Rect position, GUIContent label, long value, DropdownWindowContentArgumentHandler<long> resultHandler)
         {
-            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
-
-            return TimeTicksField(position, label, value);
+            TimeTicksField(position, label, value, resultHandler, arguments => arguments.Arguments.Invoke(arguments.Value));
         }
 
-        public static long TimeTicksField(Rect position, GUIContent label, long value)
+        public static void TimeTicksField<TArguments>(Rect position, GUIContent label, long value, TArguments arguments, DropdownWindowContentArgumentHandler<(TArguments Arguments, long Value)> resultHandler)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
+            if (resultHandler == null) throw new ArgumentNullException(nameof(resultHandler));
 
-            Styles styles = GetStyles();
-            float space = EditorGUIUtility.standardVerticalSpacing;
-
-            Rect rectField = EditorGUI.PrefixLabel(position, label);
-            var rectSign = new Rect(rectField.x, rectField.y + 1F, rectField.height, rectField.height);
-            var rectFields = new Rect(rectSign.xMax + space, rectField.y, rectField.width - rectField.height - space, rectField.height);
-
-            bool sign = value >= 0;
-
-            if (!sign)
-            {
-                value = -value;
-            }
+            value = Math.Clamp(value, DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks);
 
             var date = new DateTime(value);
+            string valueText = value.ToString();
 
-            int[] segments =
-            {
-                date.Year,
-                date.Month,
-                date.Day,
-                date.Hour,
-                date.Minute,
-                date.Second,
-                (int)(date.Ticks - new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second).Ticks)
-            };
+            using var iconScope = new AssetFieldIconReferenceScope(position, "Ticks", valueText);
 
-            if (GUI.Button(rectSign, sign ? styles.SignPlusContent : styles.SignMinusContent, EditorStyles.iconButton))
+            var content = new GUIContent(date.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+            if (DropdownEditorGUIUtility.DropdownButton(position, label, content, out Rect dropdownPosition))
             {
-                sign = !sign;
+                PopupWindow.Show(dropdownPosition, new TimeTicksAttributePopupWindowContent(dropdownPosition, resultValue => { resultHandler.Invoke((arguments, resultValue)); }, value));
             }
 
-            EditorGUI.MultiIntField(rectFields, styles.DateSegmentsContent, segments);
-
-            segments[0] = Mathf.Clamp(segments[0], 1, 9999);
-            segments[1] = Mathf.Clamp(segments[1], 1, 12);
-            segments[2] = Mathf.Clamp(segments[2], 1, DateTime.DaysInMonth(segments[0], segments[1]));
-            segments[3] = Mathf.Clamp(segments[3], 0, 23);
-            segments[4] = Mathf.Clamp(segments[4], 0, 59);
-            segments[5] = Mathf.Clamp(segments[5], 0, 59);
-            segments[6] = Mathf.Clamp(segments[6], 0, 9999999);
-
-            date = new DateTime(segments[0], segments[1], segments[2], segments[3], segments[4], segments[5]);
-            date = date.AddTicks(segments[6]);
-            value = date.Ticks;
-
-            if (!sign)
+            if (iconScope.Clicked)
             {
-                value = -value;
+                EditorGUIUtility.systemCopyBuffer = valueText;
             }
-
-            return value;
         }
 
         public static void TimeSpanTicksField(SerializedProperty serializedProperty, params GUILayoutOption[] options)
@@ -225,73 +197,41 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
 
-            long value = TimeSpanTicksField(position, label, serializedProperty.longValue);
-
-            if (scope.Changed)
+            TimeSpanTicksField(position, label, serializedProperty.longValue, serializedProperty, arguments =>
             {
-                serializedProperty.longValue = value;
-            }
+                arguments.Arguments.longValue = arguments.Value;
+                arguments.Arguments.serializedObject.ApplyModifiedProperties();
+            });
         }
 
-        public static long TimeSpanTicksField(GUIContent label, long value, params GUILayoutOption[] options)
+        public static void TimeSpanTicksField(Rect position, GUIContent label, long value, DropdownWindowContentArgumentHandler<long> resultHandler)
         {
-            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
-
-            return TimeSpanTicksField(position, label, value);
+            TimeSpanTicksField(position, label, value, resultHandler, arguments => arguments.Arguments.Invoke(arguments.Value));
         }
 
-        public static long TimeSpanTicksField(Rect position, GUIContent label, long value)
+        public static void TimeSpanTicksField<TArguments>(Rect position, GUIContent label, long value, TArguments arguments, DropdownWindowContentArgumentHandler<(TArguments Arguments, long Value)> resultHandler)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
+            if (resultHandler == null) throw new ArgumentNullException(nameof(resultHandler));
 
-            Styles styles = GetStyles();
-            float space = EditorGUIUtility.standardVerticalSpacing;
-
-            Rect rectField = EditorGUI.PrefixLabel(position, label);
-            var rectSign = new Rect(rectField.x, rectField.y + 1F, rectField.height, rectField.height);
-            var rectFields = new Rect(rectSign.xMax + space, rectField.y, rectField.width - rectField.height - space, rectField.height);
-
-            bool sign = value >= 0;
-
-            if (!sign)
-            {
-                value = -value;
-            }
+            value = Math.Clamp(value, DateTime.MinValue.Ticks, DateTime.MaxValue.Ticks);
 
             var span = new TimeSpan(value);
+            string valueText = value.ToString();
 
-            int[] segments =
-            {
-                span.Days,
-                span.Hours,
-                span.Minutes,
-                span.Seconds,
-                span.Milliseconds,
-                (int)(span.Ticks - new TimeSpan(span.Days, span.Hours, span.Minutes, span.Seconds, span.Milliseconds).Ticks)
-            };
+            using var iconScope = new AssetFieldIconReferenceScope(position, "Ticks", valueText);
 
-            if (GUI.Button(rectSign, sign ? styles.SignPlusContent : styles.SignMinusContent, EditorStyles.iconButton))
+            var content = new GUIContent(span.ToString("G"));
+
+            if (DropdownEditorGUIUtility.DropdownButton(position, label, content, out Rect dropdownPosition))
             {
-                sign = !sign;
+                PopupWindow.Show(dropdownPosition, new TimeSpanTicksAttributePopupWindowContent(dropdownPosition, resultValue => { resultHandler.Invoke((arguments, resultValue)); }, value));
             }
 
-            EditorGUI.MultiIntField(rectFields, styles.SpanSegmentsContent, segments);
-
-            span = new TimeSpan(segments[0], segments[1], segments[2], segments[3], segments[4]);
-            span += new TimeSpan(segments[5]);
-            value = span.Ticks;
-
-            if (!sign)
+            if (iconScope.Clicked)
             {
-                value = -value;
+                EditorGUIUtility.systemCopyBuffer = valueText;
             }
-
-            return value;
-        }
-
-        private static Styles GetStyles()
-        {
-            return m_styles ??= new Styles();
         }
     }
 }
