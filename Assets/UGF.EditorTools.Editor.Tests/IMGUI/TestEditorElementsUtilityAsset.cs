@@ -26,6 +26,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         public long Time2 { get { return m_time2; } set { m_time2 = value; } }
     }
 
+    [CanEditMultipleObjects]
     [CustomEditor(typeof(TestEditorElementsUtilityAsset), true)]
     public class TestEditorElementsUtilityAssetEditor : UnityEditor.Editor
     {
