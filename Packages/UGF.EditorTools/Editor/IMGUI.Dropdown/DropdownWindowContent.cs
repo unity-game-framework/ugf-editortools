@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using UGF.EditorTools.Editor.IMGUI.Scopes;
+using UnityEditor;
 using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.Dropdown
@@ -7,6 +8,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
     {
         public Rect DropdownPosition { get; }
         public float Padding { get; set; } = EditorGUIUtility.standardVerticalSpacing * 3F;
+        public float MinWidth { get; set; } = 200F;
+        public float MaxWidth { get; set; } = float.MaxValue;
         public float MinHeight { get; set; } = EditorGUIUtility.singleLineHeight;
         public float MaxHeight { get; set; } = 200F;
 
@@ -18,6 +21,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
         }
 
         protected abstract void OnGUILayout();
+
+        protected virtual float OnGetWidth()
+        {
+            return Mathf.Clamp(DropdownPosition.width, MinWidth, MaxWidth);
+        }
 
         protected virtual float OnGetHeight()
         {
@@ -35,7 +43,10 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 
             rect = EditorGUILayout.BeginVertical();
 
-            OnGUILayout();
+            using (new LabelWidthScope(rect.width * 0.4F))
+            {
+                OnGUILayout();
+            }
 
             EditorGUILayout.EndVertical();
 
@@ -49,7 +60,7 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 
         public override Vector2 GetWindowSize()
         {
-            return new Vector2(DropdownPosition.width, OnGetHeight() + Padding * 2F);
+            return new Vector2(OnGetWidth(), OnGetHeight() + Padding * 2F);
         }
     }
 }
