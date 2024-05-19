@@ -3,6 +3,7 @@ using UGF.EditorTools.Runtime.Assets;
 using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.Tests.IMGUI
 {
@@ -27,6 +28,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         private SerializedProperty m_propertyDisplayTitlebar;
         private EditorObjectReferenceDrawer m_drawer;
         private EditorObjectReferenceIdDrawer m_drawer2;
+        private DropAreaDrawer m_dropAreaDrawer;
 
         private void OnEnable()
         {
@@ -35,6 +37,15 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             m_propertyDisplayTitlebar = serializedObject.FindProperty("m_displayTitlebar");
             m_drawer = new EditorObjectReferenceDrawer(m_propertyTarget);
             m_drawer2 = new EditorObjectReferenceIdDrawer(m_propertyTarget2);
+            m_dropAreaDrawer = new DropAreaDrawer(typeof(ScriptableObject));
+            m_dropAreaDrawer.Handler.Accepted += OnDropAreaDrawerAccepted;
+            m_dropAreaDrawer.Enable();
+        }
+
+        private void OnDisable()
+        {
+            m_dropAreaDrawer.Handler.Accepted -= OnDropAreaDrawerAccepted;
+            m_dropAreaDrawer.Disable();
         }
 
         public override void OnInspectorGUI()
@@ -48,6 +59,12 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             m_drawer.Drawer.DisplayTitlebar = m_propertyDisplayTitlebar.boolValue;
             m_drawer.DrawGUILayout();
             m_drawer2.DrawGUILayout();
+            m_dropAreaDrawer.DrawGUILayout();
+        }
+
+        private void OnDropAreaDrawerAccepted(Object asset)
+        {
+            Debug.Log($"Drop area accepted: '{asset}'.");
         }
     }
 }
