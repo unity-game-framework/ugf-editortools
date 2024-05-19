@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.9](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.9) - 2024-05-19  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/71?closed=1)  
+    
+
+### Added
+
+- Add get asset id utility method ([#299](https://github.com/unity-game-framework/ugf-editortools/issues/299))  
+    - Add `AssetIdEditorUtility.GetGuid()` method as shortcut to get asset guid.
+    - Add `AssetIdEditorUtility.GetId()` method as shortcut to get asset guid as `GlobalId`.
+- Add property drawer dispose support  ([#298](https://github.com/unity-game-framework/ugf-editortools/issues/298))  
+    - Add `PropertyDrawerBase.OnDispose()` protected virtual method as `IDisposable` interface implementation.
+- Add drop area drawer ([#297](https://github.com/unity-game-framework/ugf-editortools/issues/297))  
+    - Add `DropAreaHandler` class used to handle drag and drop events.
+    - Add `DropAreaDrawer` class as drawer for asset drag and drop area.
+
+### Fixed
+
+- Fix time select dropdown field label width ([#300](https://github.com/unity-game-framework/ugf-editortools/issues/300))  
+    - Add `DropdownWindowContent.MinWidth` and `MaxWidth` properties to control content window width.
+    - Fix `DropdownWindowContent` drawing field label width.
+
 ## [3.0.0-preview.8](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.8) - 2024-05-09  
 
 ### Release Notes
