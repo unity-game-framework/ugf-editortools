@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using UGF.EditorTools.Editor.IMGUI.Scopes;
+using UnityEditor;
 using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.Dropdown
@@ -35,7 +36,10 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 
             rect = EditorGUILayout.BeginVertical();
 
-            OnGUILayout();
+            using (new LabelWidthScope(rect.width * 0.4F))
+            {
+                OnGUILayout();
+            }
 
             EditorGUILayout.EndVertical();
 
