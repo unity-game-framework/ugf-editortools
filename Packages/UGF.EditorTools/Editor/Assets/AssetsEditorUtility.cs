@@ -8,6 +8,15 @@ namespace UGF.EditorTools.Editor.Assets
 {
     public static class AssetsEditorUtility
     {
+        public static string GetGuid(Object asset)
+        {
+            if (asset == null) throw new ArgumentNullException(nameof(asset));
+
+            string path = AssetDatabase.GetAssetPath(asset);
+
+            return AssetDatabase.AssetPathToGUID(path);
+        }
+
         public static bool TrySelectFile(string title, string directory, string extension, bool relative, out string path)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Value cannot be null or empty.", nameof(title));
