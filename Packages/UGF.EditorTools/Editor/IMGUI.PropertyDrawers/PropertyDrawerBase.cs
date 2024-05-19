@@ -1,10 +1,11 @@
-﻿using UGF.EditorTools.Editor.IMGUI.Scopes;
+﻿using System;
+using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
 
 namespace UGF.EditorTools.Editor.IMGUI.PropertyDrawers
 {
-    public abstract class PropertyDrawerBase : PropertyDrawer
+    public abstract class PropertyDrawerBase : PropertyDrawer, IDisposable
     {
         protected bool EnableContextMenu { get; set; }
 
@@ -53,6 +54,15 @@ namespace UGF.EditorTools.Editor.IMGUI.PropertyDrawers
 
         protected virtual void OnContextMenu(GenericMenu menu, SerializedProperty property)
         {
+        }
+
+        protected virtual void OnDispose()
+        {
+        }
+
+        void IDisposable.Dispose()
+        {
+            OnDispose();
         }
     }
 }
