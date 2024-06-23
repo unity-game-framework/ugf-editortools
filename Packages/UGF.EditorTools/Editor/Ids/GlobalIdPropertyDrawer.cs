@@ -3,6 +3,7 @@ using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.Ids
 {
@@ -21,6 +22,14 @@ namespace UGF.EditorTools.Editor.Ids
             {
                 GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
             }
+        }
+
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            return new GlobalIdTextFieldElement(property)
+            {
+                label = preferredLabel
+            };
         }
 
         public override float GetPropertyHeight(SerializedProperty serializedProperty, GUIContent label)
