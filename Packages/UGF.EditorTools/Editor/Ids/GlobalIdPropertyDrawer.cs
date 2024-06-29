@@ -30,7 +30,18 @@ namespace UGF.EditorTools.Editor.Ids
             var element = new TextField(preferredLabel);
 
             UIToolkitEditorUtility.AddFieldClasses(element);
-            GlobalIdBindingTextField.Bind(element, property);
+
+            UIToolkitPropertyBindingField<string>.Bind(
+                element,
+                property,
+                (_, serializedProperty) => GlobalIdEditorUtility.GetGuidFromProperty(serializedProperty),
+                (_, serializedProperty, value) =>
+                {
+                    GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, value);
+
+                    return GlobalIdEditorUtility.GetGuidFromProperty(serializedProperty);
+                }
+            );
 
             return element;
         }
