@@ -3,9 +3,9 @@ using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.UIToolkit
 {
-    public static class UIToolkitFieldUtility
+    public static class UIToolkitEditorUtility
     {
-        public static void SetClasses<T>(BaseField<T> field)
+        public static void AddFieldClasses<T>(BaseField<T> field)
         {
             if (field == null) throw new ArgumentNullException(nameof(field));
 
