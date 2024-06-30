@@ -5,80 +5,82 @@ using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.UIToolkit
 {
-    public static class UIToolkitPropertyBindingField<TValue>
+    public class UIToolkitPropertyBindingField<TValue>
     {
-        private static readonly EventCallback<AttachToPanelEvent, (SerializedProperty, UIToolkitPropertyBindingFieldUpdateHandler<TValue>)> m_callbackAttach;
-        private static readonly EventCallback<ChangeEvent<TValue>, (SerializedProperty, UIToolkitPropertyBindingFieldApplyHandler<TValue>)> m_callbackChange;
-        private static readonly EventCallback<SerializedPropertyChangeEvent, (SerializedProperty, UIToolkitPropertyBindingFieldUpdateHandler<TValue>)> m_callbackPropertyChange;
+        public BaseField<TValue> FieldElement { get; }
+        public SerializedProperty SerializedProperty { get { return m_serializedProperty ?? throw new ArgumentException("Value not specified."); } }
+        public bool HasSerializedProperty { get { return m_serializedProperty != null; } }
 
-        static UIToolkitPropertyBindingField()
+        public event UIToolkitPropertyBindingFieldUpdateHandler Update;
+        public event UIToolkitPropertyBindingFieldUpdateHandler Apply;
+
+        private SerializedProperty m_serializedProperty;
+        private EventCallback<AttachToPanelEvent> m_callbackAttach;
+        private EventCallback<ChangeEvent<TValue>> m_callbackChange;
+        private EventCallback<SerializedPropertyChangeEvent> m_callbackPropertyChange;
+
+        public UIToolkitPropertyBindingField(BaseField<TValue> fieldElement)
         {
-            m_callbackAttach = OnAttach;
-            m_callbackChange = OnChange;
-            m_callbackPropertyChange = OnPropertyChange;
+            FieldElement = fieldElement ?? throw new ArgumentNullException(nameof(fieldElement));
         }
 
-        public static void Bind(BaseField<TValue> field, SerializedProperty serializedProperty, UIToolkitPropertyBindingFieldUpdateHandler<TValue> updateHandler, UIToolkitPropertyBindingFieldApplyHandler<TValue> applyHandler)
+        public void Bind(SerializedProperty serializedProperty)
         {
-            if (field == null) throw new ArgumentNullException(nameof(field));
-            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
-            if (updateHandler == null) throw new ArgumentNullException(nameof(updateHandler));
-            if (applyHandler == null) throw new ArgumentNullException(nameof(applyHandler));
+            m_serializedProperty = serializedProperty ?? throw new ArgumentNullException(nameof(serializedProperty));
+            m_callbackAttach ??= OnAttach;
+            m_callbackChange ??= OnChange;
+            m_callbackPropertyChange ??= OnPropertyChange;
 
-            field.RegisterCallback(m_callbackAttach, (serializedProperty, updateHandler));
-            field.RegisterCallback(m_callbackChange, (serializedProperty, applyHandler));
-            field.RegisterCallback(m_callbackPropertyChange, (serializedProperty, updateHandler));
-            field.TrackPropertyValue(serializedProperty);
+            FieldElement.RegisterCallback(m_callbackAttach);
+            FieldElement.RegisterCallback(m_callbackChange);
+            FieldElement.RegisterCallback(m_callbackPropertyChange);
         }
 
-        public static void Unbind(BaseField<TValue> field)
+        public void Unbind()
         {
-            if (field == null) throw new ArgumentNullException(nameof(field));
+            if (!HasSerializedProperty) throw new InvalidOperationException("No property was bound.");
 
-            field.UnregisterCallback(m_callbackAttach);
-            field.UnregisterCallback(m_callbackChange);
-            field.UnregisterCallback(m_callbackPropertyChange);
+            FieldElement.UnregisterCallback(m_callbackAttach);
+            FieldElement.UnregisterCallback(m_callbackChange);
+            FieldElement.UnregisterCallback(m_callbackPropertyChange);
+
+            m_serializedProperty = default;
         }
 
-        private static void OnUpdate(BaseField<TValue> field, SerializedProperty serializedProperty, UIToolkitPropertyBindingFieldUpdateHandler<TValue> handler)
+        private void OnUpdate()
         {
-            field.showMixedValue = serializedProperty.hasMultipleDifferentValues;
-
-            if (!serializedProperty.hasMultipleDifferentValues)
+            if (HasSerializedProperty)
             {
-                field.value = handler.Invoke(field, serializedProperty);
+                FieldElement.showMixedValue = SerializedProperty.hasMultipleDifferentValues;
+
+                if (!SerializedProperty.hasMultipleDifferentValues)
+                {
+                    Update?.Invoke(SerializedProperty);
+                }
             }
         }
 
-        private static void OnApply(BaseField<TValue> field, SerializedProperty serializedProperty, UIToolkitPropertyBindingFieldApplyHandler<TValue> handler, TValue value)
+        private void OnApply()
         {
-            field.value = handler.Invoke(field, serializedProperty, value);
-
-            serializedProperty.serializedObject.ApplyModifiedProperties();
+            if (HasSerializedProperty)
+            {
+                Apply?.Invoke(SerializedProperty);
+            }
         }
 
-        private static void OnAttach(AttachToPanelEvent elementEvent, (SerializedProperty, UIToolkitPropertyBindingFieldUpdateHandler<TValue>) arguments)
+        private void OnAttach(AttachToPanelEvent elementEvent)
         {
-            var field = (BaseField<TValue>)elementEvent.target;
-            (SerializedProperty serializedProperty, UIToolkitPropertyBindingFieldUpdateHandler<TValue> handler) = arguments;
-
-            OnUpdate(field, serializedProperty, handler);
+            OnUpdate();
         }
 
-        private static void OnChange(ChangeEvent<TValue> elementEvent, (SerializedProperty, UIToolkitPropertyBindingFieldApplyHandler<TValue>) arguments)
+        private void OnChange(ChangeEvent<TValue> elementEvent)
         {
-            var field = (BaseField<TValue>)elementEvent.target;
-            (SerializedProperty serializedProperty, UIToolkitPropertyBindingFieldApplyHandler<TValue> handler) = arguments;
-
-            OnApply(field, serializedProperty, handler, elementEvent.newValue);
+            OnApply();
         }
 
-        private static void OnPropertyChange(SerializedPropertyChangeEvent elementEvent, (SerializedProperty, UIToolkitPropertyBindingFieldUpdateHandler<TValue>) arguments)
+        private void OnPropertyChange(SerializedPropertyChangeEvent elementEvent)
         {
-            var field = (BaseField<TValue>)elementEvent.target;
-            (SerializedProperty serializedProperty, UIToolkitPropertyBindingFieldUpdateHandler<TValue> handler) = arguments;
-
-            OnUpdate(field, serializedProperty, handler);
+            OnUpdate();
         }
     }
 }

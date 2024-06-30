@@ -3,6 +3,7 @@ using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.EditorTools.Editor.UIToolkit;
 using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -27,21 +28,15 @@ namespace UGF.EditorTools.Editor.Ids
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            var element = new TextField(preferredLabel);
+            var element = new GlobalIdFieldElement
+            {
+                label = preferredLabel
+            };
 
             UIToolkitEditorUtility.AddFieldClasses(element);
 
-            UIToolkitPropertyBindingField<string>.Bind(
-                element,
-                property,
-                (_, serializedProperty) => GlobalIdEditorUtility.GetGuidFromProperty(serializedProperty),
-                (_, serializedProperty, value) =>
-                {
-                    GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, value);
-
-                    return GlobalIdEditorUtility.GetGuidFromProperty(serializedProperty);
-                }
-            );
+            element.PropertyBinding.Bind(property);
+            element.TrackPropertyValue(property);
 
             return element;
         }
