@@ -1,0 +1,3 @@
+.ugf-object-field-linked__button {
+    background-image: resource("UnityEditor.FindDependencies");
+}

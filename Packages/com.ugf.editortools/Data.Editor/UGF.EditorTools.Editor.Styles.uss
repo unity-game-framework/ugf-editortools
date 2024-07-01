@@ -1,1 +1,16 @@
-VisualElement {}
+.ugf-object-field-linked__button {
+    width: var(--unity-metrics-single_line_small-height);
+    height: var(--unity-metrics-single_line_small-height);
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 0.25;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    align-self: flex-end;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.ugf-object-field-linked__button:hover {
+    background-color: var(--unity-colors-button-background);
+    opacity: 1;
+}
