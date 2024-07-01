@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.ugf.editortools": {
-      "version": "file:UGF.EditorTools",
+      "version": "file:com.ugf.editortools",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
