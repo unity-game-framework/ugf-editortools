@@ -1,5 +1,4 @@
 ﻿using UGF.EditorTools.Editor.Ids;
-using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Editor.IMGUI.Attributes;
 using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
@@ -62,36 +61,6 @@ namespace UGF.EditorTools.Editor.Assets
             });
 
             UIToolkitEditorUtility.AddFieldClasses(element);
-
-            UIToolkitPropertyBindingField<Object>.Bind(
-                element,
-                property,
-                (_, serializedProperty) =>
-                {
-                    string guid = GlobalIdEditorUtility.GetGuidFromProperty(serializedProperty);
-                    string path = AssetDatabase.GUIDToAssetPath(guid);
-                    var asset = AssetDatabase.LoadAssetAtPath<Object>(path);
-
-                    if (!string.IsNullOrEmpty(path) && asset == null)
-                    {
-                        asset = EditorIMGUIUtility.MissingObject;
-                    }
-
-                    return asset;
-                },
-                (_, serializedProperty, value) =>
-                {
-                    if (!EditorIMGUIUtility.IsMissingObject(value))
-                    {
-                        string path = AssetDatabase.GetAssetPath(value);
-                        string guid = AssetDatabase.AssetPathToGUID(path);
-
-                        GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
-                    }
-
-                    return value;
-                }
-            );
 
             return element;
         }
