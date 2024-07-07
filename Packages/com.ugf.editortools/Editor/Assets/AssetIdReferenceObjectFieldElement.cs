@@ -2,6 +2,7 @@
 using UGF.EditorTools.Editor.Ids;
 using UGF.EditorTools.Editor.Serialized;
 using UGF.EditorTools.Editor.UIToolkit;
+using UGF.EditorTools.Editor.UIToolkit.SerializedProperties;
 using UnityEditor;
 using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
@@ -10,7 +11,7 @@ namespace UGF.EditorTools.Editor.Assets
 {
     public class AssetIdReferenceObjectFieldElement : ObjectField
     {
-        public UIToolkitPropertyBindingField<Object> PropertyBinding { get; }
+        public SerializedPropertyFieldBinding<Object> PropertyBinding { get; }
 
         public AssetIdReferenceObjectFieldElement(SerializedProperty serializedProperty, bool field = false) : this()
         {
@@ -33,7 +34,7 @@ namespace UGF.EditorTools.Editor.Assets
 
         public AssetIdReferenceObjectFieldElement()
         {
-            PropertyBinding = new UIToolkitPropertyBindingField<Object>(this);
+            PropertyBinding = new SerializedPropertyFieldBinding<Object>(this);
             PropertyBinding.Update += Update;
             PropertyBinding.Apply += Apply;
         }

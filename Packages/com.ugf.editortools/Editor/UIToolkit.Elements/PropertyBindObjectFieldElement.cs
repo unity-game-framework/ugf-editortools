@@ -1,4 +1,5 @@
 ﻿using System;
+using UGF.EditorTools.Editor.UIToolkit.SerializedProperties;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -8,7 +9,7 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
 {
     public class PropertyBindObjectFieldElement : ObjectField
     {
-        public UIToolkitPropertyBindingField<Object> PropertyBinding { get; }
+        public SerializedPropertyFieldBinding<Object> PropertyBinding { get; }
 
         public PropertyBindObjectFieldElement(SerializedProperty serializedProperty, bool field = false, bool addContextMenu = true) : this(addContextMenu)
         {
@@ -26,7 +27,7 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
 
         public PropertyBindObjectFieldElement(bool addContextMenu = true)
         {
-            PropertyBinding = new UIToolkitPropertyBindingField<Object>(this);
+            PropertyBinding = new SerializedPropertyFieldBinding<Object>(this);
             PropertyBinding.Update += Update;
             PropertyBinding.Apply += Apply;
 

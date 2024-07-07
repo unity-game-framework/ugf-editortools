@@ -3,23 +3,23 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace UGF.EditorTools.Editor.UIToolkit
+namespace UGF.EditorTools.Editor.UIToolkit.SerializedProperties
 {
-    public class UIToolkitPropertyBindingField<TValue>
+    public class SerializedPropertyFieldBinding<TValue>
     {
         public BaseField<TValue> FieldElement { get; }
         public SerializedProperty SerializedProperty { get { return m_serializedProperty ?? throw new ArgumentException("Value not specified."); } }
         public bool HasSerializedProperty { get { return m_serializedProperty != null; } }
 
-        public event UIToolkitPropertyBindingFieldUpdateHandler Update;
-        public event UIToolkitPropertyBindingFieldUpdateHandler Apply;
+        public event SerializedPropertyFieldBindingUpdateHandler Update;
+        public event SerializedPropertyFieldBindingUpdateHandler Apply;
 
         private SerializedProperty m_serializedProperty;
         private EventCallback<AttachToPanelEvent> m_callbackAttach;
         private EventCallback<ChangeEvent<TValue>> m_callbackChange;
         private EventCallback<SerializedPropertyChangeEvent> m_callbackPropertyChange;
 
-        public UIToolkitPropertyBindingField(BaseField<TValue> fieldElement)
+        public SerializedPropertyFieldBinding(BaseField<TValue> fieldElement)
         {
             FieldElement = fieldElement ?? throw new ArgumentNullException(nameof(fieldElement));
         }

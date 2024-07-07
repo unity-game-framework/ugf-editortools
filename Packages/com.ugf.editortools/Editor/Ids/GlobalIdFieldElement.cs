@@ -1,5 +1,6 @@
 ﻿using System;
 using UGF.EditorTools.Editor.UIToolkit;
+using UGF.EditorTools.Editor.UIToolkit.SerializedProperties;
 using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -9,7 +10,7 @@ namespace UGF.EditorTools.Editor.Ids
 {
     public class GlobalIdFieldElement : TextField
     {
-        public UIToolkitPropertyBindingField<string> PropertyBinding { get; }
+        public SerializedPropertyFieldBinding<string> PropertyBinding { get; }
         public GlobalId IdValue { get { return GlobalId.TryParse(value, out GlobalId id) ? id : GlobalId.Empty; } set { base.value = value.ToString(); } }
 
         public GlobalIdFieldElement(SerializedProperty serializedProperty, bool field = false) : this()
@@ -28,7 +29,7 @@ namespace UGF.EditorTools.Editor.Ids
 
         public GlobalIdFieldElement()
         {
-            PropertyBinding = new UIToolkitPropertyBindingField<string>(this);
+            PropertyBinding = new SerializedPropertyFieldBinding<string>(this);
             PropertyBinding.Update += Update;
             PropertyBinding.Apply += Apply;
         }
