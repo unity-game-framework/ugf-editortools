@@ -10,7 +10,7 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
     {
         public UIToolkitPropertyBindingField<Object> PropertyBinding { get; }
 
-        public PropertyBindObjectFieldElement(SerializedProperty serializedProperty, bool field = false) : this()
+        public PropertyBindObjectFieldElement(SerializedProperty serializedProperty, bool field = false, bool addContextMenu = true) : this(addContextMenu)
         {
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
 
@@ -24,13 +24,16 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
             this.TrackPropertyValue(serializedProperty);
         }
 
-        public PropertyBindObjectFieldElement()
+        public PropertyBindObjectFieldElement(bool addContextMenu = true)
         {
             PropertyBinding = new UIToolkitPropertyBindingField<Object>(this);
             PropertyBinding.Update += Update;
             PropertyBinding.Apply += Apply;
 
-            this.AddManipulator(new ContextualMenuManipulator(OnContextMenuPopulate));
+            if (addContextMenu)
+            {
+                this.AddManipulator(new ContextualMenuManipulator(OnContextMenuPopulate));
+            }
         }
 
         public void Update(SerializedProperty serializedProperty)

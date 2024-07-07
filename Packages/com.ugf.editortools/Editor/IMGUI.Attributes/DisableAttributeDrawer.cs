@@ -1,7 +1,9 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UGF.EditorTools.Runtime.IMGUI.Attributes;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.IMGUI.Attributes
 {
@@ -14,6 +16,14 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             {
                 OnDrawPropertyDefault(position, property, label);
             }
+        }
+
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            return new PropertyField(property, preferredLabel)
+            {
+                enabledSelf = false
+            };
         }
     }
 }

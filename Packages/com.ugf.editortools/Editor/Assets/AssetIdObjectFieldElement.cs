@@ -5,9 +5,9 @@ using UnityEditor;
 
 namespace UGF.EditorTools.Editor.Assets
 {
-    public class AssetIdObjectFieldElement : ReferenceGuidObjectFieldElement
+    public class AssetIdObjectFieldElement : AssetGuidObjectFieldElement
     {
-        public GlobalId ReferenceValueId { get { return !string.IsNullOrEmpty(ReferenceValueGuid) && GlobalId.TryParse(ReferenceValueGuid, out GlobalId id) ? id : GlobalId.Empty; } set { ReferenceValueGuid = value.ToString(); } }
+        public GlobalId AssetId { get { return !string.IsNullOrEmpty(AssetGuid) && GlobalId.TryParse(AssetGuid, out GlobalId id) ? id : GlobalId.Empty; } set { AssetGuid = value.ToString(); } }
 
         public AssetIdObjectFieldElement(SerializedProperty serializedProperty, bool field = false) : base(serializedProperty, field)
         {
@@ -21,13 +21,13 @@ namespace UGF.EditorTools.Editor.Assets
         {
             if (!serializedProperty.hasMultipleDifferentValues)
             {
-                ReferenceValueId = GlobalIdEditorUtility.GetGlobalIdFromProperty(serializedProperty);
+                AssetId = GlobalIdEditorUtility.GetGlobalIdFromProperty(serializedProperty);
             }
         }
 
         protected override void OnApply(SerializedProperty serializedProperty)
         {
-            GlobalIdEditorUtility.SetGlobalIdToProperty(serializedProperty, ReferenceValueId);
+            GlobalIdEditorUtility.SetGlobalIdToProperty(serializedProperty, AssetId);
         }
     }
 }

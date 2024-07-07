@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.UIToolkit.Elements
 {
-    public class ReferenceGuidObjectFieldElement : PropertyBindObjectFieldElement
+    public class AssetGuidObjectFieldElement : PropertyBindObjectFieldElement
     {
-        public string ReferenceValueGuid
+        public string AssetGuid
         {
-            get { return m_referenceValueGuid; }
+            get { return m_assetGuid; }
             set
             {
                 string path = AssetDatabase.GUIDToAssetPath(value);
@@ -19,20 +19,22 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
                     asset = EditorIMGUIUtility.MissingObject;
                 }
 
-                m_referenceValueGuid = value;
+                m_assetGuid = value;
 
                 this.value = asset;
             }
         }
 
-        private string m_referenceValueGuid = string.Empty;
+        private string m_assetGuid = string.Empty;
 
-        public ReferenceGuidObjectFieldElement(SerializedProperty serializedProperty, bool field = false) : base(serializedProperty, field)
+        public AssetGuidObjectFieldElement(SerializedProperty serializedProperty, bool field = false) : base(serializedProperty, field)
         {
+            allowSceneObjects = false;
         }
 
-        public ReferenceGuidObjectFieldElement()
+        public AssetGuidObjectFieldElement()
         {
+            allowSceneObjects = false;
         }
 
         public override void SetValueWithoutNotify(Object newValue)
@@ -41,7 +43,7 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
 
             if (!EditorIMGUIUtility.IsMissingObject(newValue))
             {
-                m_referenceValueGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(newValue));
+                m_assetGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(newValue));
             }
         }
 
@@ -49,13 +51,13 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
         {
             if (!serializedProperty.hasMultipleDifferentValues)
             {
-                ReferenceValueGuid = serializedProperty.stringValue;
+                AssetGuid = serializedProperty.stringValue;
             }
         }
 
         protected override void OnApply(SerializedProperty serializedProperty)
         {
-            serializedProperty.stringValue = ReferenceValueGuid;
+            serializedProperty.stringValue = AssetGuid;
         }
     }
 }
