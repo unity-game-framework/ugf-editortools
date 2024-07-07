@@ -1,6 +1,7 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.IMGUI.Dropdown
 {
@@ -20,7 +21,9 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
             DropdownPosition = dropdownPosition;
         }
 
-        protected abstract void OnGUILayout();
+        protected virtual void OnGUILayout()
+        {
+        }
 
         protected virtual float OnGetWidth()
         {
@@ -56,6 +59,29 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
             {
                 m_height = rect.height;
             }
+        }
+
+        public override VisualElement CreateGUI()
+        {
+            var root = new VisualElement
+            {
+                style =
+                {
+                    width = OnGetWidth(),
+                    paddingTop = Padding / 3F,
+                    paddingRight = Padding / 3F,
+                    paddingBottom = Padding / 3F,
+                    paddingLeft = Padding / 3F
+                }
+            };
+
+            OnCreateContent(root);
+
+            return root.childCount > 0 ? root : null;
+        }
+
+        public virtual void OnCreateContent(VisualElement root)
+        {
         }
 
         public override Vector2 GetWindowSize()
