@@ -28,6 +28,7 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
             PropertyBinding.Bind(serializedProperty);
 
             this.TrackPropertyValue(serializedProperty);
+            this.AddManipulator(new ContextualMenuManipulator(OnContextMenuPopulate));
         }
 
         public ReferenceObjectFieldElement()
@@ -129,6 +130,10 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
             {
                 GUIUtility.systemCopyBuffer = OnGetReferenceValueDisplay(PropertyBinding.SerializedProperty);
             }
+        }
+
+        protected virtual void OnContextMenuPopulate(ContextualMenuPopulateEvent populateEvent)
+        {
         }
     }
 }
