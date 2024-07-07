@@ -6,7 +6,7 @@ namespace UGF.EditorTools.Editor.UIToolkit
 {
     public static class UIToolkitEditorUtility
     {
-        public static string DataDirectoryPath { get; } = "Packages/com.ugf.editortools/Editor.Data";
+        public static string DataDirectoryPath { get; } = "Packages/com.ugf.editortools/Editor.Data/UIToolkit";
         public static string StyleSheetPath { get; } = $"{DataDirectoryPath}/UGF.EditorTools.Editor.Styles.uss";
         public static string StyleSheetThemeLightPath { get; } = $"{DataDirectoryPath}/UGF.EditorTools.Editor.Styles.Light.tss";
         public static string StyleSheetThemeDarkPath { get; } = $"{DataDirectoryPath}/UGF.EditorTools.Editor.Styles.Dark.tss";
