@@ -5,11 +5,16 @@
     margin: 0;
     padding: 0;
     border-width: 0;
-    border-radius: 0;
     -unity-background-scale-mode: scale-to-fit;
 }
 
+.ugf-icon-button > .unity-button__image {
+    min-width: var(--unity-metrics-single_line_small-height);
+    min-height: var(--unity-metrics-single_line_small-height);
+}
+
 .ugf-icon-button:active:focus {
+    background-color: rgba(0, 0, 0, 0);
     border-width: 1px;
 }
 
@@ -19,9 +24,6 @@
 
 .ugf-icon-button:hover {
     background-color: var(--unity-colors-button-background);
-}
-
-.ugf-icon-button:disabled {
 }
 
 .ugf-reference-object-field__button {
