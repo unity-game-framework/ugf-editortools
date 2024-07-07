@@ -1,6 +1,6 @@
 .ugf-icon-button {
-    width: var(--unity-metrics-single_line_small-height);
-    height: var(--unity-metrics-single_line_small-height);
+    width: var(--unity-metrics-single_line-height);
+    height: var(--unity-metrics-single_line-height);
     background-color: rgba(0, 0, 0, 0);
     margin: 0;
     padding: 0;
@@ -9,8 +9,8 @@
 }
 
 .ugf-icon-button > .unity-button__image {
-    min-width: var(--unity-metrics-single_line_small-height);
-    min-height: var(--unity-metrics-single_line_small-height);
+    width: var(--unity-metrics-single_line_small-height);
+    height: var(--unity-metrics-single_line_small-height);
 }
 
 .ugf-icon-button:active:focus {
