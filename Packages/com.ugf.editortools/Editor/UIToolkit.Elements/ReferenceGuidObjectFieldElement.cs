@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UGF.EditorTools.Editor.UIToolkit.Elements
 {
-    public class ReferenceGuidObjectFieldElement : ReferenceObjectFieldElement
+    public class ReferenceGuidObjectFieldElement : PropertyBindObjectFieldElement
     {
         public string ReferenceValueGuid
         {
@@ -29,12 +29,10 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
 
         public ReferenceGuidObjectFieldElement(SerializedProperty serializedProperty, bool field = false) : base(serializedProperty, field)
         {
-            ReferenceTooltipLabel = "Guid";
         }
 
         public ReferenceGuidObjectFieldElement()
         {
-            ReferenceTooltipLabel = "Guid";
         }
 
         public override void SetValueWithoutNotify(Object newValue)
@@ -58,11 +56,6 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
         protected override void OnApply(SerializedProperty serializedProperty)
         {
             serializedProperty.stringValue = ReferenceValueGuid;
-        }
-
-        protected override string OnGetReferenceValueDisplay(SerializedProperty serializedProperty)
-        {
-            return ReferenceValueGuid;
         }
     }
 }

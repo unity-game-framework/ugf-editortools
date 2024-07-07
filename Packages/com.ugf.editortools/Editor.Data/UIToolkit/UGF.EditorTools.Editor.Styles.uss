@@ -25,16 +25,3 @@
 .ugf-icon-button:hover {
     background-color: var(--unity-colors-button-background);
 }
-
-.ugf-reference-object-field__button {
-    opacity: 0.25;
-    border-radius: 0;
-}
-
-.ugf-reference-object-field__button:disabled {
-    opacity: 0.25;
-}
-
-.ugf-reference-object-field__button:hover:enabled {
-    opacity: 1;
-}
