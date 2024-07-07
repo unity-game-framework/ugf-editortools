@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f9c6f989b6412a9435ce6d227c9723, type: 3}
+  m_Name: New Test Asset Reference Asset 2
+  m_EditorClassIdentifier: 
+  m_scriptable:
+    m_guid: 
+    m_asset: {fileID: 0}
+  m_material:
+    m_guid: 
+    m_asset: {fileID: 0}
+  m_list: []
+  m_list2: []
