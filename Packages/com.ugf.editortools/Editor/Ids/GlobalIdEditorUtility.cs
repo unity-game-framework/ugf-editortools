@@ -1,4 +1,5 @@
 ﻿using System;
+using UGF.EditorTools.Editor.Assets;
 using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using Object = UnityEngine.Object;
@@ -7,6 +8,15 @@ namespace UGF.EditorTools.Editor.Ids
 {
     public static class GlobalIdEditorUtility
     {
+        public static GlobalId GetGlobalId(Object asset)
+        {
+            if (asset == null) throw new ArgumentNullException(nameof(asset));
+
+            string guid = AssetsEditorUtility.GetGuid(asset);
+
+            return !string.IsNullOrEmpty(guid) ? GlobalId.Parse(guid) : GlobalId.Empty;
+        }
+
         public static void SetAssetToProperty(SerializedProperty serializedProperty, Object asset)
         {
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));

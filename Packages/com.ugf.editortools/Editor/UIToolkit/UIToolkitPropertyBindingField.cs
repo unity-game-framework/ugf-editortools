@@ -53,10 +53,7 @@ namespace UGF.EditorTools.Editor.UIToolkit
             {
                 FieldElement.showMixedValue = SerializedProperty.hasMultipleDifferentValues;
 
-                if (!SerializedProperty.hasMultipleDifferentValues)
-                {
-                    Update?.Invoke(SerializedProperty);
-                }
+                Update?.Invoke(SerializedProperty);
             }
         }
 

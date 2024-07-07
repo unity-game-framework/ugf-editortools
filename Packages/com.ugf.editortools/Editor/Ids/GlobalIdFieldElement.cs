@@ -22,7 +22,10 @@ namespace UGF.EditorTools.Editor.Ids
         {
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
 
-            IdValue = GlobalIdEditorUtility.GetGlobalIdFromProperty(serializedProperty);
+            if (!serializedProperty.hasMultipleDifferentValues)
+            {
+                IdValue = GlobalIdEditorUtility.GetGlobalIdFromProperty(serializedProperty);
+            }
         }
 
         public void Apply(SerializedProperty serializedProperty)
