@@ -1,8 +1,11 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
+using UGF.EditorTools.Editor.UIToolkit;
 using UGF.EditorTools.Runtime.IMGUI.Attributes;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.IMGUI.Attributes
 {
@@ -27,6 +30,19 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             }
 
             EditorGUI.EndProperty();
+        }
+
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            var element = new TagField
+            {
+                label = preferredLabel,
+                bindingPath = property.propertyPath
+            };
+
+            UIToolkitEditorUtility.AddFieldClasses(element);
+
+            return element;
         }
     }
 }
