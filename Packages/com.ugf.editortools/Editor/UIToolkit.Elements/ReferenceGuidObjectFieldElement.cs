@@ -27,6 +27,11 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
 
         private string m_referenceValueGuid = string.Empty;
 
+        public ReferenceGuidObjectFieldElement(SerializedProperty serializedProperty, bool field = false) : base(serializedProperty, field)
+        {
+            ReferenceTooltipLabel = "Guid";
+        }
+
         public ReferenceGuidObjectFieldElement()
         {
             ReferenceTooltipLabel = "Guid";

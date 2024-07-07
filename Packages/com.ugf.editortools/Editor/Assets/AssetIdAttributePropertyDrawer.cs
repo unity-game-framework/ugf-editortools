@@ -2,10 +2,8 @@
 using UGF.EditorTools.Editor.IMGUI.Attributes;
 using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
-using UGF.EditorTools.Editor.UIToolkit;
 using UGF.EditorTools.Runtime.Assets;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -34,18 +32,11 @@ namespace UGF.EditorTools.Editor.Assets
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            var element = new AssetIdObjectFieldElement()
+            return new AssetIdObjectFieldElement(property, true)
             {
                 label = preferredLabel,
                 objectType = Attribute.AssetType
             };
-
-            UIToolkitEditorUtility.AddFieldClasses(element);
-
-            element.PropertyBinding.Bind(property);
-            element.TrackPropertyValue(property);
-
-            return element;
         }
 
         public override float GetPropertyHeight(SerializedProperty serializedProperty, GUIContent label)

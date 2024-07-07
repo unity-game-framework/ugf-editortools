@@ -9,6 +9,14 @@ namespace UGF.EditorTools.Editor.Assets
     {
         public GlobalId ReferenceValueId { get { return !string.IsNullOrEmpty(ReferenceValueGuid) && GlobalId.TryParse(ReferenceValueGuid, out GlobalId id) ? id : GlobalId.Empty; } set { ReferenceValueGuid = value.ToString(); } }
 
+        public AssetIdObjectFieldElement(SerializedProperty serializedProperty, bool field = false) : base(serializedProperty, field)
+        {
+        }
+
+        public AssetIdObjectFieldElement()
+        {
+        }
+
         protected override void OnUpdate(SerializedProperty serializedProperty)
         {
             if (!serializedProperty.hasMultipleDifferentValues)

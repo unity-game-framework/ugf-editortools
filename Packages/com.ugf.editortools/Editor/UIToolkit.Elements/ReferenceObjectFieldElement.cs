@@ -16,6 +16,20 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
         public string ReferenceTooltipFormat { get; set; } = "{0}: {1}";
         public string ReferenceTooltipValueNone { get; set; } = "None";
 
+        public ReferenceObjectFieldElement(SerializedProperty serializedProperty, bool field = false) : this()
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
+            if (field)
+            {
+                UIToolkitEditorUtility.AddFieldClasses(this);
+            }
+
+            PropertyBinding.Bind(serializedProperty);
+
+            this.TrackPropertyValue(serializedProperty);
+        }
+
         public ReferenceObjectFieldElement()
         {
             PropertyBinding = new UIToolkitPropertyBindingField<Object>(this);

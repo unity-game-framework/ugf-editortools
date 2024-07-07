@@ -31,6 +31,7 @@ namespace UGF.EditorTools.Editor.UIToolkit
             m_callbackChange ??= OnChange;
             m_callbackPropertyChange ??= OnPropertyChange;
 
+            FieldElement.bindingPath = serializedProperty.propertyPath;
             FieldElement.RegisterCallback(m_callbackAttach);
             FieldElement.RegisterCallback(m_callbackChange);
             FieldElement.RegisterCallback(m_callbackPropertyChange);
@@ -40,6 +41,7 @@ namespace UGF.EditorTools.Editor.UIToolkit
         {
             if (!HasSerializedProperty) throw new InvalidOperationException("No property was bound.");
 
+            FieldElement.bindingPath = string.Empty;
             FieldElement.UnregisterCallback(m_callbackAttach);
             FieldElement.UnregisterCallback(m_callbackChange);
             FieldElement.UnregisterCallback(m_callbackPropertyChange);
