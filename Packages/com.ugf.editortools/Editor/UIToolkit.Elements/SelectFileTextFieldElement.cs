@@ -21,19 +21,6 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
         {
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
 
-            SelectButtonElement = new IconButtonElement
-            {
-                iconImage = Background.FromTexture2D(EditorGUIUtility.FindTexture("FolderOpened Icon")),
-                style =
-                {
-                    marginLeft = EditorGUIUtility.standardVerticalSpacing
-                }
-            };
-
-            SelectButtonElement.clicked += OnSelectButtonClicked;
-
-            Add(SelectButtonElement);
-
             if (field)
             {
                 UIToolkitEditorUtility.AddFieldClasses(this);
@@ -49,6 +36,19 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
             PropertyBinding = new SerializedPropertyFieldBinding<string>(this);
             PropertyBinding.Update += Update;
             PropertyBinding.Apply += Apply;
+
+            SelectButtonElement = new IconButtonElement
+            {
+                iconImage = Background.FromTexture2D(EditorGUIUtility.FindTexture("FolderOpened Icon")),
+                style =
+                {
+                    marginLeft = EditorGUIUtility.standardVerticalSpacing
+                }
+            };
+
+            SelectButtonElement.clicked += OnSelectButtonClicked;
+
+            Add(SelectButtonElement);
         }
 
         public void Update(SerializedProperty serializedProperty)
