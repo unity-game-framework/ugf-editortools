@@ -110,7 +110,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
         private void OnChange(ChangeEvent<long> changeEvent)
         {
-            OnApply();
+            Argument = m_ticksElement.value;
+
             OnUpdate();
         }
 

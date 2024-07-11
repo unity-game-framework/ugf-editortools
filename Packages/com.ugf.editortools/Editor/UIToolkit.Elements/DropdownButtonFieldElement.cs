@@ -18,5 +18,13 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
             AddToClassList(BasePopupField<bool, bool>.ussClassName);
             AddToClassList(PopupField<bool>.ussClassName);
         }
+
+        protected override void UpdateMixedValueContent()
+        {
+            if (showMixedValue)
+            {
+                ButtonElement.text = mixedValueString;
+            }
+        }
     }
 }

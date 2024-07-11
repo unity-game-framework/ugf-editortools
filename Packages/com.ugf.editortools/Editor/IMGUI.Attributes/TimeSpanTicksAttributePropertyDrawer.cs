@@ -1,5 +1,4 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
-using UGF.EditorTools.Editor.UIToolkit;
 using UGF.EditorTools.Editor.UIToolkit.Elements;
 using UGF.EditorTools.Runtime.IMGUI.Attributes;
 using UnityEditor;
@@ -22,14 +21,10 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            var element = new TimeSpanTicksFieldElement
+            return new TimeSpanTicksFieldElement(property, true)
             {
                 label = preferredLabel
             };
-
-            UIToolkitEditorUtility.AddFieldClasses(element);
-
-            return element;
         }
     }
 }
