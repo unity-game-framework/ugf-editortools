@@ -2,6 +2,7 @@
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
 using UGF.EditorTools.Runtime.IMGUI.Types;
 using UnityEditor;
+using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.IMGUI.Types
 {
@@ -15,6 +16,15 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
         protected override DropdownDrawer<DropdownItem<Type>> OnCreateDrawer()
         {
             return new TypesDropdownDrawer(GetItems);
+        }
+
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            return new TypesDropdownFieldElement(property, true)
+            {
+                label = preferredLabel,
+                TargetType = Attribute.TargetType
+            };
         }
     }
 }
