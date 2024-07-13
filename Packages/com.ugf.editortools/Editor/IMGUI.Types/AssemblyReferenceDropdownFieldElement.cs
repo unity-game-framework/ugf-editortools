@@ -1,35 +1,45 @@
-﻿using System.Reflection;
+﻿using System;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
-using UGF.EditorTools.Runtime.IMGUI.Types;
+using UGF.EditorTools.Editor.UIToolkit;
+using UGF.EditorTools.Editor.UIToolkit.SerializedProperties;
 using UnityEditor;
+using UnityEditor.UIElements;
 
 namespace UGF.EditorTools.Editor.IMGUI.Types
 {
-    public class AssemblyReferenceDropdownFieldElement : DropdownFieldElement<Assembly>
+    public class AssemblyReferenceDropdownFieldElement : DropdownFieldElement<string>
     {
+        public SerializedPropertyFieldBinding<string> PropertyBinding { get; }
         public bool DisplayFullPath { get; set; } = true;
         public string ContentValueMissingLabel { get; set; } = "Missing";
 
-        public DropdownItem<Assembly> NoneItem { get; set; } = new DropdownItem<Assembly>("None")
+        public DropdownItem<string> NoneItem { get; set; } = new DropdownItem<string>("None", "")
         {
             Priority = int.MaxValue
         };
 
-        public AssemblyReferenceDropdownFieldElement(SerializedProperty serializedProperty, bool field) : base(serializedProperty, field)
+        public AssemblyReferenceDropdownFieldElement(SerializedProperty serializedProperty, bool field) : this()
         {
+            if (field)
+            {
+                UIToolkitEditorUtility.AddFieldClasses(this);
+            }
+
             SerializedProperty propertyValue = serializedProperty.FindPropertyRelative("m_value");
 
             bindingPath = propertyValue.propertyPath;
 
-            Selection.Dropdown.RootName = "Assemblies";
+            PropertyBinding.Bind(serializedProperty);
 
-            Items.Add(NoneItem);
-
-            AssemblyDropdownEditorUtility.GetAssemblyItems(Items, DisplayFullPath);
+            this.TrackPropertyValue(serializedProperty);
         }
 
         public AssemblyReferenceDropdownFieldElement()
         {
+            PropertyBinding = new SerializedPropertyFieldBinding<string>(this);
+            PropertyBinding.Update += Update;
+            PropertyBinding.Apply += Apply;
+
             Selection.Dropdown.RootName = "Assemblies";
 
             Items.Add(NoneItem);
@@ -37,55 +47,28 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             AssemblyDropdownEditorUtility.GetAssemblyItems(Items, DisplayFullPath);
         }
 
-        protected override void OnUpdate(SerializedProperty serializedProperty)
+        public void Update(SerializedProperty serializedProperty)
         {
-            base.OnUpdate(serializedProperty);
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
 
             if (!serializedProperty.hasMultipleDifferentValues)
             {
                 SerializedProperty propertyValue = serializedProperty.FindPropertyRelative("m_value");
 
-                if (!string.IsNullOrEmpty(propertyValue.stringValue)
-                    && AssemblyUtility.TryGetAssemblyByFullName(propertyValue.stringValue, out Assembly assembly))
-                {
-                    value = assembly;
-                }
-                else
-                {
-                    value = null;
-                }
+                value = propertyValue.stringValue;
             }
         }
 
-        protected override void OnApply(SerializedProperty serializedProperty)
+        public void Apply(SerializedProperty serializedProperty)
         {
-            base.OnApply(serializedProperty);
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
 
-            SerializedProperty propertyValue = serializedProperty.FindPropertyRelative("m_value");
-
-            propertyValue.stringValue = value != null ? value.FullName : string.Empty;
-            propertyValue.serializedObject.ApplyModifiedProperties();
-        }
-
-        protected override void OnUpdateValueContent()
-        {
-            if (PropertyBinding.HasSerializedProperty
-                && value == null)
+            if (!serializedProperty.hasMultipleDifferentValues)
             {
-                SerializedProperty propertyValue = PropertyBinding.SerializedProperty.FindPropertyRelative("m_value");
+                SerializedProperty propertyValue = serializedProperty.FindPropertyRelative("m_value");
 
-                if (!string.IsNullOrEmpty(propertyValue.stringValue))
-                {
-                    ButtonElement.text = ContentValueMissingLabel;
-                }
-                else
-                {
-                    base.OnUpdateValueContent();
-                }
-            }
-            else
-            {
-                base.OnUpdateValueContent();
+                propertyValue.stringValue = value;
+                serializedProperty.serializedObject.ApplyModifiedProperties();
             }
         }
     }
