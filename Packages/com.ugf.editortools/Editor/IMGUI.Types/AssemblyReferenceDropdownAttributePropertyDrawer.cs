@@ -5,6 +5,7 @@ using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UGF.EditorTools.Runtime.IMGUI.Types;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.IMGUI.Types
 {
@@ -41,6 +42,15 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
         public override float GetPropertyHeight(SerializedProperty serializedProperty, GUIContent label)
         {
             return EditorGUIUtility.singleLineHeight;
+        }
+
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            return new AssemblyReferenceDropdownFieldElement(property, true)
+            {
+                label = preferredLabel,
+                DisplayFullPath = Attribute.DisplayFullPath
+            };
         }
 
         private DropdownDrawer<DropdownItem<Assembly>> OnCreateDrawer()
