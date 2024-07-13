@@ -27,7 +27,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     }
 
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(TestEditorElementsUtilityAsset), true)]
+    // [CustomEditor(typeof(TestEditorElementsUtilityAsset), true)]
     public class TestEditorElementsUtilityAssetEditor : UnityEditor.Editor
     {
         private SerializedProperty m_propertyValue;
