@@ -2,6 +2,7 @@
 using UGF.EditorTools.Runtime.IMGUI.AssetReferences;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.IMGUI.AssetReferences
 {
@@ -16,6 +17,14 @@ namespace UGF.EditorTools.Editor.IMGUI.AssetReferences
         public override float GetPropertyHeight(SerializedProperty serializedProperty, GUIContent label)
         {
             return EditorGUIUtility.singleLineHeight;
+        }
+
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            return new AssetReferenceObjectFieldElement(property, true)
+            {
+                label = preferredLabel
+            };
         }
     }
 }
