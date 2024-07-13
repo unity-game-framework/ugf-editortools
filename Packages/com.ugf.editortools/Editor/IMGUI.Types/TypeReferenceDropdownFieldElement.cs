@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
 using UGF.EditorTools.Editor.UIToolkit;
 using UGF.EditorTools.Editor.UIToolkit.SerializedProperties;
-using UGF.EditorTools.Runtime.IMGUI.Types;
 using UnityEditor;
 using UnityEditor.UIElements;
 
 namespace UGF.EditorTools.Editor.IMGUI.Types
 {
-    public class AssemblyReferenceDropdownFieldElement : DropdownFieldElement<string, DropdownItem<Assembly>>
+    public class TypeReferenceDropdownFieldElement : DropdownFieldElement<string, DropdownItem<Type>>
     {
         public SerializedPropertyFieldBinding<string> PropertyBinding { get; }
-        public DropdownItem<Assembly> ItemNone { get; set; }
+        public DropdownItem<Type> ItemNone { get; set; }
         public string ContentValueMissingLabel { get; set; } = "Missing";
         public bool DisplayFullPath { get; set; } = true;
+        public bool DisplayAssemblyName { get; set; }
+        public Type TargetType { get; set; } = typeof(object);
 
-        public AssemblyReferenceDropdownFieldElement(SerializedProperty serializedProperty, bool field) : this()
+        public TypeReferenceDropdownFieldElement(SerializedProperty serializedProperty, bool field) : this()
         {
             if (field)
             {
@@ -33,15 +33,15 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             this.TrackPropertyValue(serializedProperty);
         }
 
-        public AssemblyReferenceDropdownFieldElement()
+        public TypeReferenceDropdownFieldElement()
         {
             PropertyBinding = new SerializedPropertyFieldBinding<string>(this);
             PropertyBinding.Update += Update;
             PropertyBinding.Apply += Apply;
 
-            Selection.Dropdown.RootName = "Assemblies";
+            Selection.Dropdown.RootName = "Types";
 
-            ItemNone = new DropdownItem<Assembly>(ContentValueNoneLabel)
+            ItemNone = new DropdownItem<Type>(ContentValueNoneLabel)
             {
                 Priority = int.MaxValue
             };
@@ -72,11 +72,11 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
             }
         }
 
-        protected override void OnSelected(DropdownItem<Assembly> item)
+        protected override void OnSelected(DropdownItem<Type> item)
         {
             base.OnSelected(item);
 
-            value = item.Value?.FullName ?? string.Empty;
+            value = item.Value?.AssemblyQualifiedName ?? string.Empty;
         }
 
         protected override void OnUpdateValueContent()
@@ -85,17 +85,19 @@ namespace UGF.EditorTools.Editor.IMGUI.Types
 
             if (!string.IsNullOrEmpty(value))
             {
-                ButtonElement.text = AssemblyUtility.TryGetAssemblyByFullName(value, out Assembly assembly)
-                    ? assembly.GetName().Name
+                var type = Type.GetType(value);
+
+                ButtonElement.text = type != null
+                    ? TypesDropdownEditorUtility.GetTypeDisplayName(type, false)
                     : ContentValueMissingLabel;
             }
         }
 
-        protected override IEnumerable<DropdownItem<Assembly>> OnGetItems()
+        protected override IEnumerable<DropdownItem<Type>> OnGetItems()
         {
-            var items = new List<DropdownItem<Assembly>> { ItemNone };
+            var items = new List<DropdownItem<Type>> { ItemNone };
 
-            AssemblyDropdownEditorUtility.GetAssemblyItems(items, DisplayFullPath);
+            TypesDropdownEditorUtility.GetTypeItems(items, TargetType, DisplayFullPath, DisplayAssemblyName);
 
             return items;
         }
