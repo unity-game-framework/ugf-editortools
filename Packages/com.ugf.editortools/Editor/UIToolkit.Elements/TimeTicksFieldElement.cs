@@ -17,6 +17,8 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
                 UIToolkitEditorUtility.AddFieldClasses(this);
             }
 
+            bindingPath = serializedProperty.propertyPath;
+
             PropertyBinding.Bind(serializedProperty);
 
             this.TrackPropertyValue(serializedProperty);
