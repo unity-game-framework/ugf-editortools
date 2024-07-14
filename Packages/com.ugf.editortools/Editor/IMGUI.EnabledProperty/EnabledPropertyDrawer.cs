@@ -2,6 +2,7 @@
 using UGF.EditorTools.Runtime.IMGUI.EnabledProperty;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
 {
@@ -18,6 +19,14 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
             SerializedProperty propertyValue = serializedProperty.FindPropertyRelative("m_value");
 
             return base.GetPropertyHeight(propertyValue, label);
+        }
+
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            return new EnabledPropertyFieldElement(property, true)
+            {
+                label = preferredLabel
+            };
         }
     }
 }
