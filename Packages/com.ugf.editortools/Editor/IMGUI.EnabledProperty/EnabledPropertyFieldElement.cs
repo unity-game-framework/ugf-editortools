@@ -28,6 +28,11 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
 
             propertyFieldElement.AddToClassList(inputUssClassName);
 
+            if (propertyValue.hasVisibleChildren)
+            {
+                propertyFieldElement.style.paddingLeft = EditorGUIUtility.singleLineHeight;
+            }
+
             ValueElement.Add(propertyFieldElement);
 
             bindingPath = serializedProperty.propertyPath;
