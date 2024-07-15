@@ -1,6 +1,7 @@
 ﻿using UGF.EditorTools.Editor.IMGUI.PropertyDrawers;
 using UGF.EditorTools.Runtime.IMGUI.EnabledProperty;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -23,10 +24,7 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            return new EnabledPropertyFieldElement(property, true)
-            {
-                label = preferredLabel
-            };
+            return new PropertyField(property);
         }
     }
 }
