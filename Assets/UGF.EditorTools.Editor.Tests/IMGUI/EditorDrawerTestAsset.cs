@@ -70,6 +70,14 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
 
             InspectorElement.FillDefaultInspector(element, serializedObject, this);
 
+            var dropArea = new DropAreaElement(typeof(ScriptableObject));
+            var dropArea2 = new DropAreaElement(typeof(Material));
+
+            dropArea.Manipulator.Accepted += OnDropAreaDrawerAccepted;
+            dropArea2.Manipulator.Accepted += OnDropAreaDrawerAccepted;
+
+            element.Add(dropArea);
+            element.Add(dropArea2);
             element.Add(new EditorObjectReferenceElement(m_propertyTarget));
             element.Add(new EditorObjectReferenceIdElement(m_propertyTarget2));
 
