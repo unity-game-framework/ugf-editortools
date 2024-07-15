@@ -2,6 +2,7 @@
 using System.Reflection;
 using UGF.EditorTools.Editor.Serialized;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -84,6 +85,16 @@ namespace UGF.EditorTools.Editor.IMGUI
             SerializedProperty propertyScript = serializedObject.FindProperty(PROPERTY_SCRIPT_NAME);
 
             return propertyScript;
+        }
+
+        public static PropertyField CreateScriptPropertyField(SerializedObject serializedObject)
+        {
+            SerializedProperty propertyScript = GetScriptProperty(serializedObject);
+
+            return new PropertyField(propertyScript)
+            {
+                enabledSelf = false
+            };
         }
 
         public static void DrawScriptProperty(SerializedObject serializedObject)
