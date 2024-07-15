@@ -48,9 +48,14 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
 
             ToggleElement = new Toggle
             {
-                name = ToggleElementName
+                name = ToggleElementName,
+                style =
+                {
+                    alignSelf = Align.FlexStart
+                }
             };
 
+            ToggleElement.AddToClassList(BaseCompositeField<int, IntegerField, int>.firstFieldVariantUssClassName);
             ToggleElement.RegisterValueChangedCallback(OnToggle);
 
             ValueElement.Add(ToggleElement);
@@ -62,9 +67,7 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
         {
             base.SetValueWithoutNotify(newValue);
 
-            SetValueElementsEnabled(newValue);
-
-            ToggleElement.SetValueWithoutNotify(newValue);
+            OnUpdateValueState(newValue);
         }
 
         public void Update(SerializedProperty serializedProperty)
@@ -76,6 +79,11 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
                 SerializedProperty propertyEnabled = serializedProperty.FindPropertyRelative("m_enabled");
 
                 value = propertyEnabled.boolValue;
+
+                if (!value)
+                {
+                    OnUpdateValueState(false);
+                }
             }
         }
 
@@ -100,6 +108,13 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
                     visualElement.enabledSelf = enabled;
                 }
             }
+        }
+
+        private void OnUpdateValueState(bool enabled)
+        {
+            SetValueElementsEnabled(enabled);
+
+            ToggleElement.SetValueWithoutNotify(enabled);
         }
 
         private void OnToggle(ChangeEvent<bool> changeEvent)
