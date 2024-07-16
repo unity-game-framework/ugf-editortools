@@ -3,7 +3,7 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
-namespace UGF.EditorTools.Editor.IMGUI
+namespace UGF.EditorTools.Editor.UIToolkit.Elements
 {
     public class EditorInspectorElement : VisualElement
     {

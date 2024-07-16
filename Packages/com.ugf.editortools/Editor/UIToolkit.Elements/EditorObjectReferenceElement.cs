@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace UGF.EditorTools.Editor.IMGUI
+namespace UGF.EditorTools.Editor.UIToolkit.Elements
 {
     public class EditorObjectReferenceElement : EditorInspectorElement
     {

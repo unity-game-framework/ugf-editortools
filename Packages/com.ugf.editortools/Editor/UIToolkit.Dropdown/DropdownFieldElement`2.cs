@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using UGF.EditorTools.Editor.UIToolkit.Elements;
+using UGF.EditorTools.Editor.IMGUI.Dropdown;
 
-namespace UGF.EditorTools.Editor.IMGUI.Dropdown
+namespace UGF.EditorTools.Editor.UIToolkit.Dropdown
 {
     public class DropdownFieldElement<TValue, TItem> : DropdownButtonFieldElement<TValue> where TItem : DropdownItem
     {

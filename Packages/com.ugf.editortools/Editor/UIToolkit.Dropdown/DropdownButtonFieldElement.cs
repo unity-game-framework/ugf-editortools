@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UIElements;
 
-namespace UGF.EditorTools.Editor.UIToolkit.Elements
+namespace UGF.EditorTools.Editor.UIToolkit.Dropdown
 {
     public class DropdownButtonFieldElement<TValue> : BaseField<TValue>
     {

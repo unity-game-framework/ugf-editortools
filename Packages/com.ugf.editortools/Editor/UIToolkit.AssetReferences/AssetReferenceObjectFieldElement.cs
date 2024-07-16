@@ -1,12 +1,11 @@
 ﻿using System;
 using UGF.EditorTools.Editor.Serialized;
-using UGF.EditorTools.Editor.UIToolkit;
 using UGF.EditorTools.Editor.UIToolkit.SerializedProperties;
 using UnityEditor;
 using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
 
-namespace UGF.EditorTools.Editor.IMGUI.AssetReferences
+namespace UGF.EditorTools.Editor.UIToolkit.AssetReferences
 {
     public class AssetReferenceObjectFieldElement : ObjectField
     {

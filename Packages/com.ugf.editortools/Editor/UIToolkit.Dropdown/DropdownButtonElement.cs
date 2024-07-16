@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace UGF.EditorTools.Editor.UIToolkit.Elements
+namespace UGF.EditorTools.Editor.UIToolkit.Dropdown
 {
     public class DropdownButtonElement : Button
     {

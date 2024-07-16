@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
-namespace UGF.EditorTools.Editor.IMGUI
+namespace UGF.EditorTools.Editor.UIToolkit.Elements
 {
     public class EditorInspectorTitlebarElement : IMGUIContainer
     {

@@ -3,14 +3,14 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
-namespace UGF.EditorTools.Editor.IMGUI
+namespace UGF.EditorTools.Editor.UIToolkit.Elements
 {
     public class DropAreaManipulator : PointerManipulator
     {
         public DropAreaElement AreaElement { get; }
         public Type AcceptType { get; }
 
-        public event DropAreaAcceptHandler Accepted;
+        public event DropAreaManipulatorAcceptHandler Accepted;
 
         public DropAreaManipulator(DropAreaElement areaElement, Type acceptType)
         {
