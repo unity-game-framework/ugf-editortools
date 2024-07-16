@@ -2,9 +2,13 @@
 using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
+using UGF.EditorTools.Editor.UIToolkit;
+using UGF.EditorTools.Editor.UIToolkit.Elements;
 using UGF.EditorTools.Runtime.IMGUI.Attributes;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.Tests.IMGUI
 {
@@ -27,7 +31,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     }
 
     [CanEditMultipleObjects]
-    // [CustomEditor(typeof(TestEditorElementsUtilityAsset), true)]
+    [CustomEditor(typeof(TestEditorElementsUtilityAsset), true)]
     public class TestEditorElementsUtilityAssetEditor : UnityEditor.Editor
     {
         private SerializedProperty m_propertyValue;
@@ -60,6 +64,31 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
                 EditorGUILayout.PropertyField(m_propertyTime);
                 EditorGUILayout.PropertyField(m_propertyTime2);
             }
+        }
+
+        public override VisualElement CreateInspectorGUI()
+        {
+            var element = new VisualElement();
+
+            InspectorElement.FillDefaultInspector(element, serializedObject, this);
+
+            var timeSpanTicksFieldArgumentsElement = new TimeSpanTicksFieldArgumentsElement
+            {
+                label = "Time Span Ticks Field Arguments"
+            };
+
+            var timeTicksFieldArgumentsElement = new TimeTicksFieldArgumentsElement()
+            {
+                label = "Time Ticks Field Arguments"
+            };
+
+            UIToolkitEditorUtility.AddFieldClasses(timeSpanTicksFieldArgumentsElement);
+            UIToolkitEditorUtility.AddFieldClasses(timeTicksFieldArgumentsElement);
+
+            element.Add(timeSpanTicksFieldArgumentsElement);
+            element.Add(timeTicksFieldArgumentsElement);
+
+            return element;
         }
 
         private IEnumerable<DropdownItem<string>> OnGetItems()
