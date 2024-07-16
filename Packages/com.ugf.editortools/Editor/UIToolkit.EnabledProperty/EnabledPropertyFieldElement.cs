@@ -2,7 +2,6 @@
 using UGF.EditorTools.Editor.UIToolkit.SerializedProperties;
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace UGF.EditorTools.Editor.UIToolkit.EnabledProperty

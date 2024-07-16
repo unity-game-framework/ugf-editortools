@@ -38,3 +38,18 @@
     align-self: flex-start;
     margin-top: 2px;
 }
+
+.ugf-drop-area {
+    height: 54px;
+    justify-content: center;
+}
+
+.ugf-drop-area .unity-image {
+    width: var(--unity-metrics-single_line-height);
+    height: var(--unity-metrics-single_line-height);
+    margin-right: 2px;
+}
+
+.ugf-select-path-field .ugf-icon-button {
+    margin-left: 2px;
+}

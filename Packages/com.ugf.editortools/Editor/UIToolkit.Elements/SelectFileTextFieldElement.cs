@@ -17,6 +17,8 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
         public string Extension { get; set; }
         public bool InAssets { get; set; }
 
+        public static string UssClassName { get; } = "ugf-select-path-field";
+
         public SelectFileTextFieldElement(SerializedProperty serializedProperty, bool field) : this()
         {
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
@@ -39,16 +41,15 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
 
             SelectButtonElement = new IconButtonElement
             {
-                iconImage = Background.FromTexture2D(EditorGUIUtility.FindTexture("FolderOpened Icon")),
-                style =
-                {
-                    marginLeft = EditorGUIUtility.standardVerticalSpacing
-                }
+                iconImage = Background.FromTexture2D(EditorGUIUtility.FindTexture("FolderOpened Icon"))
             };
 
             SelectButtonElement.clicked += OnSelectButtonClicked;
 
             Add(SelectButtonElement);
+            AddToClassList(UssClassName);
+
+            UIToolkitEditorUtility.AddStyleSheets(this);
         }
 
         public void Update(SerializedProperty serializedProperty)
