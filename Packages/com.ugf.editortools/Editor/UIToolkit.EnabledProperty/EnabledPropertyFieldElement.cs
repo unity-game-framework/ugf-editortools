@@ -1,11 +1,11 @@
 ﻿using System;
-using UGF.EditorTools.Editor.UIToolkit;
 using UGF.EditorTools.Editor.UIToolkit.SerializedProperties;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
+namespace UGF.EditorTools.Editor.UIToolkit.EnabledProperty
 {
     public class EnabledPropertyFieldElement : BaseField<bool>
     {
@@ -13,6 +13,8 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
         public VisualElement ValueElement { get; }
         public Toggle ToggleElement { get; }
 
+        public static string UssClassName { get; } = "ugf-enabled-property";
+        public static string ToggleUssClassName { get; } = "ugf-enabled-property__toggle";
         public static string ToggleElementName { get; } = "enabled-property-toggle";
 
         public EnabledPropertyFieldElement(SerializedProperty serializedProperty, bool field) : this()
@@ -22,6 +24,7 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
                 UIToolkitEditorUtility.AddFieldClasses(this);
             }
 
+            SerializedProperty propertyEnabled = serializedProperty.FindPropertyRelative("m_enabled");
             SerializedProperty propertyValue = serializedProperty.FindPropertyRelative("m_value");
 
             var propertyFieldElement = new PropertyField(propertyValue);
@@ -33,6 +36,7 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
                 propertyFieldElement.style.paddingLeft = EditorGUIUtility.singleLineHeight;
             }
 
+            ToggleElement.bindingPath = propertyEnabled.propertyPath;
             ValueElement.Add(propertyFieldElement);
 
             bindingPath = serializedProperty.propertyPath;
@@ -53,19 +57,19 @@ namespace UGF.EditorTools.Editor.IMGUI.EnabledProperty
 
             ToggleElement = new Toggle
             {
-                name = ToggleElementName,
-                style =
-                {
-                    alignSelf = Align.FlexStart
-                }
+                name = ToggleElementName
             };
 
+            ToggleElement.AddToClassList(ToggleUssClassName);
             ToggleElement.AddToClassList(BaseCompositeField<int, IntegerField, int>.firstFieldVariantUssClassName);
             ToggleElement.RegisterValueChangedCallback(OnToggle);
 
             ValueElement.Add(ToggleElement);
 
+            AddToClassList(UssClassName);
             AddToClassList(BaseCompositeField<int, IntegerField, int>.ussClassName);
+
+            UIToolkitEditorUtility.AddStyleSheets(this);
         }
 
         public override void SetValueWithoutNotify(bool newValue)

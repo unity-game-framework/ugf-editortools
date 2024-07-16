@@ -25,3 +25,16 @@
 .ugf-icon-button:hover {
     background-color: var(--unity-colors-button-background);
 }
+
+.ugf-enabled-property .unity-base-field__inspector-field {
+    margin-right: 0;
+}
+
+.unity-collection-view .ugf-enabled-property .unity-base-field__inspector-field {
+    margin-right: 6px;
+}
+
+.ugf-enabled-property__toggle {
+    align-self: flex-start;
+    margin-top: 2px;
+}
