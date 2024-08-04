@@ -27,6 +27,7 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
             showFoldoutHeader = true;
             showAddRemoveFooter = true;
             reorderMode = ListViewReorderMode.Animated;
+            virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight;
 
             RegisterCallback<AttachToPanelEvent>(OnAttachToPanel);
         }
