@@ -16,7 +16,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     {
         [List]
         [SerializeField] private List<ScriptableObject> m_list1;
-        [List]
+        [List, HideLabel]
         [SerializeField] private List<ScriptableObject> m_list10;
         [SerializeField] private List<ScriptableObject> m_list11;
         [SerializeField] private List<Data1> m_list2;

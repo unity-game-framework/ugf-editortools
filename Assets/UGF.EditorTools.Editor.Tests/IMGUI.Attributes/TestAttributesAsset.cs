@@ -1,4 +1,5 @@
-﻿using UGF.EditorTools.Runtime.IMGUI.Attributes;
+﻿using UGF.EditorTools.Runtime.Attributes;
+using UGF.EditorTools.Runtime.IMGUI.Attributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,6 +40,9 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Attributes
         [SerializeField, ResourcesPath(typeof(Scene))]
         private string m_resourcesScene;
 
+        [SerializeField, HideLabel]
+        private string m_hideLabel = "Hide Label";
+
         public string Disabled { get { return m_disabled; } set { m_disabled = value; } }
         public string AssetGuid { get { return m_assetGuid; } set { m_assetGuid = value; } }
         public string GuidMaterial { get { return m_guidMaterial; } set { m_guidMaterial = value; } }
@@ -51,6 +55,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.Attributes
         public string ResourcesMaterial2 { get { return m_resourcesMaterial2; } set { m_resourcesMaterial2 = value; } }
         public string ResourcesMaterial3 { get { return m_resourcesMaterial3; } set { m_resourcesMaterial3 = value; } }
         public string ResourcesScene { get { return m_resourcesScene; } set { m_resourcesScene = value; } }
+        public string HideLabel { get { return m_hideLabel; } set { m_hideLabel = value; } }
     }
 
     public interface ITestAttributesAsset
