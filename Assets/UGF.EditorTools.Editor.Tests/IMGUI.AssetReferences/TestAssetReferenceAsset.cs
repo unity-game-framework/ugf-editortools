@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Editor.IMGUI.AssetReferences;
+using UGF.EditorTools.Runtime.Attributes;
 using UGF.EditorTools.Runtime.IMGUI.AssetReferences;
 using UnityEditor;
 using UnityEngine;
@@ -12,7 +13,9 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.AssetReferences
     {
         [SerializeField] private AssetReference<ScriptableObject> m_scriptable;
         [SerializeField] private AssetReference<Material> m_material;
+        [List, HideLabel]
         [SerializeField] private List<AssetReference<Material>> m_list = new List<AssetReference<Material>>();
+        [List, HideLabel]
         [SerializeField] private List<AssetReference<Material>> m_list2 = new List<AssetReference<Material>>();
 
         public AssetReference<ScriptableObject> Scriptable { get { return m_scriptable; } set { m_scriptable = value; } }
@@ -22,7 +25,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI.AssetReferences
     }
 
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(TestAssetReferenceAsset), true)]
+    // [CustomEditor(typeof(TestAssetReferenceAsset), true)]
     public class TestAssetReferenceAssetEditor : UnityEditor.Editor
     {
         private SerializedProperty m_propertyScriptable;
