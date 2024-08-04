@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI.Dropdown;
-using UGF.EditorTools.Editor.UIToolkit;
+using UGF.EditorTools.Editor.IMGUI.Types;
 using UGF.EditorTools.Editor.UIToolkit.Dropdown;
 using UGF.EditorTools.Editor.UIToolkit.SerializedProperties;
 using UnityEditor;
 using UnityEditor.UIElements;
 
-namespace UGF.EditorTools.Editor.IMGUI.Types
+namespace UGF.EditorTools.Editor.UIToolkit.Types
 {
     public class TypesDropdownFieldElement : DropdownFieldElement<string, DropdownItem<Type>>
     {
