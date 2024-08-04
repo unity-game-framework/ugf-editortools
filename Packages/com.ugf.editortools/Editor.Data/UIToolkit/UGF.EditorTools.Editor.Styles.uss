@@ -53,3 +53,16 @@
 .ugf-select-path-field .ugf-icon-button {
     margin-left: 2px;
 }
+
+.ugf-key-and-value-field {
+    flex-direction: row;
+}
+
+.ugf-key-and-value-field > .ugf-key-and-value-field__key {
+    flex-grow: 0.75;
+    margin-right: 2px;
+}
+
+.ugf-key-and-value-field > * {
+    flex-grow: 1;
+}

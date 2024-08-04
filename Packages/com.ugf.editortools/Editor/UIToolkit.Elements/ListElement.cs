@@ -6,9 +6,14 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
 {
     public class ListElement : ListView
     {
+        public SerializedProperty SerializedProperty { get { return m_serializedProperty ?? throw new ArgumentException("Value not specified."); } }
+        public bool HasSerializedProperty { get { return m_serializedProperty != null; } }
+
+        private readonly SerializedProperty m_serializedProperty;
+
         public ListElement(SerializedProperty serializedProperty, bool field) : this()
         {
-            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+            m_serializedProperty = serializedProperty ?? throw new ArgumentNullException(nameof(serializedProperty));
 
             if (field)
             {
