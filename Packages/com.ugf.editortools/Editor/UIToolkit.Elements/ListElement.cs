@@ -43,17 +43,22 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
             VisualElement foldoutElement = this.Query(className: foldoutHeaderUssClassName);
             VisualElement foldoutContentElement = this.Query(className: Foldout.contentUssClassName);
 
-            sizeFieldElement.label = "Size";
-            sizeFieldElement.AddToClassList(Foldout.contentUssClassName);
-            sizeFieldElement.RemoveFromClassList(arraySizeFieldUssClassName);
-            sizeFieldElement.RemoveFromClassList(arraySizeFieldWithHeaderUssClassName);
-            sizeFieldElement.RemoveFromClassList(arraySizeFieldWithFooterUssClassName);
-            sizeFieldElement.RemoveFromHierarchy();
+            if (sizeFieldElement != null
+                && foldoutElement != null
+                && foldoutContentElement != null)
+            {
+                sizeFieldElement.label = "Size";
+                sizeFieldElement.AddToClassList(Foldout.contentUssClassName);
+                sizeFieldElement.RemoveFromClassList(arraySizeFieldUssClassName);
+                sizeFieldElement.RemoveFromClassList(arraySizeFieldWithHeaderUssClassName);
+                sizeFieldElement.RemoveFromClassList(arraySizeFieldWithFooterUssClassName);
+                sizeFieldElement.RemoveFromHierarchy();
 
-            UIToolkitEditorUtility.AddFieldClasses(sizeFieldElement);
+                UIToolkitEditorUtility.AddFieldClasses(sizeFieldElement);
 
-            foldoutElement.RemoveFromClassList(foldoutHeaderUssClassName);
-            foldoutContentElement.Insert(0, sizeFieldElement);
+                foldoutElement.RemoveFromClassList(foldoutHeaderUssClassName);
+                foldoutContentElement.Insert(0, sizeFieldElement);
+            }
         }
     }
 }
