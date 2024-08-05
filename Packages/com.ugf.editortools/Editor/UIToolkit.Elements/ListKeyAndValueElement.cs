@@ -35,6 +35,7 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
             PropertyValueName = propertyValueName;
 
             makeItem = OnCreateItem;
+            destroyItem = OnDestroyItem;
             bindItem = OnBindItem;
             unbindItem = OnUnbindItem;
         }
@@ -42,6 +43,10 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
         private VisualElement OnCreateItem()
         {
             return new KeyAndValueFieldElement(new PropertyField(), new PropertyField());
+        }
+
+        private void OnDestroyItem(VisualElement element)
+        {
         }
 
         private void OnBindItem(VisualElement element, int index)
@@ -56,20 +61,22 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
                 var keyElement = (PropertyField)fieldElement.KeyElement;
                 var valueElement = (PropertyField)fieldElement.ValueElement;
 
-                keyElement.label = string.Empty;
-                valueElement.label = string.Empty;
-                
+                if (DisplayLabels)
+                {
+                    keyElement.label = !string.IsNullOrEmpty(KeyLabel) ? KeyLabel : propertyKey.displayName;
+                    valueElement.label = !string.IsNullOrEmpty(ValueLabel) ? ValueLabel : propertyValue.displayName;
+                }
+                else
+                {
+                    keyElement.label = string.Empty;
+                    valueElement.label = string.Empty;
+                }
+
                 keyElement.bindingPath = propertyKey.propertyPath;
                 valueElement.bindingPath = propertyValue.propertyPath;
 
                 keyElement.BindProperty(propertyKey);
                 valueElement.BindProperty(propertyValue);
-
-                if (DisplayLabels)
-                {
-                    keyElement.label = KeyLabel;
-                    valueElement.label = ValueLabel;
-                }
             }
         }
 
@@ -87,8 +94,8 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
                 keyElement.bindingPath = null;
                 valueElement.bindingPath = null;
 
-                keyElement.label = string.Empty;
-                valueElement.label = string.Empty;
+                keyElement.label = null;
+                valueElement.label = null;
             }
         }
     }
