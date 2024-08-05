@@ -22,6 +22,7 @@ namespace UGF.EditorTools.Editor.UIToolkit.Elements
             PropertyValueName = propertyValueName;
 
             makeItem = OnCreateItem;
+            destroyItem = OnDestroyItem;
             bindItem = OnBindItem;
             unbindItem = OnUnbindItem;
         }

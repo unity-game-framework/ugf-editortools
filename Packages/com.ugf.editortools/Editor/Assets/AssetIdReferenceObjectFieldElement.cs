@@ -22,14 +22,7 @@ namespace UGF.EditorTools.Editor.Assets
                 UIToolkitEditorUtility.AddFieldClasses(this);
             }
 
-            SerializedProperty propertyAsset = serializedProperty.FindPropertyRelative("m_asset");
-
-            PropertyBinding.Bind(serializedProperty);
-
-            bindingPath = propertyAsset.propertyPath;
-            objectType = SerializedPropertyEditorUtility.GetFieldType(propertyAsset);
-
-            this.TrackPropertyValue(serializedProperty);
+            Bind(serializedProperty);
         }
 
         public AssetIdReferenceObjectFieldElement()
@@ -66,6 +59,32 @@ namespace UGF.EditorTools.Editor.Assets
             GlobalIdEditorUtility.SetGuidToProperty(propertyGuid, guid);
 
             serializedProperty.serializedObject.ApplyModifiedProperties();
+        }
+
+        public void Bind(SerializedProperty serializedProperty)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
+            SerializedProperty propertyAsset = serializedProperty.FindPropertyRelative("m_asset");
+
+            PropertyBinding.Bind(serializedProperty);
+
+            bindingPath = propertyAsset.propertyPath;
+            objectType = SerializedPropertyEditorUtility.GetFieldType(propertyAsset);
+
+            this.TrackPropertyValue(serializedProperty);
+        }
+
+        public void Unbind(SerializedProperty serializedProperty)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
+            PropertyBinding.Unbind();
+
+            bindingPath = string.Empty;
+            objectType = typeof(Object);
+
+            this.Unbind();
         }
     }
 }
