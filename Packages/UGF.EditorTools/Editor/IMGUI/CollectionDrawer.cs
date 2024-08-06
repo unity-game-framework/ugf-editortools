@@ -167,7 +167,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         protected virtual bool OnDragAndDropValidate(Object target, out Object result)
         {
-            if (SerializedProperty.arrayElementType == nameof(GlobalId))
+            if (SerializedProperty.arrayElementType is nameof(GlobalId) or nameof(Hash128))
             {
                 if (AssetIdEditorUtility.CheckAssetIdAttributeType(SerializedProperty, target))
                 {
@@ -188,7 +188,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             SerializedProperty propertyElement = SerializedProperty.GetArrayElementAtIndex(SerializedProperty.arraySize - 1);
 
-            if (SerializedProperty.arrayElementType == nameof(GlobalId))
+            if (SerializedProperty.arrayElementType is nameof(GlobalId) or nameof(Hash128))
             {
                 GlobalIdEditorUtility.SetAssetToProperty(propertyElement, target);
             }
