@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Packages/com.ugf.editortools/Data.Editor/UGF.EditorTools.Editor.Styles.uss?fileID=7433441132597879392&amp;guid=02fc77c2456fb854f836285bba201e73&amp;type=3#UGF.EditorTools.Editor.Styles" />
+</ui:UXML>

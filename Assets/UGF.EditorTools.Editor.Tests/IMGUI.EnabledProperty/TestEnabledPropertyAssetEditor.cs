@@ -5,7 +5,7 @@ using UnityEditor;
 namespace UGF.EditorTools.Editor.Tests.IMGUI.EnabledProperty
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(TestEnabledPropertyAsset), true)]
+    // [CustomEditor(typeof(TestEnabledPropertyAsset), true)]
     public class TestEnabledPropertyAssetEditor : UnityEditor.Editor
     {
         private EnabledPropertyListDrawer m_list1;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Runtime.Assets;
+using UGF.EditorTools.Runtime.Attributes;
 using UGF.EditorTools.Runtime.Ids;
 using UGF.EditorTools.Runtime.IMGUI.References;
 using UnityEditor;
@@ -13,10 +14,16 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     [CreateAssetMenu(menuName = "Tests/ReorderableListTestAsset")]
     public class ReorderableListTestAsset : ScriptableObject
     {
+        [List]
         [SerializeField] private List<ScriptableObject> m_list1;
+        [List, HideLabel]
+        [SerializeField] private List<ScriptableObject> m_list10;
+        [SerializeField] private List<ScriptableObject> m_list11;
+        [List]
         [SerializeField] private List<Data1> m_list2;
         [SerializeField] private List<Data2> m_list3;
         [SerializeReference, ManagedReference] private List<IData> m_list4;
+        [ListKeyAndValue]
         [SerializeField] private List<Entry> m_list5;
         [AssetId]
         [SerializeField] private List<GlobalId> m_list6;
@@ -49,7 +56,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         }
     }
 
-    [CustomEditor(typeof(ReorderableListTestAsset), true)]
+    // [CustomEditor(typeof(ReorderableListTestAsset), true)]
     public class ReorderableListTestAssetEditor : UnityEditor.Editor
     {
         private EditorListDrawer m_drawer1;

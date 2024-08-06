@@ -1,8 +1,11 @@
 ﻿using UGF.EditorTools.Editor.IMGUI;
+using UGF.EditorTools.Editor.UIToolkit.Elements;
 using UGF.EditorTools.Runtime.Assets;
 using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 namespace UGF.EditorTools.Editor.Tests.IMGUI
@@ -60,6 +63,26 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
             m_drawer.DrawGUILayout();
             m_drawer2.DrawGUILayout();
             m_dropAreaDrawer.DrawGUILayout();
+        }
+
+        public override VisualElement CreateInspectorGUI()
+        {
+            var element = new VisualElement();
+
+            InspectorElement.FillDefaultInspector(element, serializedObject, this);
+
+            var dropArea = new DropAreaElement(typeof(ScriptableObject));
+            var dropArea2 = new DropAreaElement(typeof(Material));
+
+            dropArea.Manipulator.Accepted += OnDropAreaDrawerAccepted;
+            dropArea2.Manipulator.Accepted += OnDropAreaDrawerAccepted;
+
+            element.Add(dropArea);
+            element.Add(dropArea2);
+            element.Add(new EditorObjectReferenceElement(m_propertyTarget));
+            element.Add(new EditorObjectReferenceIdElement(m_propertyTarget2));
+
+            return element;
         }
 
         private void OnDropAreaDrawerAccepted(Object asset)
