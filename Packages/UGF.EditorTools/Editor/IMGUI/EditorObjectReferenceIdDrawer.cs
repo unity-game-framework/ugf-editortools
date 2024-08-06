@@ -1,5 +1,6 @@
 ﻿using System;
 using UGF.EditorTools.Editor.Ids;
+using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using Object = UnityEngine.Object;
 
@@ -31,7 +32,10 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         public void DrawGUILayout()
         {
-            string guid = GlobalIdEditorUtility.GetGuidFromProperty(SerializedProperty);
+            string guid = SerializedProperty.propertyType == SerializedPropertyType.Hash128
+                ? GlobalId.FromHash128(SerializedProperty.hash128Value).ToString()
+                : GlobalIdEditorUtility.GetGuidFromProperty(SerializedProperty);
+
             string path = AssetDatabase.GUIDToAssetPath(guid);
             var asset = AssetDatabase.LoadAssetAtPath<Object>(path);
 

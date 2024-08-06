@@ -188,13 +188,26 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             SerializedProperty propertyElement = SerializedProperty.GetArrayElementAtIndex(SerializedProperty.arraySize - 1);
 
-            if (SerializedProperty.arrayElementType is nameof(GlobalId) or nameof(Hash128))
+            switch (SerializedProperty.arrayElementType)
             {
-                GlobalIdEditorUtility.SetAssetToProperty(propertyElement, target);
-            }
-            else
-            {
-                propertyElement.objectReferenceValue = target;
+                case nameof(GlobalId):
+                {
+                    GlobalIdEditorUtility.SetAssetToProperty(propertyElement, target);
+                    break;
+                }
+                case nameof(Hash128):
+                {
+                    string path = AssetDatabase.GetAssetPath(target);
+                    string guid = AssetDatabase.AssetPathToGUID(path);
+
+                    propertyElement.hash128Value = GlobalId.TryParse(guid, out GlobalId id) ? id : default;
+                    break;
+                }
+                default:
+                {
+                    propertyElement.objectReferenceValue = target;
+                    break;
+                }
             }
         }
 
