@@ -1,3 +1,11 @@
+.ugf-element-display--none {
+    display: none;
+}
+
+.ugf-element-display--flex {
+    display: flex;
+}
+
 .ugf-icon-button {
     width: var(--unity-metrics-single_line-height);
     height: var(--unity-metrics-single_line-height);

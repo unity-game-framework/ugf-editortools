@@ -16,8 +16,8 @@ namespace UGF.EditorTools.Editor.Assets
             {
                 if (m_displayAsReplace != value)
                 {
-                    m_assetIdElement.enabledSelf = !value;
-                    m_replaceElement.enabledSelf = value;
+                    m_assetIdElement.EnableInClassList(UIToolkitEditorUssStyles.ElementDisplayNone, value);
+                    m_replaceElement.EnableInClassList(UIToolkitEditorUssStyles.ElementDisplayNone, !value);
                     m_displayAsReplace = value;
                 }
             }
@@ -35,9 +35,10 @@ namespace UGF.EditorTools.Editor.Assets
             Add(m_assetIdElement);
             Add(m_replaceElement);
 
-            m_assetIdElement.enabledSelf = false;
+            m_replaceElement.AddToClassList(UIToolkitEditorUssStyles.ElementDisplayNone);
 
             UIToolkitEditorUtility.AddFieldClasses(m_assetIdElement);
+            UIToolkitEditorUtility.AddStyleSheets(this);
         }
 
         public void Bind(SerializedProperty serializedProperty)

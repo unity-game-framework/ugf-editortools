@@ -9,18 +9,35 @@ namespace UGF.EditorTools.Editor.Assets
         public bool DisplayAsReplace { get; set; }
         public bool DisplayReplaceButton { get; set; } = true;
 
+        private IconButtonElement m_replaceButton;
+
         public AssetIdReferenceListElement(SerializedProperty serializedProperty, bool field) : base(serializedProperty, field)
         {
+            m_replaceButton = new IconButtonElement
+            {
+                iconImage = Background.FromTexture2D(EditorGUIUtility.FindTexture("preAudioLoopOff"))
+            };
+
             makeItem = OnCreateItem;
             bindItem = OnBindItem;
             unbindItem = OnUnbindItem;
+
+            VisualElement footer = this.Query(footerUssClassName).First();
+
+            footer.Insert(0, m_replaceButton);
         }
 
         public AssetIdReferenceListElement()
         {
+            m_replaceButton = new IconButtonElement();
+
             makeItem = OnCreateItem;
             bindItem = OnBindItem;
             unbindItem = OnUnbindItem;
+
+            VisualElement footer = this.Query(footerUssClassName).First();
+
+            footer.Insert(0, m_replaceButton);
         }
 
         private VisualElement OnCreateItem()
