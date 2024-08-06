@@ -8,11 +8,11 @@ namespace UGF.EditorTools.Editor.Tests.Assets
     public class TestAssetIdAsset : ScriptableObject
     {
         [AssetId]
-        [SerializeField] private GlobalId m_id;
+        [SerializeField] private Hash128 m_id;
         [AssetId(typeof(Material))]
-        [SerializeField] private GlobalId m_material;
+        [SerializeField] private Hash128 m_material;
         [AssetId(typeof(Material))]
-        [SerializeField] private GlobalId m_material2;
+        [SerializeField] private Hash128 m_material2;
         [AssetId(typeof(Material))]
         [SerializeField] private Hash128 m_material3;
 

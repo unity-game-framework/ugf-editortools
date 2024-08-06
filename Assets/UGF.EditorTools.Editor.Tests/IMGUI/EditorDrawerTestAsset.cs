@@ -12,7 +12,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     {
         [SerializeField] private ScriptableObject m_target;
         [AssetId(typeof(ScriptableObject))]
-        [SerializeField] private GlobalId m_target2;
+        [SerializeField] private Hash128 m_target2;
         [SerializeField] private bool m_displayTitlebar;
 
         public ScriptableObject Target { get { return m_target; } set { m_target = value; } }
