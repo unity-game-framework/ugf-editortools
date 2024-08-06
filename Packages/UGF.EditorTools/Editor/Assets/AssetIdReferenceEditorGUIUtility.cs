@@ -1,6 +1,6 @@
 ﻿using System;
-using UGF.EditorTools.Editor.Ids;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
+using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,7 +25,7 @@ namespace UGF.EditorTools.Editor.Assets
                 string path = AssetDatabase.GetAssetPath(propertyAsset.objectReferenceValue);
                 string guid = AssetDatabase.AssetPathToGUID(path);
 
-                GlobalIdEditorUtility.SetGuidToProperty(propertyGuid, guid);
+                propertyGuid.hash128Value = GlobalId.TryParse(guid, out GlobalId id) ? id : default;
             }
         }
     }

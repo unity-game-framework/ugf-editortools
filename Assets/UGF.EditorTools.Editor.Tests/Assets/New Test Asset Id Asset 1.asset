@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: New Test Asset Id Asset 1
   m_EditorClassIdentifier: 
   m_id:
-    m_first: 5525811647345977814
-    m_second: 1921040431812123559
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
   m_material:
-    m_first: 4477881239840319590
-    m_second: 4612054254765571179
+    serializedVersion: 2
+    Hash: 93fb9d47c9c5f468b8bd22a14a00e45e
   m_material2:
-    m_first: 5445077782681552533
-    m_second: 10862827707141702580
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_material3:
+    serializedVersion: 2
+    Hash: 93fb9d47c9c5f468b8bd22a14a00e45e

@@ -9,11 +9,11 @@ namespace UGF.EditorTools.Runtime.Assets
     [Serializable]
     public struct AssetIdReference<TAsset> where TAsset : Object
     {
-        [SerializeField] private GlobalId m_guid;
+        [SerializeField] private Hash128 m_guid;
         [SerializeField] private TAsset m_asset;
 
-        public GlobalId Guid { get { return !m_guid.IsEmpty ? m_guid : throw new ArgumentException("Asset guid not specified."); } set { m_guid = value; } }
-        public bool HasGuid { get { return !m_guid.IsEmpty; } }
+        public GlobalId Guid { get { return m_guid.isValid ? m_guid : throw new ArgumentException("Asset guid not specified."); } set { m_guid = value; } }
+        public bool HasGuid { get { return m_guid.isValid; } }
         public TAsset Asset { get { return m_asset ? m_asset : throw new ArgumentException("Asset not specified."); } set { m_asset = value; } }
         public bool HasAsset { get { return m_asset != null; } }
 
@@ -27,7 +27,7 @@ namespace UGF.EditorTools.Runtime.Assets
 
         public bool IsValid()
         {
-            return m_guid.IsValid() && m_asset != null;
+            return m_guid.isValid && m_asset != null;
         }
 
         public bool Equals(AssetIdReference<TAsset> other)

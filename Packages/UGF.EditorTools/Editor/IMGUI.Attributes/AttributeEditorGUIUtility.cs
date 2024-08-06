@@ -3,6 +3,7 @@ using System.IO;
 using UGF.EditorTools.Editor.Assets;
 using UGF.EditorTools.Editor.FileIds;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
+using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -290,6 +291,51 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
             }
         }
 
+        public static void DrawAssetHash128Field(SerializedProperty serializedProperty, GUIContent label, Type assetType, params GUILayoutOption[] options)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            DrawAssetHash128Field(position, serializedProperty, label, assetType);
+        }
+
+        public static void DrawAssetHash128Field(Rect position, SerializedProperty serializedProperty, GUIContent label, Type assetType)
+        {
+            if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
+
+            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
+
+            Hash128 value = DrawAssetHash128Field(position, serializedProperty.hash128Value, label, assetType);
+
+            if (scope.Changed)
+            {
+                serializedProperty.hash128Value = value;
+            }
+        }
+
+        public static Hash128 DrawAssetHash128Field(Hash128 hash128, GUIContent label, Type assetType, params GUILayoutOption[] options)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+
+            Rect position = EditorGUILayout.GetControlRect(label != GUIContent.none, options);
+
+            return DrawAssetHash128Field(position, hash128, label, assetType);
+        }
+
+        public static Hash128 DrawAssetHash128Field(Rect position, Hash128 hash128, GUIContent label, Type assetType)
+        {
+            if (label == null) throw new ArgumentNullException(nameof(label));
+            if (assetType == null) throw new ArgumentNullException(nameof(assetType));
+            if (assetType == typeof(Scene)) assetType = typeof(SceneAsset);
+
+            string guid = GlobalId.FromHash128(hash128).ToString();
+
+            guid = DrawAssetGuidField(position, guid, label, assetType);
+
+            return !string.IsNullOrEmpty(guid) && GlobalId.TryParse(guid, out GlobalId id) ? id : default;
+        }
+
         public static void DrawAssetGuidField(SerializedProperty serializedProperty, GUIContent label, Type assetType, params GUILayoutOption[] options)
         {
             if (label == null) throw new ArgumentNullException(nameof(label));
@@ -302,7 +348,6 @@ namespace UGF.EditorTools.Editor.IMGUI.Attributes
         public static void DrawAssetGuidField(Rect position, SerializedProperty serializedProperty, GUIContent label, Type assetType)
         {
             if (serializedProperty == null) throw new ArgumentNullException(nameof(serializedProperty));
-            if (serializedProperty.propertyType != SerializedPropertyType.String) throw new ArgumentException("Serialized property type must be 'String'.");
 
             using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
 

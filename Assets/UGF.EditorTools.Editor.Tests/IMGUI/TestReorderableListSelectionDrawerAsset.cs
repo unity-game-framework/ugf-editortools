@@ -2,7 +2,6 @@
 using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
 using UGF.EditorTools.Runtime.Assets;
-using UGF.EditorTools.Runtime.Ids;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,10 +12,10 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
     {
         [SerializeField] private List<ScriptableObject> m_objects = new List<ScriptableObject>();
         [AssetId(typeof(ScriptableObject))]
-        [SerializeField] private List<GlobalId> m_ids = new List<GlobalId>();
+        [SerializeField] private List<Hash128> m_ids = new List<Hash128>();
 
         public List<ScriptableObject> Objects { get { return m_objects; } }
-        public List<GlobalId> Ids { get { return m_ids; } }
+        public List<Hash128> Ids { get { return m_ids; } }
     }
 
     [CustomEditor(typeof(TestReorderableListSelectionDrawerAsset), true)]

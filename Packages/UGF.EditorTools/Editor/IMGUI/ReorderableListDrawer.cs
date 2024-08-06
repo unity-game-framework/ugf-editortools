@@ -97,7 +97,7 @@ namespace UGF.EditorTools.Editor.IMGUI
                     {
                         padding -= EditorIMGUIUtility.IndentPerLevel;
                     }
-                    
+
                     using (new LabelWidthChangeScope(-padding, true))
                     using (new IndentLevelScope(0))
                     {
@@ -254,7 +254,7 @@ namespace UGF.EditorTools.Editor.IMGUI
 
         protected virtual bool OnDragAndDropValidate(Object target, out Object result)
         {
-            if (SerializedProperty.arrayElementType == nameof(GlobalId))
+            if (SerializedProperty.arrayElementType is nameof(GlobalId) or nameof(Hash128))
             {
                 if (AssetIdEditorUtility.CheckAssetIdAttributeType(SerializedProperty, target))
                 {
@@ -275,13 +275,26 @@ namespace UGF.EditorTools.Editor.IMGUI
 
             SerializedProperty propertyElement = SerializedProperty.GetArrayElementAtIndex(SerializedProperty.arraySize - 1);
 
-            if (SerializedProperty.arrayElementType == nameof(GlobalId))
+            switch (SerializedProperty.arrayElementType)
             {
-                GlobalIdEditorUtility.SetAssetToProperty(propertyElement, target);
-            }
-            else
-            {
-                propertyElement.objectReferenceValue = target;
+                case nameof(GlobalId):
+                {
+                    GlobalIdEditorUtility.SetAssetToProperty(propertyElement, target);
+                    break;
+                }
+                case nameof(Hash128):
+                {
+                    string path = AssetDatabase.GetAssetPath(target);
+                    string guid = AssetDatabase.AssetPathToGUID(path);
+
+                    propertyElement.hash128Value = GlobalId.TryParse(guid, out GlobalId id) ? id : default;
+                    break;
+                }
+                default:
+                {
+                    propertyElement.objectReferenceValue = target;
+                    break;
+                }
             }
         }
 

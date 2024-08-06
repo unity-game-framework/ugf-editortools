@@ -1,5 +1,4 @@
 ﻿using System;
-using UGF.EditorTools.Editor.Ids;
 using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Editor.IMGUI.Attributes;
 using UGF.EditorTools.Editor.IMGUI.Scopes;
@@ -54,7 +53,7 @@ namespace UGF.EditorTools.Editor.Assets
             m_assetType ??= SerializedPropertyEditorUtility.GetFieldType(propertyValue);
 
             string guid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(propertyValue.objectReferenceValue));
-            GlobalId idKey = GlobalIdEditorUtility.GetGlobalIdFromProperty(propertyKey);
+            GlobalId idKey = propertyKey.hash128Value;
             GlobalId idAsset = !string.IsNullOrEmpty(guid) && GlobalId.TryParse(guid, out GlobalId result) ? result : GlobalId.Empty;
 
             if ((idKey != GlobalId.Empty && idKey != idAsset) || DisplayAsReplace)
@@ -69,16 +68,7 @@ namespace UGF.EditorTools.Editor.Assets
 
         protected override void OnDrawKey(Rect position, SerializedProperty serializedProperty)
         {
-            using var scope = new MixedValueChangedScope(serializedProperty.hasMultipleDifferentValues);
-
-            string guid = GlobalIdEditorUtility.GetGuidFromProperty(serializedProperty);
-
-            guid = AttributeEditorGUIUtility.DrawAssetGuidField(position, guid, GUIContent.none, m_assetType);
-
-            if (scope.Changed)
-            {
-                GlobalIdEditorUtility.SetGuidToProperty(serializedProperty, guid);
-            }
+            AttributeEditorGUIUtility.DrawAssetHash128Field(position, serializedProperty, GUIContent.none, m_assetType);
         }
 
         protected override bool OnDragAndDropValidate(Object target, out Object result)

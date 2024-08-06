@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UGF.EditorTools.Editor.IMGUI;
 using UGF.EditorTools.Runtime.Assets;
-using UGF.EditorTools.Runtime.Ids;
 using UGF.EditorTools.Runtime.IMGUI.References;
 using UnityEditor;
 using UnityEngine;
@@ -19,7 +18,7 @@ namespace UGF.EditorTools.Editor.Tests.IMGUI
         [SerializeReference, ManagedReference] private List<IData> m_list4;
         [SerializeField] private List<Entry> m_list5;
         [AssetId]
-        [SerializeField] private List<GlobalId> m_list6;
+        [SerializeField] private List<Hash128> m_list6;
 
         [Serializable]
         public class Entry
