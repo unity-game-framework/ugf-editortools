@@ -21,3 +21,6 @@ MonoBehaviour:
   m_material2:
     m_first: 5445077782681552533
     m_second: 10862827707141702580
+  m_material3:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000

@@ -14,28 +14,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_scriptable:
     m_guid:
-      m_first: 3572554012151200165
-      m_second: 2250078598285564601
+      serializedVersion: 2
+      Hash: 00000000000000000000000000000000
     m_asset: {fileID: 11400000}
   m_material:
     m_guid:
-      m_first: 5644284074733981451
-      m_second: 8935266605448331448
+      serializedVersion: 2
+      Hash: 0bcfe9157686544eb88028f7a271007c
     m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
   m_list:
   - m_guid:
-      m_first: 5644284074733981451
-      m_second: 8935266605448331448
+      serializedVersion: 2
+      Hash: 0bcfe9157686544eb88028f7a271007c
     m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
   - m_guid:
-      m_first: 4477881239840319590
-      m_second: 4612054254765571179
+      serializedVersion: 2
+      Hash: 0bcfe9157686544eb88028f7a271007c
     m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
   - m_guid:
-      m_first: 4477881239840319590
-      m_second: 4612054254765571179
+      serializedVersion: 2
+      Hash: 0bcfe9157686544eb88028f7a271007c
     m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
   - m_guid:
-      m_first: 4477881239840319590
-      m_second: 4612054254765571179
+      serializedVersion: 2
+      Hash: 0bcfe9157686544eb88028f7a271007c
+    m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
+  - m_guid:
+      serializedVersion: 2
+      Hash: 0bcfe9157686544eb88028f7a271007c
+    m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
+  - m_guid:
+      serializedVersion: 2
+      Hash: 93fb9d47c9c5f468b8bd22a14a00e45e
     m_asset: {fileID: 2100000, guid: 15e9cf0b86764e54b88028f7a271007c, type: 2}
