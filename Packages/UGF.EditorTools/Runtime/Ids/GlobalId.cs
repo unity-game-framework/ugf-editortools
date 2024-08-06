@@ -23,6 +23,13 @@ namespace UGF.EditorTools.Runtime.Ids
             [FieldOffset(0)] public GlobalId Id;
         }
 
+        [StructLayout(LayoutKind.Explicit)]
+        private struct ConverterHash128
+        {
+            [FieldOffset(0)] public Hash128 Hash128;
+            [FieldOffset(0)] public GlobalId Id;
+        }
+
         public GlobalId(ulong value)
         {
             m_first = value;
@@ -110,6 +117,20 @@ namespace UGF.EditorTools.Runtime.Ids
             return converter.Guid;
         }
 
+        public static GlobalId FromHash128(Hash128 hash128)
+        {
+            var converter = new ConverterHash128 { Hash128 = hash128 };
+
+            return converter.Id;
+        }
+
+        public static Hash128 ToHash128(GlobalId id)
+        {
+            var converter = new ConverterHash128 { Id = id };
+
+            return converter.Hash128;
+        }
+
         public static bool operator ==(GlobalId first, GlobalId second)
         {
             return first.Equals(second);
@@ -128,6 +149,16 @@ namespace UGF.EditorTools.Runtime.Ids
         public static implicit operator GlobalId(Guid guid)
         {
             return FromGuid(guid);
+        }
+
+        public static implicit operator Hash128(GlobalId id)
+        {
+            return ToHash128(id);
+        }
+
+        public static implicit operator GlobalId(Hash128 hash128)
+        {
+            return FromHash128(hash128);
         }
 
         public string ToString(string format)
