@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.10](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.10) - 2024-08-06  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/72?closed=1)  
+    
+
+### Added
+
+- Add hash128 usage as asset id ([#306](https://github.com/unity-game-framework/ugf-editortools/issues/306))  
+    - Add `GlobalId` structure conversion to `Hash128` support.
+    - Add `AttributeEditorGUIUtility.DrawAssetHash128Field()` method and overloads to draw asset selection field as `Hash128` value.
+    - Change `AssetIdReference` structure to use `Hash128` structure for guid instead of `GlobalId`.
+    - Change `GlobalId` related drawers to work with serialized value as `Hash128` structure instead.
+
 ## [3.0.0-preview.9](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.9) - 2024-05-19  
 
 ### Release Notes
