@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UGF.EditorTools.Editor.Ids;
 using UGF.EditorTools.Editor.Serialized;
 using UGF.EditorTools.Runtime.Assets;
 using UGF.EditorTools.Runtime.Ids;
@@ -40,8 +39,10 @@ namespace UGF.EditorTools.Editor.Assets
             SerializedProperty propertyGuid = serializedProperty.FindPropertyRelative("m_guid");
             SerializedProperty propertyAsset = serializedProperty.FindPropertyRelative("m_asset");
 
-            GlobalIdEditorUtility.SetAssetToProperty(propertyGuid, asset);
+            string path = AssetDatabase.GetAssetPath(asset);
+            string guid = AssetDatabase.AssetPathToGUID(path);
 
+            propertyGuid.hash128Value = GlobalId.TryParse(guid, out GlobalId id) ? id : default;
             propertyAsset.objectReferenceValue = asset;
         }
 
