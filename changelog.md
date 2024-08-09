@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.11](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.11) - 2024-08-09  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/73?closed=1)  
+    
+
+### Fixed
+
+- Fix asset id reference list drag and drop setup ([#310](https://github.com/unity-game-framework/ugf-editortools/issues/310))  
+    - Fix `AssetIdEditorUtility.SetAssetToAssetIdReference()` method to properly set asset `guid` value.
+
 ## [3.0.0-preview.10](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.10) - 2024-08-06  
 
 ### Release Notes

@@ -4,7 +4,7 @@ UGF.EditorTools
 
 ## Information
 
-- **Version**: `3.0.0-preview.10`
+- **Version**: `3.0.0-preview.11`
 - **Unity**: `2023.2`
 - **API Compatibility Level**: `.NET Standard 2.1`
 
