@@ -119,16 +119,12 @@ namespace UGF.EditorTools.Runtime.Ids
 
         public static GlobalId FromHash128(Hash128 hash128)
         {
-            var converter = new ConverterHash128 { Hash128 = hash128 };
-
-            return converter.Id;
+            return Parse(hash128.ToString());
         }
 
         public static Hash128 ToHash128(GlobalId id)
         {
-            var converter = new ConverterHash128 { Id = id };
-
-            return converter.Hash128;
+            return Hash128.Parse(id.ToString());
         }
 
         public static bool operator ==(GlobalId first, GlobalId second)
