@@ -26,5 +26,20 @@ namespace UGF.EditorTools.Runtime.Tests.Ids
             Assert.AreEqual(hash.ToString(), id.ToString());
             Assert.AreEqual(hash.ToString(), hash2.ToString());
         }
+
+        [Test]
+        public void ConvertHash128Multiple()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                var guid = Guid.NewGuid();
+                Hash128 hash = Hash128.Parse(guid.ToString());
+                GlobalId id = GlobalId.FromHash128(hash);
+                var hash2 = GlobalId.ToHash128(id);
+
+                Assert.AreEqual(hash.ToString(), id.ToString());
+                Assert.AreEqual(hash.ToString(), hash2.ToString());
+            }
+        }
     }
 }
