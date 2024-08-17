@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0-preview.13](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.13) - 2024-08-17  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-editortools/milestone/75?closed=1)  
+    
+
+### Fixed
+
+- Fix GlobalId convert to Hash128 ([#314](https://github.com/unity-game-framework/ugf-editortools/issues/314))  
+    - Fix `GlobalId.FromHash128()` and `ToHash128()` methods to use more performant way to convert values.
+
 ## [3.0.0-preview.12](https://github.com/unity-game-framework/ugf-editortools/releases/tag/3.0.0-preview.12) - 2024-08-14  
 
 ### Release Notes
