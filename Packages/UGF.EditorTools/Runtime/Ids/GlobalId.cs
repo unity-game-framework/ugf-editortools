@@ -24,10 +24,39 @@ namespace UGF.EditorTools.Runtime.Ids
         }
 
         [StructLayout(LayoutKind.Explicit)]
-        private struct ConverterHash128
+        private unsafe struct ConverterHash128
         {
             [FieldOffset(0)] public Hash128 Hash128;
             [FieldOffset(0)] public GlobalId Id;
+            [FieldOffset(0)] public fixed byte Bytes[16];
+
+            public ConverterHash128(Hash128 hash128) : this()
+            {
+                Hash128 = hash128;
+
+                fixed (byte* ptr = Bytes)
+                {
+                    var bytes = new Span<byte>(ptr, 16);
+
+                    bytes.Slice(0, 4).Reverse();
+                    bytes.Slice(4, 2).Reverse();
+                    bytes.Slice(6, 2).Reverse();
+                }
+            }
+
+            public ConverterHash128(GlobalId id) : this()
+            {
+                Id = id;
+
+                fixed (byte* ptr = Bytes)
+                {
+                    var bytes = new Span<byte>(ptr, 16);
+
+                    bytes.Slice(0, 4).Reverse();
+                    bytes.Slice(4, 2).Reverse();
+                    bytes.Slice(6, 2).Reverse();
+                }
+            }
         }
 
         public GlobalId(ulong value)
@@ -119,12 +148,16 @@ namespace UGF.EditorTools.Runtime.Ids
 
         public static GlobalId FromHash128(Hash128 hash128)
         {
-            return Parse(hash128.ToString());
+            var values = new ConverterHash128(hash128);
+
+            return values.Id;
         }
 
         public static Hash128 ToHash128(GlobalId id)
         {
-            return Hash128.Parse(id.ToString());
+            var values = new ConverterHash128(id);
+
+            return values.Hash128;
         }
 
         public static bool operator ==(GlobalId first, GlobalId second)
