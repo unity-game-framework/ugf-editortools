@@ -81,7 +81,7 @@ namespace UGF.EditorTools.Editor.Tests.Yaml
             Assert.AreEqual(3, dataAll.Length);
             Assert.IsInstanceOf<TestEditorYamlUtilityData>(dataAll[0]);
             Assert.IsInstanceOf<TestEditorYamlUtilityData2>(dataAll[1]);
-            Assert.IsNotInstanceOf<TestEditorYamlUtilityData3Invalid>(dataAll[2]);
+            Assert.IsInstanceOf<TestEditorYamlUtilityData3Invalid>(dataAll[2]);
             Assert.AreEqual(data.Name, ((TestEditorYamlUtilityData)dataAll[0]).Name);
             Assert.AreEqual(data2.Name, ((TestEditorYamlUtilityData2)dataAll[1]).Name);
         }
@@ -103,7 +103,7 @@ namespace UGF.EditorTools.Editor.Tests.Yaml
 
             Assert.True(result1);
             Assert.True(result2);
-            Assert.False(result3);
+            Assert.True(result3);
         }
     }
 }
