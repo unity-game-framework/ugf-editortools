@@ -43,9 +43,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
             for (int i = 0; i < Items.Count; i++)
             {
                 TItem item = Items[i];
-                AdvancedDropdownItem dropdownItem = OnItemCreate(item);
 
-                dropdownItem.id = i;
+                AdvancedDropdownItem dropdownItem = OnItemCreate(item);
 
                 if (item.HasPath)
                 {
@@ -55,6 +54,8 @@ namespace UGF.EditorTools.Editor.IMGUI.Dropdown
                 {
                     root.AddChild(dropdownItem);
                 }
+
+                dropdownItem.id = i;
             }
 
             DropdownEditorUtility.SortChildren(root, ItemComparer);
